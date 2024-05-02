@@ -9,9 +9,11 @@ import android.widget.ImageView;
 import androidx.appcompat.app.AppCompatActivity;
 
 import com.example.apppadel.vista_propietario.MenuPricipalProp;
+import com.example.apppadel.vista_usuario.MenuPrincipalSocio;
+import com.example.apppadel.vista_usuario.MenuPrincipalUser;
 
 public class ActividadInicioSesion extends AppCompatActivity {
-    Button botonLogIn;
+    Button botonLogIn, btnLogInUser, botonSocio;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -19,12 +21,30 @@ public class ActividadInicioSesion extends AppCompatActivity {
         setContentView(R.layout.activity_log_in);
 
         botonLogIn = findViewById(R.id.botonInicioSesion);
+        btnLogInUser = findViewById(R.id.botonUsuario);
+        botonSocio = findViewById(R.id.botonSocio);
 
         botonLogIn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 Intent i = new Intent(ActividadInicioSesion.this, MenuPricipalProp.class);
                 startActivity(i);
+            }
+        });
+
+        btnLogInUser.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent intent = new Intent(ActividadInicioSesion.this, MenuPrincipalUser.class);
+                startActivity(intent);
+            }
+        });
+
+        botonSocio.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent intent = new Intent(ActividadInicioSesion.this, MenuPrincipalSocio.class);
+                startActivity(intent);
             }
         });
 

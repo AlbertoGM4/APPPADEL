@@ -13,6 +13,27 @@
         android:theme="@style/Theme.APPPADEL"
         tools:targetApi="31">
         <activity
+            android:name=".vista_usuario.opciones_menu_socio.ConsultarRanking"
+            android:exported="false" />
+        <activity
+            android:name=".vista_usuario.MenuPrincipalSocio"
+            android:exported="false" />
+        <activity
+            android:name=".vista_usuario.opciones_menu_user.ConsultarTienda"
+            android:exported="false" />
+        <activity
+            android:name=".vista_usuario.opciones_menu_user.ConsultarEventos"
+            android:exported="false" />
+        <activity
+            android:name=".vista_usuario.opciones_menu_user.ConsultarUsuarios"
+            android:exported="false" />
+        <activity
+            android:name=".vista_usuario.opciones_menu_user.ReservarPistas"
+            android:exported="false" />
+        <activity
+            android:name=".vista_usuario.MenuPrincipalUser"
+            android:exported="false" />
+        <activity
             android:name=".vista_propietario.opciones_menu_principal.gestion_tienda.ActualizarStock"
             android:exported="false" />
         <activity

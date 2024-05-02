@@ -20,4 +20,10 @@
     <string name="tienda_club"><u>TIENDA DEL CLUB</u></string>
     <string name="actualizar_stock"><u>ACTUALIZAR STOCK</u></string>
 
+    <!-- VENTANAS DEL USUARIO -->
+    <string name="eventos_club"><u>EVENTOS DEL CLUB</u></string>
+
+    <string name="rankig"><u>RANKING DEL CLUB</u></string>
+
+
 </resources>
