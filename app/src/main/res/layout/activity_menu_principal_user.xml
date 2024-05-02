@@ -1,0 +1,83 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/main"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical"
+    android:paddingRight="20dp"
+    android:paddingLeft="20dp"
+    tools:context=".vista_usuario.MenuPrincipalUser">
+
+    <ImageView
+        android:id="@+id/imageView"
+        android:layout_width="120dp"
+        android:layout_height="120dp"
+        android:layout_gravity="center"
+        android:layout_marginTop="10dp"
+        android:src="@drawable/icono_apppadel"
+        />
+    <ImageView
+        android:id="@+id/imagenCerrarSesionUser"
+        android:layout_width="35dp"
+        android:layout_height="35dp"
+        android:layout_gravity="center"
+        android:layout_marginTop="20dp"
+        android:src="@drawable/icono_cerrar_sesion"
+
+        />
+
+    <Button
+        android:id="@+id/botonReservarPista"
+        android:layout_width="wrap_content"
+        android:layout_height="80dp"
+        android:text="Reservar Pista"
+        android:layout_gravity="center"
+        android:layout_marginTop="20dp"
+        android:textSize="24dp"
+        android:backgroundTint="@color/blue_app"
+        app:cornerRadius="15dp"
+        android:textColor="@color/white"
+        />
+
+    <Button
+        android:id="@+id/botonConsultarEventos"
+        android:layout_width="wrap_content"
+        android:layout_height="80dp"
+        android:text="Consultar Eventos"
+        android:layout_gravity="center"
+        android:layout_marginTop="20dp"
+        android:textSize="24dp"
+        android:backgroundTint="@color/blue_app"
+        app:cornerRadius="15dp"
+        android:textColor="@color/white"
+        />
+
+    <Button
+        android:id="@+id/botonConsultarUsuarios"
+        android:layout_width="wrap_content"
+        android:layout_height="80dp"
+        android:text="Consultar Info de Usuarios"
+        android:layout_gravity="center"
+        android:layout_marginTop="20dp"
+        android:textSize="24dp"
+        android:backgroundTint="@color/blue_app"
+        app:cornerRadius="15dp"
+        android:textColor="@color/white"
+        />
+
+    <Button
+        android:id="@+id/botonConsultarTienda"
+        android:layout_width="wrap_content"
+        android:layout_height="80dp"
+        android:text="Consultar Tienda"
+        android:layout_gravity="center"
+        android:layout_marginTop="20dp"
+        android:textSize="24dp"
+        android:backgroundTint="@color/blue_app"
+        app:cornerRadius="15dp"
+        android:textColor="@color/white"
+        />
+
+</LinearLayout>
