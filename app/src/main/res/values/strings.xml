@@ -1,0 +1,23 @@
+<resources>
+    <string name="app_name">APPPADEL</string>
+    <string name="texto_reserva_pista"><u>Horas Libres del día Seleccionado</u></string>
+    <string name="texto_eliminar_pista"><u>Horas Reservadas del día Seleccionado</u></string>
+
+    <string name="texto_ganadores_torneo"><u>Ganadores del Torneo</u></string>
+
+    <string name="texto_lista_prodcutos_tienda"><u>Lista de Productos de la Tienda</u></string>
+
+    <string name="prodcutos_tienda_seleccionado"><u>Producto Seleccionado: </u></string>
+
+    <string name="titulo_reserva_pista"><u>RESERVAR PISTA</u></string>
+    <string name="nuevo_usuario"><u>NUEVO USUARIO</u></string>
+    <string name="lista_usuarios"><u>LISTA DE USUARIOS</u></string>
+    <string name="info_usuarios"><u>INFO USUARIO</u></string>
+    <string name="pistas_reservadas"><u>PISTAS RESERVADAS</u></string>
+    <string name="nueva_reserva"><u>NUEVA RESERVA</u></string>
+    <string name="gestion_torneso"><u>GESTIÓN TORNEOS</u></string>
+    <string name="nuevo_torneo"><u>NUEVO TORNEO</u></string>
+    <string name="tienda_club"><u>TIENDA DEL CLUB</u></string>
+    <string name="actualizar_stock"><u>ACTUALIZAR STOCK</u></string>
+
+</resources>

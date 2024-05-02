@@ -1,0 +1,200 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/main"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical"
+    android:paddingRight="20dp"
+    android:paddingLeft="20dp"
+    tools:context=".vista_propietario.opciones_menu_principal.gestion_user.VistaFormularioEdicion">
+
+    <TextView
+        android:id="@+id/tvTituloEditar"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_gravity="center"
+        android:layout_marginTop="10dp"
+        android:layout_marginBottom="10dp"
+        android:background="@drawable/style_title_menu"
+        android:paddingLeft="20dp"
+        android:paddingRight="20dp"
+        android:paddingTop="5dp"
+        android:paddingBottom="5dp"
+        android:text="@string/info_usuarios"
+        android:textAlignment="center"
+        android:textSize="32dp"
+        android:textColor="@color/white"/>
+
+    <EditText
+        android:id="@+id/etNombreUserEditar"
+        android:inputType="text"
+        android:textSize="23dp"
+        android:background="@drawable/style_alta_user_fields"
+        android:layout_width="match_parent"
+        android:layout_height="50dp"
+        android:hint="Nombre"
+        android:textColorHint="@color/black"
+        android:layout_marginBottom="10dp"
+        android:paddingLeft="20dp"
+        android:paddingRight="10dp"
+        />
+
+    <EditText
+        android:id="@+id/etPrimerApeEditar"
+        android:inputType="text"
+        android:textSize="23dp"
+        android:background="@drawable/style_alta_user_fields"
+        android:layout_width="match_parent"
+        android:layout_height="50dp"
+        android:hint="Primer Apellido"
+        android:textColorHint="@color/black"
+        android:layout_marginBottom="10dp"
+        android:paddingLeft="20dp"
+        android:paddingRight="10dp"
+        />
+
+    <EditText
+        android:id="@+id/etSegundoApeEditar"
+        android:inputType="text"
+        android:textSize="23dp"
+        android:background="@drawable/style_alta_user_fields"
+        android:layout_width="match_parent"
+        android:layout_height="50dp"
+        android:hint="Segundo Apellido"
+        android:textColorHint="@color/black"
+        android:layout_marginBottom="10dp"
+        android:paddingLeft="20dp"
+        android:paddingRight="10dp"
+        />
+
+    <EditText
+        android:id="@+id/etTelefonoEditar"
+        android:inputType="number"
+        android:textSize="23dp"
+        android:background="@drawable/style_alta_user_fields"
+        android:layout_width="match_parent"
+        android:layout_height="50dp"
+        android:hint="Teléfono"
+        android:textColorHint="@color/black"
+        android:paddingLeft="20dp"
+        android:paddingRight="10dp"
+        />
+
+    <LinearLayout
+        android:orientation="horizontal"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content">
+
+        <TextView
+            android:id="@+id/tvFechaNacEditar"
+            android:text="Nacimiento"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:paddingLeft="20dp"
+            android:paddingRight="20dp"
+            android:paddingBottom="3dp"
+            android:textSize="23dp"
+            android:layout_gravity="center"
+            android:background="@drawable/style_background_fields"
+            />
+
+        <TextView
+            android:id="@+id/tvSeleccionFechaEditar"
+            android:hint="  /  /    "
+            android:textColorHint="@color/black"
+            android:textSize="17dp"
+            android:background="@drawable/style_background_fields"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center"
+            android:layout_marginRight="5dp"
+            android:layout_marginLeft="15dp"
+            android:maxLength="10"
+            android:padding="4dp"
+            />
+
+        <ImageView
+            android:id="@+id/imagenCalendarioEditar"
+            android:layout_width="50dp"
+            android:layout_height="50dp"
+            android:src="@drawable/icon_calendar"
+            />
+
+    </LinearLayout>
+
+    <EditText
+        android:id="@+id/etCorreoEditar"
+        android:inputType="textEmailAddress"
+        android:textSize="23dp"
+        android:background="@drawable/style_alta_user_fields"
+        android:layout_width="match_parent"
+        android:layout_height="50dp"
+        android:hint="Correo Electrónico"
+        android:textColorHint="@color/black"
+        android:layout_marginBottom="10dp"
+        android:paddingLeft="20dp"
+        android:paddingRight="10dp"
+        />
+
+    <EditText
+        android:id="@+id/etContraEditar"
+        android:inputType="textPassword"
+        android:textSize="23dp"
+        android:background="@drawable/style_alta_user_fields"
+        android:layout_width="match_parent"
+        android:layout_height="50dp"
+        android:hint="Contraseña"
+        android:textColorHint="@color/black"
+        android:layout_marginBottom="10dp"
+        android:paddingLeft="20dp"
+        android:paddingRight="10dp"
+        />
+
+
+    <LinearLayout
+        android:orientation="horizontal"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content">
+
+        <TextView
+            android:id="@+id/tvSocioEditar"
+            android:text="Es Socio"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:paddingLeft="20dp"
+            android:paddingRight="20dp"
+            android:textSize="23dp"
+            android:layout_marginRight="15dp"
+            android:background="@drawable/style_background_fields"
+            android:paddingBottom="3dp"
+            />
+
+        <Switch
+            android:id="@+id/switchSocioEditar"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center"
+            android:thumbTint="@drawable/switch_color_activated"
+            />
+
+    </LinearLayout>
+
+    <Button
+        android:id="@+id/botonConfirmarEdicion"
+        android:text="Confirmar Edición"
+        android:layout_marginTop="15dp"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_gravity="center"
+        android:backgroundTint="@color/blue_app"
+        android:textSize="25dp"
+        app:cornerRadius="15dp"
+        android:paddingBottom="10dp"
+        android:paddingRight="20dp"
+        android:paddingLeft="20dp"
+        android:textColor="@color/white"
+        />
+
+</LinearLayout>

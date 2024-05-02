@@ -1,0 +1,151 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/main"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical"
+    android:paddingRight="20dp"
+    android:paddingLeft="20dp"
+    tools:context=".vista_propietario.opciones_menu_principal.gestion_torneos.NuevoTorneo">
+
+    <TextView
+        android:id="@+id/tvTituloNuevoTorneo"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_gravity="center"
+        android:layout_marginTop="10dp"
+        android:layout_marginBottom="10dp"
+        android:background="@drawable/style_title_menu"
+        android:paddingLeft="20dp"
+        android:paddingTop="5dp"
+        android:paddingRight="20dp"
+        android:paddingBottom="5dp"
+        android:text="@string/nuevo_torneo"
+        android:textAlignment="center"
+        android:textColor="@color/white"
+        android:textSize="32dp"
+        />
+
+    <EditText
+        android:id="@+id/etNombreTorneo"
+        android:inputType="text"
+        android:textSize="23dp"
+        android:background="@drawable/style_alta_user_fields"
+        android:layout_width="match_parent"
+        android:layout_height="50dp"
+        android:hint="Nombre del nuevo Torneo"
+        android:textColorHint="@color/black"
+        android:layout_marginBottom="80dp"
+        android:paddingLeft="20dp"
+        android:paddingRight="10dp"
+        android:layout_marginTop="40dp"
+        />
+
+    <LinearLayout
+        android:layout_marginTop="20dp"
+        android:orientation="horizontal"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content">
+
+        <TextView
+            android:id="@+id/tvFechaInicioTorneo"
+            android:text="Fecha Inicio"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:paddingLeft="10dp"
+            android:paddingRight="10dp"
+            android:paddingBottom="5dp"
+            android:paddingTop="5dp"
+            android:textSize="18dp"
+            android:layout_gravity="center"
+            android:background="@drawable/style_background_fields"
+            />
+
+        <TextView
+            android:id="@+id/tvSeleccionFechaInicio"
+            android:hint="  /  /    "
+            android:textColorHint="@color/black"
+            android:textSize="17dp"
+            android:background="@drawable/style_background_fields"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center"
+            android:layout_marginRight="5dp"
+            android:layout_marginLeft="35dp"
+            android:maxLength="10"
+            android:padding="5dp"
+
+            />
+
+        <ImageView
+            android:id="@+id/imagenCalendarioInicioTorneo"
+            android:layout_width="50dp"
+            android:layout_height="50dp"
+            android:src="@drawable/icon_calendar"
+            />
+
+    </LinearLayout>
+
+    <LinearLayout
+        android:layout_marginTop="20dp"
+        android:orientation="horizontal"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content">
+
+        <TextView
+            android:id="@+id/tvFechaFinTorneo"
+            android:text="Fecha Fin"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:paddingLeft="10dp"
+            android:paddingRight="10dp"
+            android:paddingBottom="5dp"
+            android:paddingTop="5dp"
+            android:textSize="18dp"
+            android:layout_gravity="center"
+            android:background="@drawable/style_background_fields"
+            />
+
+        <TextView
+            android:id="@+id/tvSeleccionFechaFin"
+            android:hint="  /  /    "
+            android:textColorHint="@color/black"
+            android:textSize="17dp"
+            android:background="@drawable/style_background_fields"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center"
+            android:layout_marginRight="5dp"
+            android:layout_marginLeft="54dp"
+            android:maxLength="10"
+            android:padding="5dp"
+            />
+
+        <ImageView
+            android:id="@+id/imagenCalendarioFinTorneo"
+            android:layout_width="50dp"
+            android:layout_height="50dp"
+            android:src="@drawable/icon_calendar"
+            />
+
+    </LinearLayout>
+
+    <Button
+        android:id="@+id/botonCreacionTorneo"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_gravity="center"
+        android:layout_marginTop="40dp"
+        android:backgroundTint="@color/blue_app"
+        android:paddingLeft="20dp"
+        android:paddingRight="20dp"
+        android:paddingBottom="10dp"
+        android:text="Crear Torneo"
+        android:textSize="30dp"
+        app:cornerRadius="15dp"
+        android:textColor="@color/white"
+        />
+
+</LinearLayout>

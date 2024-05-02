@@ -1,0 +1,103 @@
+package com.example.apppadel.vista_propietario.opciones_menu_principal.gestion_torneos;
+
+import android.app.DatePickerDialog;
+import android.os.Bundle;
+import android.view.View;
+import android.widget.Button;
+import android.widget.DatePicker;
+import android.widget.EditText;
+import android.widget.ImageView;
+import android.widget.TextView;
+import android.widget.Toast;
+
+import androidx.activity.EdgeToEdge;
+import androidx.appcompat.app.AppCompatActivity;
+import androidx.core.graphics.Insets;
+import androidx.core.view.ViewCompat;
+import androidx.core.view.WindowInsetsCompat;
+
+import com.example.apppadel.R;
+import com.example.apppadel.vista_propietario.opciones_menu_principal.gestion_user.AltaUsuario;
+
+import java.util.Calendar;
+
+public class NuevoTorneo extends AppCompatActivity {
+    EditText nombreTorneo;
+    ImageView calendatioInicio, calendarioFin;
+    Button btnCrearTorneo;
+    TextView seleccionFechaInicio, seleccionFechaFin;
+
+    @Override
+    protected void onCreate(Bundle savedInstanceState) {
+        super.onCreate(savedInstanceState);
+        setContentView(R.layout.activity_nuevo_torneo);
+
+        nombreTorneo = findViewById(R.id.etNombreTorneo);
+
+        calendatioInicio = findViewById(R.id.imagenCalendarioInicioTorneo);
+        calendarioFin = findViewById(R.id.imagenCalendarioFinTorneo);
+
+        btnCrearTorneo = findViewById(R.id.botonCreacionTorneo);
+
+        seleccionFechaInicio = findViewById(R.id.tvSeleccionFechaInicio);
+        seleccionFechaFin = findViewById(R.id.tvSeleccionFechaFin);
+
+        calendatioInicio.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                // Calendario con la fecha actual
+                final Calendar calendar = Calendar.getInstance();
+                int year = calendar.get(Calendar.YEAR);
+                int month = calendar.get(Calendar.MONTH);
+                int day = calendar.get(Calendar.DAY_OF_MONTH);
+
+                // Crear un DatePickerDialog
+                DatePickerDialog datePickerDialog = new DatePickerDialog(NuevoTorneo.this, new DatePickerDialog.OnDateSetListener() {
+                    @Override
+                    public void onDateSet(DatePicker view, int selectedYear, int selectedMonth, int selectedDayOfMonth) {
+                        // Aquí puedes hacer lo que quieras con la fecha seleccionada
+                        String selectedDate = selectedDayOfMonth + "/" + (selectedMonth + 1) + "/" + selectedYear;
+                        seleccionFechaInicio.setText(selectedDate);
+                    }
+                }, year, month, day);
+
+                // Mostrar el DatePickerDialog
+                datePickerDialog.show();
+            }
+        });
+
+        calendarioFin.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                // Calendario con la fecha actual
+                final Calendar calendar = Calendar.getInstance();
+                int year = calendar.get(Calendar.YEAR);
+                int month = calendar.get(Calendar.MONTH);
+                int day = calendar.get(Calendar.DAY_OF_MONTH);
+
+                // Crear un DatePickerDialog
+                DatePickerDialog datePickerDialog = new DatePickerDialog(NuevoTorneo.this, new DatePickerDialog.OnDateSetListener() {
+                    @Override
+                    public void onDateSet(DatePicker view, int selectedYear, int selectedMonth, int selectedDayOfMonth) {
+                        // Aquí puedes hacer lo que quieras con la fecha seleccionada
+                        String selectedDate = selectedDayOfMonth + "/" + (selectedMonth + 1) + "/" + selectedYear;
+                        seleccionFechaFin.setText(selectedDate);
+                    }
+                }, year, month, day);
+
+                // Mostrar el DatePickerDialog
+                datePickerDialog.show();
+            }
+        });
+
+        btnCrearTorneo.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                //Cracion del nuevo Torneo
+                Toast.makeText(NuevoTorneo.this, "Torneo con nombre: X, creado con éxito", Toast.LENGTH_SHORT).show();
+                finish();
+            }
+        });
+
+    }
+}

@@ -1,0 +1,83 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:id="@+id/main"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical"
+    tools:context=".vista_propietario.MenuPricipalProp">
+
+  <ImageView
+      android:id="@+id/imageView"
+      android:layout_width="120dp"
+      android:layout_height="120dp"
+      android:layout_gravity="center"
+      android:layout_marginTop="10dp"
+      android:src="@drawable/icono_apppadel"
+      />
+  <ImageView
+      android:id="@+id/imagenCerrarSesion"
+      android:layout_width="35dp"
+      android:layout_height="35dp"
+      android:layout_gravity="center"
+      android:layout_marginTop="20dp"
+      android:src="@drawable/icono_cerrar_sesion"
+
+      />
+
+  <Button
+      android:id="@+id/botonGestionarUsuarios"
+      android:layout_width="wrap_content"
+      android:layout_height="80dp"
+      android:text="Gestionar Usuarios"
+      android:layout_gravity="center"
+      android:layout_marginTop="20dp"
+      android:textSize="24dp"
+      android:backgroundTint="@color/blue_app"
+      app:cornerRadius="15dp"
+      android:textColor="@color/white"
+      />
+
+  <Button
+      android:id="@+id/botonGestionReservas"
+      android:layout_width="wrap_content"
+      android:layout_height="80dp"
+      android:text="Gestionar Reservas de Pista"
+      android:layout_gravity="center"
+      android:layout_marginTop="20dp"
+      android:textSize="24dp"
+      android:backgroundTint="@color/blue_app"
+      app:cornerRadius="15dp"
+      android:textColor="@color/white"
+      />
+
+  <Button
+      android:id="@+id/botonGestionTorneos"
+      android:layout_width="wrap_content"
+      android:layout_height="80dp"
+      android:text="Gestionar Torneos"
+      android:layout_gravity="center"
+      android:layout_marginTop="20dp"
+      android:textSize="24dp"
+      android:backgroundTint="@color/blue_app"
+      app:cornerRadius="15dp"
+      android:textColor="@color/white"
+      />
+
+  <Button
+      android:id="@+id/botonGestionarTienda"
+      android:layout_width="wrap_content"
+      android:layout_height="80dp"
+      android:text="Gestionar Tienda"
+      android:layout_gravity="center"
+      android:layout_marginTop="20dp"
+      android:textSize="24dp"
+      android:backgroundTint="@color/blue_app"
+      app:cornerRadius="15dp"
+      android:textColor="@color/white"
+      />
+
+
+</LinearLayout>

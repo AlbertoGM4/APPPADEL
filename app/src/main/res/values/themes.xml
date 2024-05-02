@@ -1,0 +1,7 @@
+<resources xmlns:tools="http://schemas.android.com/tools">
+    <!-- Base application theme. -->
+    <style name="Base.Theme.APPPADEL" parent="Theme.Material3.Light.NoActionBar">
+    </style>
+
+    <style name="Theme.APPPADEL" parent="Base.Theme.APPPADEL" />
+</resources>
