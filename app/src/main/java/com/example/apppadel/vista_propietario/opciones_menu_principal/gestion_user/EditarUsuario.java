@@ -4,6 +4,7 @@ import android.content.Intent;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.AdapterView;
+import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.ListView;
 
@@ -15,9 +16,12 @@ import androidx.core.view.WindowInsetsCompat;
 
 import com.example.apppadel.R;
 
+import java.util.ArrayList;
+
 public class EditarUsuario extends AppCompatActivity {
     ListView listaUsuarios;
-    Button botonEditar;
+    ArrayAdapter<String> adapter;
+    ArrayList<String> list;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -25,19 +29,18 @@ public class EditarUsuario extends AppCompatActivity {
         setContentView(R.layout.activity_editar_usuario);
 
         listaUsuarios = findViewById(R.id.listaUsuariosEditar);
+        list = new ArrayList<>();
+        list.add("Usuario 1");
+        list.add("Usuario 3");
+        list.add("Usuario 2");
 
-        botonEditar = findViewById(R.id.botonParaEditar);
+        adapter = new ArrayAdapter<>(this, android.R.layout.simple_list_item_1, list);
+        listaUsuarios.setAdapter(adapter);
 
         listaUsuarios.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
             public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
                 //Seleccion de item (Usuario)
-            }
-        });
-
-        botonEditar.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
                 //Apertura de una nueva ventana para editar la info del Usuario que se ha seleccionado.
 
                 Intent intent = new Intent(EditarUsuario.this, VistaFormularioEdicion.class);

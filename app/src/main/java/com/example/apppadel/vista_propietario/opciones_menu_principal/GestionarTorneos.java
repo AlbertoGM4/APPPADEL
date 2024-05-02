@@ -5,6 +5,7 @@ import android.content.Intent;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.AdapterView;
+import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.DatePicker;
 import android.widget.ImageView;
@@ -17,48 +18,31 @@ import androidx.appcompat.app.AppCompatActivity;
 import com.example.apppadel.R;
 import com.example.apppadel.vista_propietario.opciones_menu_principal.gestion_pistas.ModificarReservaNuevaFecha;
 import com.example.apppadel.vista_propietario.opciones_menu_principal.gestion_torneos.NuevoTorneo;
+import com.example.apppadel.vista_propietario.opciones_menu_principal.gestion_torneos.SeleccionGanadores;
 
+import java.util.ArrayList;
 import java.util.Calendar;
 
 public class GestionarTorneos extends AppCompatActivity {
-    ImageView imagenCalendarioGestionTorneo;
     Button btnCrearNuevoTorneo;
     ListView listaGanadoresTorneo;
-    TextView textoFechaSeleccionadaGestionTorneo;
+    ArrayList<String> lista;
+    ArrayAdapter<String> adapter;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_gestionar_torneos);
 
-        imagenCalendarioGestionTorneo = findViewById(R.id.imagenCalendarioGestionTorneo);
         btnCrearNuevoTorneo = findViewById(R.id.botonCrearNuevoTorneo);
         listaGanadoresTorneo = findViewById(R.id.listaGanadoresTorneo);
-        textoFechaSeleccionadaGestionTorneo = findViewById(R.id.tvSeleccionFechaGestionTorneo);
 
-        imagenCalendarioGestionTorneo.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                // Calendario con la fecha actual
-                final Calendar calendar = Calendar.getInstance();
-                int year = calendar.get(Calendar.YEAR);
-                int month = calendar.get(Calendar.MONTH);
-                int day = calendar.get(Calendar.DAY_OF_MONTH);
+        lista = new ArrayList<>();
+        lista.add("Usuario 1");
+        lista.add("Usuario 2");
 
-                // Crear un DatePickerDialog
-                DatePickerDialog datePickerDialog = new DatePickerDialog(GestionarTorneos.this, new DatePickerDialog.OnDateSetListener() {
-                    @Override
-                    public void onDateSet(DatePicker view, int selectedYear, int selectedMonth, int selectedDayOfMonth) {
-                        // Aquí puedes hacer lo que quieras con la fecha seleccionada
-                        String selectedDate = selectedDayOfMonth + "/" + (selectedMonth + 1) + "/" + selectedYear;
-                        textoFechaSeleccionadaGestionTorneo.setText(selectedDate);
-                    }
-                }, year, month, day);
-
-                // Mostrar el DatePickerDialog
-                datePickerDialog.show();
-            }
-        });
+        adapter = new ArrayAdapter<>(this, android.R.layout.simple_list_item_1, lista);
+        listaGanadoresTorneo.setAdapter(adapter);
 
         btnCrearNuevoTorneo.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -67,7 +51,6 @@ public class GestionarTorneos extends AppCompatActivity {
                 //Antes de confirmar la reserva, mostrar la info del item que se ha seleccionado, y luego ya se puede confirmar
                 Intent i = new Intent(GestionarTorneos.this, NuevoTorneo.class);
                 startActivity(i);
-
             }
         });
 
@@ -75,6 +58,8 @@ public class GestionarTorneos extends AppCompatActivity {
             @Override
             public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
                 //Aqui se obtendra el item (hora), que se desea reservar, para despues emplearlo
+                Intent intent = new Intent(GestionarTorneos.this, SeleccionGanadores.class);
+                startActivity(intent);
             }
         });
 

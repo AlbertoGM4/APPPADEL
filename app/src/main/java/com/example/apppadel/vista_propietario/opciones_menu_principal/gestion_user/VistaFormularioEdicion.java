@@ -1,6 +1,7 @@
 package com.example.apppadel.vista_propietario.opciones_menu_principal.gestion_user;
 
 import android.app.DatePickerDialog;
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.os.Bundle;
 import android.view.View;
@@ -13,6 +14,7 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import androidx.activity.EdgeToEdge;
+import androidx.appcompat.app.AlertDialog;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.core.graphics.Insets;
 import androidx.core.view.ViewCompat;
@@ -86,7 +88,19 @@ public class VistaFormularioEdicion extends AppCompatActivity {
             @Override
             public void onClick(View v) {
                 Toast.makeText(VistaFormularioEdicion.this, "Edicioón del Usuario X, realizada con éxito", Toast.LENGTH_SHORT).show();
-                finish();
+                AlertDialog.Builder alerta = new AlertDialog.Builder(VistaFormularioEdicion.this);
+                alerta.setTitle("ALERTA");
+                alerta.setMessage("¿Confirmar la Edición del Usuario Seleccionado?");
+                alerta.setPositiveButton("Confirmar", new DialogInterface.OnClickListener() {
+                    @Override
+                    public void onClick(DialogInterface dialog, int which) {
+                        //Dar de baja al Usuario
+                        Toast.makeText(VistaFormularioEdicion.this, "Datos Editados del Usuario Seleccionado...", Toast.LENGTH_SHORT).show();
+                        finish();
+                    }
+                });
+                alerta.create();
+                alerta.show();
             }
         });
 

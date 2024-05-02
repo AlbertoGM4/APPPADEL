@@ -3,7 +3,7 @@
     <string name="texto_reserva_pista"><u>Horas Libres del día Seleccionado</u></string>
     <string name="texto_eliminar_pista"><u>Horas Reservadas del día Seleccionado</u></string>
 
-    <string name="texto_ganadores_torneo"><u>Ganadores del Torneo</u></string>
+    <string name="lista_de_torneos"><u>Lista de Torneos sin Ganador</u></string>
 
     <string name="texto_lista_prodcutos_tienda"><u>Lista de Productos de la Tienda</u></string>
 
@@ -24,6 +24,7 @@
     <string name="eventos_club"><u>EVENTOS DEL CLUB</u></string>
 
     <string name="rankig"><u>RANKING DEL CLUB</u></string>
+    <string name="nombre_torneo"><u>Nombre del Torneo</u></string>
 
 
 </resources>

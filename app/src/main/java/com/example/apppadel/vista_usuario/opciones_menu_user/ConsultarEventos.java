@@ -1,8 +1,13 @@
 package com.example.apppadel.vista_usuario.opciones_menu_user;
 
 import android.os.Bundle;
+import android.view.View;
+import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
+import android.widget.Button;
+import android.widget.EditText;
 import android.widget.ListView;
+import android.widget.Toast;
 
 import androidx.activity.EdgeToEdge;
 import androidx.appcompat.app.AppCompatActivity;
@@ -19,6 +24,8 @@ public class ConsultarEventos extends AppCompatActivity {
     ListView listaEventos;
     ArrayList<String> lista;
     ArrayAdapter<String> adapter;
+    EditText nombreEvento;
+    Button btnBuscarEvento;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -26,6 +33,8 @@ public class ConsultarEventos extends AppCompatActivity {
         setContentView(R.layout.activity_consultar_eventos);
 
         listaEventos = findViewById(R.id.listaEventos);
+        nombreEvento = findViewById(R.id.etNombreEvento);
+        btnBuscarEvento = findViewById(R.id.botonBuscarEvento);
 
         lista = new ArrayList<>();
         lista.add("Torneo 1");
@@ -39,8 +48,20 @@ public class ConsultarEventos extends AppCompatActivity {
         adapter = new ArrayAdapter<>(this, android.R.layout.simple_expandable_list_item_1, lista);
         listaEventos.setAdapter(adapter);
 
-        //Cuando toque un item de la lista, este debe enseñarme la informacion del Torneo, nombre, fecha inicio y fin
-        // y ganadores si tiene. (Mirar para poner un fondo de color a los que ya han sido jugados y otro para los que no)
+        listaEventos.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+            @Override
+            public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
+                //Info del Torneo que se ha seleccionado.
+            }
+        });
+
+        btnBuscarEvento.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                //Buscar por nombre del Evento.
+                Toast.makeText(ConsultarEventos.this, "Buscador por evento", Toast.LENGTH_SHORT).show();
+            }
+        });
 
     }
 }

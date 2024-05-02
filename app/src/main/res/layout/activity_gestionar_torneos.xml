@@ -27,50 +27,6 @@
         android:textColor="@color/white"
         android:textSize="29dp" />
 
-    <LinearLayout
-        android:layout_marginTop="20dp"
-        android:orientation="horizontal"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content">
-
-        <TextView
-            android:id="@+id/tvFechaNacGestionTorneo"
-            android:text="Fecha Torneo"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:paddingLeft="10dp"
-            android:paddingRight="10dp"
-            android:paddingBottom="5dp"
-            android:paddingTop="5dp"
-            android:textSize="18dp"
-            android:layout_gravity="center"
-            android:background="@drawable/style_background_fields"
-            />
-
-        <TextView
-            android:id="@+id/tvSeleccionFechaGestionTorneo"
-            android:hint="  /  /    "
-            android:textColorHint="@color/black"
-            android:textSize="17dp"
-            android:background="@drawable/style_background_fields"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_gravity="center"
-            android:layout_marginRight="5dp"
-            android:layout_marginLeft="5dp"
-            android:maxLength="10"
-            android:padding="5dp"
-            />
-
-        <ImageView
-            android:id="@+id/imagenCalendarioGestionTorneo"
-            android:layout_width="50dp"
-            android:layout_height="50dp"
-            android:src="@drawable/icon_calendar"
-            />
-
-    </LinearLayout>
-
     <TextView
         android:id="@+id/tvEncabezadoLista"
         android:layout_width="wrap_content"
@@ -81,22 +37,21 @@
         android:paddingTop="5dp"
         android:paddingRight="20dp"
         android:paddingBottom="5dp"
-        android:text="@string/texto_ganadores_torneo"
+        android:text="@string/lista_de_torneos"
         android:textSize="18dp" />
 
     <ListView
         android:id="@+id/listaGanadoresTorneo"
         android:layout_width="match_parent"
-        android:layout_height="300dp"
-        android:layout_marginTop="3dp"
-        />
+        android:layout_height="369dp"
+        android:layout_marginTop="3dp" />
 
     <Button
         android:id="@+id/botonCrearNuevoTorneo"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_gravity="center"
-        android:layout_marginTop="10dp"
+        android:layout_marginTop="30dp"
         android:backgroundTint="@color/blue_app"
         android:paddingLeft="20dp"
         android:paddingRight="20dp"
