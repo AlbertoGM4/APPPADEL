@@ -22,17 +22,25 @@ public class SeleccionGanadores extends AppCompatActivity {
     TextView nombreIntegranteUno, nombreIntegranteDos;
     Button btnIntegranteUno, btnIntegranteDos, btnConfirmarGanadores;
     Intent i;
+    TextView textoNombreTorneo;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_seleccion_ganadores);
 
+        i = getIntent();
+        String nomTor = i.getStringExtra("NOMBRETORNEO");
+
         nombreIntegranteUno = findViewById(R.id.tvNombreIntegrante1);
         nombreIntegranteDos = findViewById(R.id.tvNombreIntegrante2);
+
         btnIntegranteDos = findViewById(R.id.botonIntegrante1);
         btnIntegranteUno = findViewById(R.id.botonIntegrante2);
         btnConfirmarGanadores = findViewById(R.id.botonConfirmarGanadores);
+
+        textoNombreTorneo = findViewById(R.id.tvNombreTorneoSeleccionGanadores);
+        textoNombreTorneo.setText(nomTor);
 
         btnIntegranteUno.setOnClickListener(new View.OnClickListener() {
             @Override

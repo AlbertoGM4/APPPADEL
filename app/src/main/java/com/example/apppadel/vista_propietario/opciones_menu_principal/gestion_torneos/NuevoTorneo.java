@@ -1,6 +1,7 @@
 package com.example.apppadel.vista_propietario.opciones_menu_principal.gestion_torneos;
 
 import android.app.DatePickerDialog;
+import android.content.DialogInterface;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.Button;
@@ -11,6 +12,7 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import androidx.activity.EdgeToEdge;
+import androidx.appcompat.app.AlertDialog;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.core.graphics.Insets;
 import androidx.core.view.ViewCompat;
@@ -94,8 +96,36 @@ public class NuevoTorneo extends AppCompatActivity {
             @Override
             public void onClick(View v) {
                 //Cracion del nuevo Torneo
-                Toast.makeText(NuevoTorneo.this, "Torneo con nombre: X, creado con éxito", Toast.LENGTH_SHORT).show();
-                finish();
+                if (nombreTorneo.getText().toString().isEmpty() || seleccionFechaInicio.getText().toString().isEmpty() || seleccionFechaInicio.getText().toString().isEmpty()){
+                    Toast.makeText(NuevoTorneo.this, "Faltan campos por rellenar para poder crear el Nuevo Torneo", Toast.LENGTH_SHORT).show();
+
+                } else {
+                    AlertDialog.Builder alerta = new AlertDialog.Builder(NuevoTorneo.this);
+                    alerta.setTitle("ALERTA");
+                    alerta.setMessage("¿Seguro que quieres crear un Nuevo Torneo\n" +
+                            "*Datos del Nuevo Torneo*\n" +
+                            "- Nombre: " + nombreTorneo.getText().toString() +
+                            "\n- Fecha Inicio: " + seleccionFechaInicio.getText().toString() +
+                            "\n- Fecha Fin: " + seleccionFechaFin.getText().toString());
+                    alerta.setPositiveButton("Confirmar", new DialogInterface.OnClickListener() {
+                        @Override
+                        public void onClick(DialogInterface dialog, int which) {
+                            Toast.makeText(NuevoTorneo.this, "Torneo con nombre: " + nombreTorneo.getText().toString() + ", creado con éxito", Toast.LENGTH_SHORT).show();
+                            finish();
+                        }
+                    });
+                    alerta.setNegativeButton("Cancelar", new DialogInterface.OnClickListener() {
+                        @Override
+                        public void onClick(DialogInterface dialog, int which) {
+                            Toast.makeText(NuevoTorneo.this, "Volviendo a la Creación de Torneos...", Toast.LENGTH_SHORT).show();
+                        }
+                    });
+                    alerta.create();
+                    alerta.show();
+
+
+                }
+
             }
         });
 
