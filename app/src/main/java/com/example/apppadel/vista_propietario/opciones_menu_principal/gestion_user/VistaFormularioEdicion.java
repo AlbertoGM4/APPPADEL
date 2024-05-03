@@ -49,8 +49,6 @@ public class VistaFormularioEdicion extends AppCompatActivity {
 
         //Campos del intento de la acitividad anterior
         nombreEdit.setText(i.getStringExtra("NOMBRE"));
-        ape1Edit.setText(i.getStringExtra("APE1"));
-        ape2Edit.setText(i.getStringExtra("APE2"));
 
         seleccionFechaEdit = findViewById(R.id.tvSeleccionFechaEditar);
 

@@ -2,6 +2,8 @@ package com.example.apppadel.vista_usuario.opciones_menu_user;
 
 import android.content.DialogInterface;
 import android.os.Bundle;
+import android.text.Editable;
+import android.text.TextWatcher;
 import android.view.View;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
@@ -30,14 +32,12 @@ public class ConsultarUsuarios extends AppCompatActivity {
     ListView listaUsuarios;
     ArrayList<String> lista;
     ArrayAdapter<String> adapter;
-    Button btnBuscarUser;
     EditText nombreABuscar;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_consultar_usuarios);
 
-        btnBuscarUser = findViewById(R.id.botonBuscarUsuarioConsulta);
         nombreABuscar = findViewById(R.id.etNombreUsuarioConsultaUsers);
         numeroUsuarios = findViewById(R.id.tvTotalListaUsuarios);
         listaUsuarios = findViewById(R.id.listaConsulUsuario);
@@ -63,14 +63,6 @@ public class ConsultarUsuarios extends AppCompatActivity {
 
         numeroUsuarios.append(lista.size() + "");
 
-        btnBuscarUser.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                //Boton de busqueda de usuario
-                Toast.makeText(ConsultarUsuarios.this, "Boton Buscar", Toast.LENGTH_SHORT).show();
-            }
-        });
-
         listaUsuarios.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
             public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
@@ -81,6 +73,23 @@ public class ConsultarUsuarios extends AppCompatActivity {
                         "Apellido: ...");
                 alerta.create();
                 alerta.show();
+            }
+        });
+
+        nombreABuscar.addTextChangedListener(new TextWatcher() {
+            @Override
+            public void beforeTextChanged(CharSequence s, int start, int count, int after) {
+
+            }
+
+            @Override
+            public void onTextChanged(CharSequence s, int start, int before, int count) {
+                adapter.getFilter().filter(s);
+            }
+
+            @Override
+            public void afterTextChanged(Editable s) {
+
             }
         });
 

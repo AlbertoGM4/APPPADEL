@@ -50,37 +50,23 @@
             />
 
         <EditText
-            android:id="@+id/etNombreEvento"
-            android:textSize="18dp"
-            android:background="@drawable/style_alta_user_fields"
+            android:id="@+id/etNombreUserBaja"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:textColorHint="@color/black"
+            android:background="@drawable/style_alta_user_fields"
             android:paddingLeft="10dp"
+            android:paddingTop="5dp"
             android:paddingRight="10dp"
             android:paddingBottom="5dp"
-            android:paddingTop="5dp"
-            />
+            android:textColorHint="@color/black"
+            android:textSize="18dp" />
 
     </LinearLayout>
 
-    <Button
-        android:id="@+id/botonBuscarUsuarioBaja"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_gravity="right"
-        android:text="Buscar Usuario"
-        app:cornerRadius="15dp"
-        android:backgroundTint="@color/blue_app"
-        android:textSize="20dp"
-        android:layout_marginTop="10dp"
-        />
-
     <ListView
         android:id="@+id/listaUsuariosBaja"
-        android:layout_marginTop="20dp"
         android:layout_width="match_parent"
-        android:layout_height="400dp"
-        />
+        android:layout_height="440dp"
+        android:layout_marginTop="20dp" />
 
 </LinearLayout>

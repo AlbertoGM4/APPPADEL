@@ -49,7 +49,7 @@
             />
 
         <EditText
-            android:id="@+id/etNombreEvento"
+            android:id="@+id/etNomUserEdit"
             android:textSize="18dp"
             android:background="@drawable/style_alta_user_fields"
             android:layout_width="match_parent"
@@ -62,18 +62,6 @@
             />
 
     </LinearLayout>
-
-    <Button
-        android:id="@+id/botonBuscarUsuarioEdit"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_gravity="right"
-        android:text="Buscar Usuario"
-        app:cornerRadius="15dp"
-        android:backgroundTint="@color/blue_app"
-        android:textSize="20dp"
-        android:layout_marginTop="10dp"
-        />
 
     <ListView
         android:id="@+id/listaUsuariosEditar"
