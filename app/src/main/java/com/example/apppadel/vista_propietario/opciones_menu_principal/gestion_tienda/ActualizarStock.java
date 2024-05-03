@@ -1,5 +1,6 @@
 package com.example.apppadel.vista_propietario.opciones_menu_principal.gestion_tienda;
 
+import android.content.Intent;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.Button;
@@ -25,7 +26,12 @@ public class ActualizarStock extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_actualizar_stock);
 
+        Intent i = getIntent();
+        String nombreArt = i.getStringExtra("NOMBRE");
+
         nombreProd = findViewById(R.id.tvNombreProducto);
+        nombreProd.setText(nombreArt);
+
         textoNumero = findViewById(R.id.tvNumeroStock);
         suma = findViewById(R.id.imagenBtnSumar);
         resta = findViewById(R.id.imagenBtnRestar);
