@@ -1,6 +1,8 @@
 package com.example.apppadel.vista_usuario.opciones_menu_user;
 
 import android.os.Bundle;
+import android.text.Editable;
+import android.text.TextWatcher;
 import android.view.View;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
@@ -10,6 +12,7 @@ import android.widget.ListView;
 import android.widget.Toast;
 
 import androidx.activity.EdgeToEdge;
+import androidx.appcompat.app.AlertDialog;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.core.graphics.Insets;
 import androidx.core.view.ViewCompat;
@@ -17,6 +20,7 @@ import androidx.core.view.WindowInsetsCompat;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.example.apppadel.R;
+import com.example.apppadel.vista_propietario.opciones_menu_principal.GestionarTorneos;
 
 import java.util.ArrayList;
 
@@ -25,7 +29,6 @@ public class ConsultarEventos extends AppCompatActivity {
     ArrayList<String> lista;
     ArrayAdapter<String> adapter;
     EditText nombreEvento;
-    Button btnBuscarEvento;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -34,7 +37,6 @@ public class ConsultarEventos extends AppCompatActivity {
 
         listaEventos = findViewById(R.id.listaEventos);
         nombreEvento = findViewById(R.id.etNombreEvento);
-        btnBuscarEvento = findViewById(R.id.botonBuscarEvento);
 
         lista = new ArrayList<>();
         lista.add("Torneo 1");
@@ -44,24 +46,47 @@ public class ConsultarEventos extends AppCompatActivity {
         lista.add("Torneo 5");
         lista.add("Torneo 6");
         lista.add("Torneo 7");
+        lista.add("Torneo 8");
+        lista.add("Torneo 9");
+        lista.add("Torneo 10");
 
         adapter = new ArrayAdapter<>(this, android.R.layout.simple_expandable_list_item_1, lista);
         listaEventos.setAdapter(adapter);
 
-        listaEventos.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+        nombreEvento.addTextChangedListener(new TextWatcher() {
             @Override
-            public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
-                //Info del Torneo que se ha seleccionado.
+            public void beforeTextChanged(CharSequence s, int start, int count, int after) {
+
+            }
+
+            @Override
+            public void onTextChanged(CharSequence s, int start, int before, int count) {
+                adapter.getFilter().filter(s);
+            }
+
+            @Override
+            public void afterTextChanged(Editable s) {
+
             }
         });
 
-        btnBuscarEvento.setOnClickListener(new View.OnClickListener() {
+        listaEventos.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
-            public void onClick(View v) {
-                //Buscar por nombre del Evento.
-                Toast.makeText(ConsultarEventos.this, "Buscador por evento", Toast.LENGTH_SHORT).show();
+            public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
+                AlertDialog.Builder alerta = new AlertDialog.Builder(ConsultarEventos.this);
+                alerta.setTitle("INFORMACIÓN DEL TORNEO");
+                alerta.setMessage("*Datos del Torneo*\n" +
+                        "- Nombre: " + lista.get(position) +
+                        "\n- Fecha Inicio: SI\n- Fecha Fin: SI" +
+                        "\n- Acabado: SI/NO" +
+                        "\n- Ganadores: (solo aparecerán si el torneo esta finalizado)");
+
+                alerta.setPositiveButton("Volver", null);
+                alerta.create();
+                alerta.show();
             }
         });
+
 
     }
 }

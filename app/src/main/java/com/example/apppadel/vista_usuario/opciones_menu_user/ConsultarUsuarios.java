@@ -44,9 +44,9 @@ public class ConsultarUsuarios extends AppCompatActivity {
 
         lista = new ArrayList<>();
 
-        lista.add("Usuario 1");
-        lista.add("Usuario 2");
-        lista.add("Usuario 3");
+        lista.add("Alberto Guillen");
+        lista.add("Ivan Fernandez");
+        lista.add("Victor Barrio");
         lista.add("Usuario 4");
         lista.add("Usuario 5");
         lista.add("Usuario 6");
@@ -66,11 +66,12 @@ public class ConsultarUsuarios extends AppCompatActivity {
         listaUsuarios.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
             public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
+                long idSeleccionado = id;
+
                 //Mostrara info del usuario seleccionado.
                 AlertDialog.Builder alerta = new AlertDialog.Builder(ConsultarUsuarios.this);
                 alerta.setTitle("INFO DE USUARIO");
-                alerta.setMessage("Nombre: Usuario X \n" +
-                        "Apellido: ...");
+                alerta.setMessage("Nombre: " + lista.get(position));
                 alerta.create();
                 alerta.show();
             }
