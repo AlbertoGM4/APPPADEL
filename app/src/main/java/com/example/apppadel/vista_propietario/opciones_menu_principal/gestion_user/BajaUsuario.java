@@ -38,7 +38,7 @@ public class BajaUsuario extends AppCompatActivity {
         listaUsuarios = findViewById(R.id.listaUsuariosBaja);
 
         lista = new ArrayList<>();
-
+        // Agregar usuarios a la lista
         lista.add("Alberto Guillen");
         lista.add("Ivan Fernandez");
         lista.add("Victor Barrio");
@@ -53,48 +53,47 @@ public class BajaUsuario extends AppCompatActivity {
         lista.add("Usuario 12");
 
         adapter = new ArrayAdapter<>(this, android.R.layout.simple_list_item_1, lista);
-
         listaUsuarios.setAdapter(adapter);
 
         nombreUser.addTextChangedListener(new TextWatcher() {
             @Override
             public void beforeTextChanged(CharSequence s, int start, int count, int after) {
-
             }
 
             @Override
             public void onTextChanged(CharSequence s, int start, int before, int count) {
-                adapter.getFilter().filter(s);
+                adapter.getFilter().filter(s.toString());
             }
 
             @Override
             public void afterTextChanged(Editable s) {
-
             }
         });
 
         listaUsuarios.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
             public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
-                //Aqui se realiza la seleccion del item (Usuario) de la lista
-                //Info del Usuario seleccionado
-                AlertDialog.Builder alerta = new AlertDialog.Builder(BajaUsuario.this);
-                alerta.setTitle("ALERTA");
-                alerta.setMessage("¿Dar de Baja al Usuario Seleccionado?");
-                alerta.setPositiveButton("Confirmar", new DialogInterface.OnClickListener() {
-                    @Override
-                    public void onClick(DialogInterface dialog, int which) {
-                        //Dar de baja al Usuario
-                        Toast.makeText(BajaUsuario.this, "Dando de Baja al Usuario Seleccionado...", Toast.LENGTH_SHORT).show();
-                        lista.remove(position);
-                        //Para hacer la actualizacion de la lista de Usuarios.
-                        adapter.notifyDataSetChanged();
-                    }
-                });
-                alerta.create();
-                alerta.show();
+                final String selectedUser = adapter.getItem(position); // Consigue el usuario seleccionado del adaptador
+
+                new AlertDialog.Builder(BajaUsuario.this)
+                        .setTitle("Confirmación")
+                        .setMessage("¿Está seguro de que desea eliminar al Usuario: " + selectedUser + "?")
+                        .setPositiveButton("Sí", new DialogInterface.OnClickListener() {
+                            @Override
+                            public void onClick(DialogInterface dialog, int which) {
+                                // Elimina de la lista original
+                                lista.remove(selectedUser);
+                                // Notificar al adaptador para que refresque la lista filtrada
+                                adapter.remove(selectedUser);
+                                adapter.notifyDataSetChanged(); // Notifica al adaptador del cambio
+
+                                Toast.makeText(BajaUsuario.this, "Usuario " + selectedUser + " eliminado", Toast.LENGTH_SHORT).show();
+                                nombreUser.setText("");
+                            }
+                        })
+                        .setNegativeButton("No", null)
+                        .show();
             }
         });
-
     }
 }

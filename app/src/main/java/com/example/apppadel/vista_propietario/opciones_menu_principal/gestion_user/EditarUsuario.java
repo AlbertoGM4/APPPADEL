@@ -10,6 +10,7 @@ import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ListView;
+import android.widget.Toast;
 
 import androidx.activity.EdgeToEdge;
 import androidx.appcompat.app.AppCompatActivity;
@@ -55,13 +56,11 @@ public class EditarUsuario extends AppCompatActivity {
         listaUsuarios.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
             public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
-                //Seleccion de item (Usuario)
-                //Apertura de una nueva ventana para editar la info del Usuario que se ha seleccionado.
-                String nom = list.get(position).toString();
+                String nombre = adapter.getItem(position);
 
                 Intent intent = new Intent(EditarUsuario.this, VistaFormularioEdicion.class);
                 //Aqui se le pasara toda la informacion del usuario seleccionado de la lista.
-                intent.putExtra("NOMBRE", nom);
+                intent.putExtra("NOMBRE", nombre);
                 startActivity(intent);
             }
         });
