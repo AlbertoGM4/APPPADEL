@@ -100,6 +100,7 @@ public class NuevoTorneo extends AppCompatActivity {
                     Toast.makeText(NuevoTorneo.this, "Faltan campos por rellenar para poder crear el Nuevo Torneo", Toast.LENGTH_SHORT).show();
 
                 } else {
+
                     AlertDialog.Builder alerta = new AlertDialog.Builder(NuevoTorneo.this);
                     alerta.setTitle("ALERTA");
                     alerta.setMessage("¿Seguro que quieres crear un Nuevo Torneo\n" +
@@ -110,8 +111,20 @@ public class NuevoTorneo extends AppCompatActivity {
                     alerta.setPositiveButton("Confirmar", new DialogInterface.OnClickListener() {
                         @Override
                         public void onClick(DialogInterface dialog, int which) {
-                            Toast.makeText(NuevoTorneo.this, "Torneo con nombre: " + nombreTorneo.getText().toString() + ", creado con éxito", Toast.LENGTH_SHORT).show();
-                            finish();
+                            AlertDialog.Builder alertaConfirmacion = new AlertDialog.Builder(NuevoTorneo.this);
+                            alertaConfirmacion.setTitle("Creación del Nuevo Torneo");
+                            alertaConfirmacion.setMessage("Torneo con nombre: " + nombreTorneo.getText().toString() +
+                                    ", creado con éxito\nSe reservará la Pista 1 desde: " +
+                                    seleccionFechaInicio.getText().toString() + ", hasta: " +
+                                    seleccionFechaFin.getText().toString() + " al completo para la realización del Torneo");
+                            alertaConfirmacion.setPositiveButton("Entendido", new DialogInterface.OnClickListener() {
+                                @Override
+                                public void onClick(DialogInterface dialog, int which) {
+                                    finish();
+                                }
+                            });
+                            alertaConfirmacion.create();
+                            alertaConfirmacion.show();
                         }
                     });
                     alerta.setNegativeButton("Cancelar", new DialogInterface.OnClickListener() {

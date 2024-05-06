@@ -62,6 +62,7 @@ public class EditarUsuario extends AppCompatActivity {
                 //Aqui se le pasara toda la informacion del usuario seleccionado de la lista.
                 intent.putExtra("NOMBRE", nombre);
                 startActivity(intent);
+                nomBuscar.setText("");
             }
         });
 
@@ -73,7 +74,7 @@ public class EditarUsuario extends AppCompatActivity {
 
             @Override
             public void onTextChanged(CharSequence s, int start, int before, int count) {
-                adapter.getFilter().filter(s);
+                adapter.getFilter().filter(s.toString());
             }
 
             @Override

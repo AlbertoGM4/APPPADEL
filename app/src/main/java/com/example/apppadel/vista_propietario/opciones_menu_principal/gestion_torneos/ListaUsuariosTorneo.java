@@ -80,12 +80,12 @@ public class ListaUsuariosTorneo extends AppCompatActivity {
         listaUsuarios.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
             public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
-                nombreSeleccionWinner = lista.get(position);
+                nombreSeleccionWinner = adapter.getItem(position);
 
                 AlertDialog.Builder alerta = new AlertDialog.Builder(ListaUsuariosTorneo.this);
                 alerta.setTitle("CONFIRMACIÓN");
                 alerta.setMessage("¿Seguro que desea seleccionar a este Usuario?\n" +
-                        "- Nombre: " + lista.get(position));
+                        "- Nombre: " + nombreSeleccionWinner);
 
                 alerta.setPositiveButton("Confirmar", new DialogInterface.OnClickListener() {
                     @Override

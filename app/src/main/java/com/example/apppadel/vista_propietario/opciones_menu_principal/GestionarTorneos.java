@@ -4,6 +4,7 @@ import android.app.DatePickerDialog;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.ContextMenu;
 import android.view.Menu;
 import android.view.MenuItem;
@@ -17,6 +18,10 @@ import android.widget.ListView;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import androidx.activity.result.ActivityResult;
+import androidx.activity.result.ActivityResultCallback;
+import androidx.activity.result.ActivityResultLauncher;
+import androidx.activity.result.contract.ActivityResultContracts;
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AlertDialog;
 import androidx.appcompat.app.AppCompatActivity;
@@ -28,12 +33,15 @@ import com.example.apppadel.vista_propietario.opciones_menu_principal.gestion_to
 
 import java.util.ArrayList;
 import java.util.Calendar;
+import java.util.Objects;
 
 public class GestionarTorneos extends AppCompatActivity {
     Button btnCrearNuevoTorneo;
     ListView listaGanadoresTorneo;
     ArrayList<String> lista;
     ArrayAdapter<String> adapter;
+    ActivityResultLauncher lanzador;
+    int posicionTorneo;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -70,7 +78,8 @@ public class GestionarTorneos extends AppCompatActivity {
         listaGanadoresTorneo.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
             public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
-                //Mostrar info del torneo
+                posicionTorneo = position;
+
                 AlertDialog.Builder alerta = new AlertDialog.Builder(GestionarTorneos.this);
                 alerta.setTitle("INFORMACIÓN DEL TORNEO");
                 alerta.setMessage("*Datos del Torneo*\n" +
@@ -79,6 +88,32 @@ public class GestionarTorneos extends AppCompatActivity {
                 alerta.setPositiveButton("Volver", null);
                 alerta.create();
                 alerta.show();
+            }
+        });
+
+        lanzador = registerForActivityResult(new ActivityResultContracts.StartActivityForResult(), new ActivityResultCallback<ActivityResult>() {
+            @Override
+            public void onActivityResult(ActivityResult o) {
+
+                if (o.getResultCode() == RESULT_OK && o.getData() != null) {
+                    Intent data = o.getData();
+                    String resultado = data.getStringExtra("RESULTADO");
+                    int pTorneo = data.getIntExtra("POSICION_TOR", 0);
+
+                    if (resultado.equals(lista.get(pTorneo))) {
+                        //Elimina el item
+                        adapter.remove(resultado);
+                        //lista.remove(resultado);
+                        adapter.notifyDataSetChanged();
+
+                        Toast.makeText(GestionarTorneos.this, "Torneo eliminado correctamente", Toast.LENGTH_SHORT).show();
+                    } else {
+                        Toast.makeText(GestionarTorneos.this, "Fallos con la concordancia entre el item seleccionado y el enviado desde la Actividad.", Toast.LENGTH_SHORT).show();
+                    }
+
+                } else {
+                    Toast.makeText(GestionarTorneos.this, "Operación cancelada o no completada", Toast.LENGTH_SHORT).show();
+                }
             }
         });
 
@@ -99,7 +134,8 @@ public class GestionarTorneos extends AppCompatActivity {
             //Aqui se hará la accion de Seleccionar gnadores
             Intent intent = new Intent(GestionarTorneos.this, SeleccionGanadores.class);
             intent.putExtra("NOMBRETORNEO", lista.get(position));
-            startActivity(intent);
+            intent.putExtra("POSICION", position);
+            lanzador.launch(intent);
         }
 
         return super.onContextItemSelected(item);

@@ -38,6 +38,7 @@ public class SeleccionGanadores extends AppCompatActivity {
 
         i = getIntent();
         String nomTor = i.getStringExtra("NOMBRETORNEO");
+        int posTorneoABorrar = i.getIntExtra("POSICION", 0);
 
         nombreIntegranteUno = findViewById(R.id.tvNombreIntegrante1);
         nombreIntegranteDos = findViewById(R.id.tvNombreIntegrante2);
@@ -72,17 +73,18 @@ public class SeleccionGanadores extends AppCompatActivity {
         btnConfirmarGanadores.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                //Confirmas la seleccion de ganadores, saldra un Alert avisando de los puntos que van a ganar
-                // y si quieres confirmarlo, luego acabara la actividad
-
                 AlertDialog.Builder alerta = new AlertDialog.Builder(SeleccionGanadores.this);
                 alerta.setTitle("ALERTA");
                 alerta.setMessage("¿Confirmar Ganadores?, Se les asignaran +250 puntos por esta victoria");
                 alerta.setPositiveButton("Confirmar", new DialogInterface.OnClickListener() {
                     @Override
                     public void onClick(DialogInterface dialog, int which) {
-                        //Dar de baja al Usuario
                         Toast.makeText(SeleccionGanadores.this, "Confirmando y añadiendo los puntos a los Usuarios", Toast.LENGTH_SHORT).show();
+
+                        Intent i = new Intent();
+                        i.putExtra("RESULTADO", textoNombreTorneo.getText().toString());
+                        i.putExtra("POSICION_TOR", posTorneoABorrar);
+                        setResult(RESULT_OK, i);
                         finish();
                     }
                 });
