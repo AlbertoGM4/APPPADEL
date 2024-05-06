@@ -1,6 +1,7 @@
 package com.example.apppadel.vista_propietario.opciones_menu_principal.gestion_pistas;
 
 import android.app.DatePickerDialog;
+import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.os.Bundle;
@@ -11,6 +12,7 @@ import android.widget.Button;
 import android.widget.DatePicker;
 import android.widget.ImageView;
 import android.widget.ListView;
+import android.widget.Spinner;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -25,13 +27,16 @@ import com.example.apppadel.R;
 
 import java.util.ArrayList;
 import java.util.Calendar;
+import java.util.List;
 
 public class ModificarReservaNuevaFecha extends AppCompatActivity {
     ImageView imagenCalendarioNuevaReserva;
     ListView listaHorasLibresNuevaReserva;
     TextView textoFechaSeleccionadaNuevaReserva;
-    ArrayList<String> lista;
-    ArrayAdapter<String> adapter;
+    ArrayAdapter<String> adapter, adapterPistas;
+    ArrayList<String> listaHorasP1, listaHorasP2, listaHorasP3;
+    Spinner spinnerPistas;
+    Context context = this;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -49,17 +54,68 @@ public class ModificarReservaNuevaFecha extends AppCompatActivity {
         //Poner en el TextView la fecha con la que se ha seleccionado la reserva anterior
         textoFechaSeleccionadaNuevaReserva.setText(fecha);
 
-        lista = new ArrayList<>();
-        lista.add("08:00");
-        lista.add("09:30");
-        lista.add("11:00");
-        lista.add("12:30");
-        lista.add("14:00");
-        lista.add("17:00");
-        lista.add("18:30");
+        spinnerPistas =  findViewById(R.id.spinnerPistasEditNuevaRes);
+        List<String> pistas = new ArrayList<>();
+        pistas.add("Pistas:");
+        pistas.add("Pista 1");
+        pistas.add("Pista 2");
+        pistas.add("Pista 3");
+        adapterPistas = new ArrayAdapter<>(this, R.layout.spinner_item, pistas);
+        spinnerPistas.setAdapter(adapterPistas);
 
-        adapter = new ArrayAdapter<>(this, android.R.layout.simple_list_item_1, lista);
-        listaHorasLibresNuevaReserva.setAdapter(adapter);
+
+        listaHorasP1 = new ArrayList<>();
+        listaHorasP1.add("08:00");
+        listaHorasP1.add("09:30");
+        listaHorasP1.add("11:00");
+        listaHorasP1.add("12:30");
+        listaHorasP1.add("14:00");
+        listaHorasP1.add("17:00");
+        listaHorasP1.add("18:30");
+
+        listaHorasP2 = new ArrayList<>();
+        listaHorasP2.add("11:00");
+        listaHorasP2.add("12:30");
+        listaHorasP2.add("14:00");
+        listaHorasP2.add("18:30");
+        listaHorasP2.add("20:30");
+
+
+        listaHorasP3 = new ArrayList<>();
+        listaHorasP3.add("08:00");
+        listaHorasP3.add("09:30");
+        listaHorasP3.add("17:00");
+        listaHorasP3.add("18:30");
+
+        spinnerPistas.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
+            @Override
+            public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
+                String selectedSpinner = parent.getItemAtPosition(position).toString();
+
+                if (position == 0){
+                    Toast.makeText(context, "Seleccione una Pista", Toast.LENGTH_SHORT).show();
+
+                }else {
+                    if (selectedSpinner.equals("Pista 1")){
+                        adapter = new ArrayAdapter<>(context, android.R.layout.simple_list_item_1, listaHorasP1);
+
+                    } else if (selectedSpinner.equals("Pista 2")) {
+                        adapter = new ArrayAdapter<>(context, android.R.layout.simple_list_item_1, listaHorasP2);
+
+                    }else {
+                        adapter = new ArrayAdapter<>(context, android.R.layout.simple_list_item_1, listaHorasP3);
+                    }
+
+                    listaHorasLibresNuevaReserva.setAdapter(adapter);
+                    adapter.notifyDataSetChanged();
+                }
+            }
+
+            @Override
+            public void onNothingSelected(AdapterView<?> parent) {
+
+            }
+        });
 
         imagenCalendarioNuevaReserva.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -77,6 +133,7 @@ public class ModificarReservaNuevaFecha extends AppCompatActivity {
                         // Aquí puedes hacer lo que quieras con la fecha seleccionada
                         String selectedDate = selectedDayOfMonth + "/" + (selectedMonth + 1) + "/" + selectedYear;
                         textoFechaSeleccionadaNuevaReserva.setText(selectedDate);
+
                     }
                 }, year, month, day);
 
@@ -89,18 +146,21 @@ public class ModificarReservaNuevaFecha extends AppCompatActivity {
         listaHorasLibresNuevaReserva.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
             public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
-                //Selecciona el item por el que quiere cambiar la reserva anterior.
+                final String posSelect = adapter.getItem(position);
+
                 AlertDialog.Builder alerta = new AlertDialog.Builder(ModificarReservaNuevaFecha.this);
                 alerta.setTitle("ALERTA");
                 alerta.setMessage("¿Desea Cambiar la Hora de reserva por la Hora Seleccionada?\n" +
                         "- ANTIGUA Hora de Reserva: " + hora + " del dia " + fecha +
-                        "\n- NUEVA Hora de Reserva: " + lista.get(position) + " del día " + textoFechaSeleccionadaNuevaReserva.getText().toString());
+                        "\n- NUEVA Hora de Reserva: " + posSelect + " del día " + textoFechaSeleccionadaNuevaReserva.getText().toString());
                 alerta.setPositiveButton("Confirmar", new DialogInterface.OnClickListener() {
                     @Override
                     public void onClick(DialogInterface dialog, int which) {
                         //Dar de baja al Usuario
                         Toast.makeText(ModificarReservaNuevaFecha.this, "Hora de Reservas MODIFICADA con Éxito", Toast.LENGTH_SHORT).show();
-
+                        Intent intent = new Intent();
+                        intent.putExtra("HORA", "OK");
+                        setResult(RESULT_OK, intent);
                         finish();
                     }
                 });

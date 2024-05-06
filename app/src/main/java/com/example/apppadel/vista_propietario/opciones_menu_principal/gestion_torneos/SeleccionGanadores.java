@@ -65,7 +65,8 @@ public class SeleccionGanadores extends AppCompatActivity {
                 //Abre una lista con los Usuarios y seleccionas uno.
                 i = new Intent(SeleccionGanadores.this, ListaUsuariosTorneo.class);
                 i.putExtra("BOTON_PULSADO", "INTEGRANTE_DOS");
-                lanzador.launch(i);            }
+                lanzador.launch(i);
+            }
         });
 
         btnConfirmarGanadores.setOnClickListener(new View.OnClickListener() {

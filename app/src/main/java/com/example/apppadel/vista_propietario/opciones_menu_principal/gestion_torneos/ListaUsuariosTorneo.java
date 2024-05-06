@@ -68,7 +68,7 @@ public class ListaUsuariosTorneo extends AppCompatActivity {
 
             @Override
             public void onTextChanged(CharSequence s, int start, int before, int count) {
-                adapter.getFilter().filter(s);
+                adapter.getFilter().filter(s.toString());
             }
 
             @Override
@@ -80,7 +80,6 @@ public class ListaUsuariosTorneo extends AppCompatActivity {
         listaUsuarios.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
             public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
-
                 nombreSeleccionWinner = lista.get(position);
 
                 AlertDialog.Builder alerta = new AlertDialog.Builder(ListaUsuariosTorneo.this);

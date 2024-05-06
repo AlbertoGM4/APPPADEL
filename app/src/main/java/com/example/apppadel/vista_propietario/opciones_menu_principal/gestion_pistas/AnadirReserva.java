@@ -1,6 +1,7 @@
 package com.example.apppadel.vista_propietario.opciones_menu_principal.gestion_pistas;
 
 import android.app.DatePickerDialog;
+import android.content.Context;
 import android.content.DialogInterface;
 import android.os.Bundle;
 import android.view.View;
@@ -10,6 +11,7 @@ import android.widget.Button;
 import android.widget.DatePicker;
 import android.widget.ImageView;
 import android.widget.ListView;
+import android.widget.Spinner;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -26,13 +28,16 @@ import com.example.apppadel.vista_propietario.opciones_menu_principal.gestion_us
 
 import java.util.ArrayList;
 import java.util.Calendar;
+import java.util.List;
 
 public class AnadirReserva extends AppCompatActivity {
     ImageView imagenCalendario;
     ListView listaHorasLibres;
-    ArrayAdapter<String> adapter;
-    ArrayList<String> listaHoras;
+    ArrayAdapter<String> adapter, adapterPistas;
+    ArrayList<String> listaHorasP1, listaHorasP2, listaHorasP3;
     TextView textoFechaSeleccionada;
+    Spinner spinnerPistas;
+    Context context = this;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -43,16 +48,74 @@ public class AnadirReserva extends AppCompatActivity {
         listaHorasLibres = findViewById(R.id.listaHorasLibresPista);
         textoFechaSeleccionada = findViewById(R.id.tvSeleccionFechaReservaPista);
 
-        listaHoras = new ArrayList<>();
-        listaHoras.add("08:00");
-        listaHoras.add("09:30");
-        listaHoras.add("11:00");
-        listaHoras.add("12:30");
-        listaHoras.add("14:00");
-        listaHoras.add("17:00");
-        listaHoras.add("18:30");
+        spinnerPistas =  findViewById(R.id.spinnerPistas);
+        spinnerPistas.setEnabled(false);
+        List<String> pistas = new ArrayList<>();
+        pistas.add("Pistas:");
+        pistas.add("Pista 1");
+        pistas.add("Pista 2");
+        pistas.add("Pista 3");
+        adapterPistas = new ArrayAdapter<>(this, R.layout.spinner_item, pistas);
+        spinnerPistas.setAdapter(adapterPistas);
 
-        adapter = new ArrayAdapter<>(this, android.R.layout.simple_list_item_1, listaHoras);
+
+        listaHorasP1 = new ArrayList<>();
+        listaHorasP1.add("08:00");
+        listaHorasP1.add("09:30");
+        listaHorasP1.add("11:00");
+        listaHorasP1.add("12:30");
+        listaHorasP1.add("14:00");
+        listaHorasP1.add("17:00");
+        listaHorasP1.add("18:30");
+
+        listaHorasP2 = new ArrayList<>();
+        listaHorasP2.add("11:00");
+        listaHorasP2.add("12:30");
+        listaHorasP2.add("14:00");
+        listaHorasP2.add("18:30");
+        listaHorasP2.add("20:30");
+
+
+        listaHorasP3 = new ArrayList<>();
+        listaHorasP3.add("08:00");
+        listaHorasP3.add("09:30");
+        listaHorasP3.add("17:00");
+        listaHorasP3.add("18:30");
+
+        spinnerPistas.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
+            @Override
+            public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
+                String selectedSpinner = parent.getItemAtPosition(position).toString();
+
+                if (!spinnerPistas.isEnabled()){
+                    Toast.makeText(context, "Primero debes seleccionar una Fecha", Toast.LENGTH_SHORT).show();
+
+                } else {
+                    if (position == 0){
+                        Toast.makeText(context, "Seleccione una Pista", Toast.LENGTH_SHORT).show();
+
+                    }else {
+                        if (selectedSpinner.equals("Pista 1")){
+                            adapter = new ArrayAdapter<>(context, android.R.layout.simple_list_item_1, listaHorasP1);
+
+                        } else if (selectedSpinner.equals("Pista 2")) {
+                            adapter = new ArrayAdapter<>(context, android.R.layout.simple_list_item_1, listaHorasP2);
+
+                        }else {
+                            adapter = new ArrayAdapter<>(context, android.R.layout.simple_list_item_1, listaHorasP3);
+                        }
+
+                        listaHorasLibres.setAdapter(adapter);
+                        adapter.notifyDataSetChanged();
+                    }
+                }
+            }
+
+            @Override
+            public void onNothingSelected(AdapterView<?> parent) {
+
+            }
+        });
 
         imagenCalendario.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -71,6 +134,9 @@ public class AnadirReserva extends AppCompatActivity {
                         String selectedDate = selectedDayOfMonth + "/" + (selectedMonth + 1) + "/" + selectedYear;
                         textoFechaSeleccionada.setText(selectedDate);
 
+                        //Pongo el Spinner seleccionable, una vez se selecciona la fecha.
+                        spinnerPistas.setEnabled(true);
+
                         listaHorasLibres.setAdapter(adapter);
                     }
                 }, year, month, day);
@@ -83,18 +149,18 @@ public class AnadirReserva extends AppCompatActivity {
         listaHorasLibres.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
             public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
-                //Aqui se obtendra el item (hora), que se desea reservar, para despues emplearlo
+                final String posSelect = adapter.getItem(position);
+
                 AlertDialog.Builder alerta = new AlertDialog.Builder(AnadirReserva.this);
                 alerta.setTitle("ALERTA");
                 alerta.setMessage("¿Desea reservar la Hora Seleccionada?\n" +
-                        "- Hora Seleccionada: " + listaHoras.get(position));
+                        "- Hora Seleccionada: " + posSelect);
                 alerta.setPositiveButton("Confirmar", new DialogInterface.OnClickListener() {
                     @Override
                     public void onClick(DialogInterface dialog, int which) {
                         //Dar de baja al Usuario
                         Toast.makeText(AnadirReserva.this, "Hora Reservada", Toast.LENGTH_SHORT).show();
-                        listaHoras.remove(position);
-                        //Para hacer la actualizacion de la lista de Usuarios.
+                        adapter.remove(posSelect);
                         adapter.notifyDataSetChanged();
                     }
                 });
