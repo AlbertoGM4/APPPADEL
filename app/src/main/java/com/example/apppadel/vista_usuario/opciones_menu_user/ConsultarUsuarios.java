@@ -1,10 +1,12 @@
 package com.example.apppadel.vista_usuario.opciones_menu_user;
 
+import android.content.Context;
 import android.content.DialogInterface;
 import android.os.Bundle;
 import android.text.Editable;
 import android.text.TextWatcher;
 import android.view.View;
+import android.view.inputmethod.InputMethodManager;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.Button;
@@ -33,6 +35,7 @@ public class ConsultarUsuarios extends AppCompatActivity {
     ArrayList<String> lista;
     ArrayAdapter<String> adapter;
     EditText nombreABuscar;
+    String nomItemAdapter;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -66,12 +69,22 @@ public class ConsultarUsuarios extends AppCompatActivity {
         listaUsuarios.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
             public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
-                long idSeleccionado = id;
+                nomItemAdapter = adapter.getItem(position);
 
                 //Mostrara info del usuario seleccionado.
                 AlertDialog.Builder alerta = new AlertDialog.Builder(ConsultarUsuarios.this);
                 alerta.setTitle("INFO DE USUARIO");
-                alerta.setMessage("Nombre: " + lista.get(position));
+                alerta.setMessage("Nombre: " + nomItemAdapter);
+                alerta.setPositiveButton("Vovler", new DialogInterface.OnClickListener() {
+                    @Override
+                    public void onClick(DialogInterface dialog, int which) {
+                        nombreABuscar.setText("");
+
+                        //Para que el teclado no se quede por medio una vez que sale del alert, para poder visualizar mejor la lista entera
+                        InputMethodManager inputMethodManager = (InputMethodManager)getSystemService(Context.INPUT_METHOD_SERVICE);
+                        inputMethodManager.hideSoftInputFromWindow(view.getWindowToken(), 0);
+                    }
+                });
                 alerta.create();
                 alerta.show();
             }
@@ -85,7 +98,7 @@ public class ConsultarUsuarios extends AppCompatActivity {
 
             @Override
             public void onTextChanged(CharSequence s, int start, int before, int count) {
-                adapter.getFilter().filter(s);
+                adapter.getFilter().filter(s.toString());
             }
 
             @Override

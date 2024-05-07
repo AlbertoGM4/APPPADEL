@@ -26,5 +26,10 @@
     <string name="rankig"><u>RANKING DEL CLUB</u></string>
     <string name="nombre_torneo"><u>Nombre del Torneo</u></string>
 
+    <string name="productos"><u>PRODUCTOS</u></string>
+    <string name="cantidad"><u>CANTIDAD</u></string>
+
+    <string name="ranking_socios"><u>Ranking de los Socios del Club</u></string>
+
 
 </resources>

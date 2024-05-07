@@ -29,6 +29,7 @@ public class ConsultarEventos extends AppCompatActivity {
     ArrayList<String> lista;
     ArrayAdapter<String> adapter;
     EditText nombreEvento;
+    String nomEventoPos;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -61,7 +62,7 @@ public class ConsultarEventos extends AppCompatActivity {
 
             @Override
             public void onTextChanged(CharSequence s, int start, int before, int count) {
-                adapter.getFilter().filter(s);
+                adapter.getFilter().filter(s.toString());
             }
 
             @Override
@@ -73,10 +74,12 @@ public class ConsultarEventos extends AppCompatActivity {
         listaEventos.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
             public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
+                nomEventoPos = adapter.getItem(position);
+
                 AlertDialog.Builder alerta = new AlertDialog.Builder(ConsultarEventos.this);
                 alerta.setTitle("INFORMACIÓN DEL TORNEO");
                 alerta.setMessage("*Datos del Torneo*\n" +
-                        "- Nombre: " + lista.get(position) +
+                        "- Nombre: " + nomEventoPos +
                         "\n- Fecha Inicio: SI\n- Fecha Fin: SI" +
                         "\n- Acabado: SI/NO" +
                         "\n- Ganadores: (solo aparecerán si el torneo esta finalizado)");
