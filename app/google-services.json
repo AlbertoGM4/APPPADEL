@@ -1,0 +1,29 @@
+{
+  "project_info": {
+    "project_number": "977076494764",
+    "project_id": "apppadel-9754a",
+    "storage_bucket": "apppadel-9754a.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:977076494764:android:63358de6b77a5e88721a09",
+        "android_client_info": {
+          "package_name": "com.example.apppadel"
+        }
+      },
+      "oauth_client": [],
+      "api_key": [
+        {
+          "current_key": "AIzaSyDjgSZbWf8CvyI7Ye5TKXymr9pAnDMDCZY"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": []
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
