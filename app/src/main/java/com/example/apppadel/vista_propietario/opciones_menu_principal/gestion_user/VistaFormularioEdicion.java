@@ -39,6 +39,7 @@ public class VistaFormularioEdicion extends AppCompatActivity {
 
         //Informacion del intent.
         Intent i = getIntent();
+        String nomAntiguo = i.getStringExtra("NOMBRE");
 
         nombreEdit = findViewById(R.id.etNombreUserEditar);
         ape1Edit = findViewById(R.id.etPrimerApeEditar);
@@ -85,22 +86,74 @@ public class VistaFormularioEdicion extends AppCompatActivity {
         botonCreacionEdit.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                Toast.makeText(VistaFormularioEdicion.this, "Edicioón del Usuario X, realizada con éxito", Toast.LENGTH_SHORT).show();
-                AlertDialog.Builder alerta = new AlertDialog.Builder(VistaFormularioEdicion.this);
-                alerta.setTitle("ALERTA");
-                alerta.setMessage("¿Confirmar la Edición del Usuario Seleccionado?");
-                alerta.setPositiveButton("Confirmar", new DialogInterface.OnClickListener() {
-                    @Override
-                    public void onClick(DialogInterface dialog, int which) {
-                        //Dar de baja al Usuario
-                        Toast.makeText(VistaFormularioEdicion.this, "Datos Editados del Usuario Seleccionado...", Toast.LENGTH_SHORT).show();
-                        finish();
+                if (!camposCompletos(nombreEdit, ape1Edit, ape2Edit, telefonoEdit, correoEdit, contraEdit)) {
+                    Toast.makeText(VistaFormularioEdicion.this, "Alguno de los campos no ha sido rellenado", Toast.LENGTH_SHORT).show();
+
+                } else {
+                    if (seleccionFechaEdit.getText().toString().isEmpty()){
+                        Toast.makeText(VistaFormularioEdicion.this, "El campo de la fecha no ha sido rellenado", Toast.LENGTH_SHORT).show();
+
+                    } else {
+                        //Validaciones de los Editext.
+                        if (validarEmail(correoEdit.getText().toString())) {
+                            if (comprobarNumero(telefonoEdit.getText().toString())){
+                                if (contieneSoloLetras(nombreEdit.getText().toString(), ape1Edit.getText().toString(), ape2Edit.getText().toString())) {
+
+                                    AlertDialog.Builder alerta = new AlertDialog.Builder(VistaFormularioEdicion.this);
+                                    alerta.setTitle("EDICIÓN DE USUARIO");
+                                    alerta.setMessage("¿Confirmar la Edición del Usuario Seleccionado?\n" +
+                                            "(*Usuario Antiguo: " + nomAntiguo + "*)\n" +
+                                            "(*Nuevo Usuario: " + nombreEdit.getText().toString() + "*)");
+                                    alerta.setPositiveButton("Confirmar", new DialogInterface.OnClickListener() {
+                                        @Override
+                                        public void onClick(DialogInterface dialog, int which) {
+                                            Toast.makeText(VistaFormularioEdicion.this, "Todos los campos están completos!", Toast.LENGTH_SHORT).show();
+                                            Toast.makeText(VistaFormularioEdicion.this, "Modificación del Usuario realizada con Éxito.", Toast.LENGTH_SHORT).show();
+                                            finish();
+                                        }
+                                    });
+                                    alerta.setNegativeButton("Volver", null);
+                                    alerta.create();
+                                    alerta.show();
+
+                                } else {
+                                    Toast.makeText(VistaFormularioEdicion.this, "Nombre o apellidos con errores", Toast.LENGTH_SHORT).show();
+                                }
+                            } else {
+                                Toast.makeText(VistaFormularioEdicion.this, "El teléfono es incorrecto", Toast.LENGTH_SHORT).show();
+                            }
+                        } else {
+                            Toast.makeText(VistaFormularioEdicion.this, "El correo no cumple el formato de Correo electrónico", Toast.LENGTH_SHORT).show();
+                        }
                     }
-                });
-                alerta.create();
-                alerta.show();
+                }
             }
         });
+    }
+    private boolean camposCompletos(EditText... campos) {
+        for (EditText campo : campos) {
+            if (campo.getText().toString().trim().isEmpty()) {
+                return false;
+            }
+        }
+        return true;
+    };
 
+    public boolean validarEmail (String email) {
+        return email.contains("@") && (email.endsWith(".com") || email.endsWith(".es"));
+    }
+
+    public static boolean comprobarNumero (String text) {
+        return text.matches("[0-9]{9}");
+    }
+
+    public boolean contieneSoloLetras(String nombre, String ape1, String ape2) {
+        //Comprueba que sean solo letras y espacios.
+        boolean nombreValido = nombre.matches("[\\p{L} ]+");
+        boolean ape1Valido = ape1.matches("[\\p{L} ]+");
+        boolean ape2Valido = ape2.matches("[\\p{L} ]+");
+
+        // Devuelve true si todos los campos contienen solo letras
+        return nombreValido && ape1Valido && ape2Valido;
     }
 }

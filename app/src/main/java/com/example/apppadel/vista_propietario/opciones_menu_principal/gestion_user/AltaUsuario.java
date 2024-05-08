@@ -22,7 +22,6 @@ import com.example.apppadel.R;
 import java.util.Calendar;
 
 public class AltaUsuario extends AppCompatActivity {
-
     EditText nombreUser, ape1User, ape2User, telefonoUser, correoUser, contraUser;
     TextView seleccionFecha;
     Button botonCreacion;
@@ -76,12 +75,61 @@ public class AltaUsuario extends AppCompatActivity {
         botonCreacion.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                //Aqui se crearia el nuevo Usuarios con los campos rellenados por el Propietario.
-                Toast.makeText(AltaUsuario.this, "Creación del nuevo Usuario.", Toast.LENGTH_SHORT).show();
-                finish();
 
+                if (!camposCompletos(nombreUser, ape1User, ape2User, telefonoUser, correoUser, contraUser)) {
+                    Toast.makeText(AltaUsuario.this, "Alguno de los campos no ha sido rellenado", Toast.LENGTH_SHORT).show();
+
+                } else {
+                    if (seleccionFecha.getText().toString().isEmpty()){
+                        Toast.makeText(AltaUsuario.this, "El campo de la fecha no ha sido rellenado", Toast.LENGTH_SHORT).show();
+
+                    } else {
+                        //Validaciones de los Editext.
+                        if (validarEmail(correoUser.getText().toString())) {
+                            if (comprobarNumero(telefonoUser.getText().toString())){
+                                if (contieneSoloLetras(nombreUser.getText().toString(), ape1User.getText().toString(), ape2User.getText().toString())) {
+                                    Toast.makeText(AltaUsuario.this, "¡Todos los campos están completos y son correctos!", Toast.LENGTH_SHORT).show();
+                                    Toast.makeText(AltaUsuario.this, "Creación del nuevo Usuario con Exito", Toast.LENGTH_SHORT).show();
+                                    finish();
+                                } else {
+                                    Toast.makeText(AltaUsuario.this, "Nombre o apellidos con errores", Toast.LENGTH_SHORT).show();
+                                }
+                            } else {
+                                Toast.makeText(AltaUsuario.this, "El teléfono es incorrecto", Toast.LENGTH_SHORT).show();
+                            }
+                        } else {
+                            Toast.makeText(AltaUsuario.this, "El correo no cumple el formato de Correo electrónico", Toast.LENGTH_SHORT).show();
+                        }
+                    }
+                }
             }
         });
+    }
 
+    private boolean camposCompletos(EditText... campos) {
+        for (EditText campo : campos) {
+            if (campo.getText().toString().trim().isEmpty()) {
+                return false;
+            }
+        }
+        return true;
+    };
+
+    public boolean validarEmail (String email) {
+        return email.contains("@") && (email.endsWith(".com") || email.endsWith(".es"));
+    }
+
+    public static boolean comprobarNumero (String text) {
+        return text.matches("[0-9]{9}");
+    }
+
+    public boolean contieneSoloLetras(String nombre, String ape1, String ape2) {
+        //Comprueba que sean solo letras y espacios.
+        boolean nombreValido = nombre.matches("[\\p{L} ]+");
+        boolean ape1Valido = ape1.matches("[\\p{L} ]+");
+        boolean ape2Valido = ape2.matches("[\\p{L} ]+");
+
+        // Devuelve true si todos los campos contienen solo letras
+        return nombreValido && ape1Valido && ape2Valido;
     }
 }
