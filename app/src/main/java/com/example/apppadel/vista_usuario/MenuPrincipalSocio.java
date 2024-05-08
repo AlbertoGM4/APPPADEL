@@ -1,5 +1,6 @@
 package com.example.apppadel.vista_usuario;
 
+import android.annotation.SuppressLint;
 import android.content.Intent;
 import android.os.Bundle;
 import android.os.Handler;
@@ -97,6 +98,7 @@ public class MenuPrincipalSocio extends AppCompatActivity {
         });
     }
 
+    @SuppressLint("MissingSuperCall")
     @Override
     public void onBackPressed() {
         Toast.makeText(this, "Para cerrar sesión pulsa el botón de power", Toast.LENGTH_SHORT).show();
