@@ -83,8 +83,9 @@ public class GestionarTorneos extends AppCompatActivity {
                 AlertDialog.Builder alerta = new AlertDialog.Builder(GestionarTorneos.this);
                 alerta.setTitle("INFORMACIÓN DEL TORNEO");
                 alerta.setMessage("*Datos del Torneo*\n" +
-                        "- Nombre: " + lista.get(position) +
-                        "\n- Fecha Inicio: SI\n- Fecha Fin: SI");
+                        "- Nombre: " + lista.get(position) + "\n" +
+                        "- Fecha Inicio: por definir\n" +
+                        "- Fecha Fin: por definir");
                 alerta.setPositiveButton("Volver", null);
                 alerta.create();
                 alerta.show();

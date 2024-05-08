@@ -86,4 +86,9 @@ public class MenuPricipalProp extends AppCompatActivity {
         });
 
     }
+
+    @Override
+    public void onBackPressed() {
+        Toast.makeText(this, "Para cerrar sesión pulsa el botón de power", Toast.LENGTH_SHORT).show();
+    }
 }
