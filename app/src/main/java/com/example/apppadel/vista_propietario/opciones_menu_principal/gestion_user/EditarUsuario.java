@@ -1,5 +1,6 @@
 package com.example.apppadel.vista_propietario.opciones_menu_principal.gestion_user;
 
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.os.Bundle;
 import android.text.Editable;
@@ -13,6 +14,7 @@ import android.widget.ListView;
 import android.widget.Toast;
 
 import androidx.activity.EdgeToEdge;
+import androidx.appcompat.app.AlertDialog;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.core.graphics.Insets;
 import androidx.core.view.ViewCompat;
@@ -58,11 +60,21 @@ public class EditarUsuario extends AppCompatActivity {
             public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
                 String nombre = adapter.getItem(position);
 
-                Intent intent = new Intent(EditarUsuario.this, VistaFormularioEdicion.class);
-                //Aqui se le pasara toda la informacion del usuario seleccionado de la lista.
-                intent.putExtra("NOMBRE", nombre);
-                startActivity(intent);
-                nomBuscar.setText("");
+                new AlertDialog.Builder(EditarUsuario.this)
+                        .setTitle("Confirmación")
+                        .setMessage("¿Está seguro de que desea Editar al Usuario: " + nombre + "?")
+                        .setPositiveButton("Sí", new DialogInterface.OnClickListener() {
+                            @Override
+                            public void onClick(DialogInterface dialog, int which) {
+                                Intent intent = new Intent(EditarUsuario.this, VistaFormularioEdicion.class);
+                                //Aqui se le pasara toda la informacion del usuario seleccionado de la lista.
+                                intent.putExtra("NOMBRE", nombre);
+                                startActivity(intent);
+                                nomBuscar.setText("");
+                            }
+                        })
+                        .setNegativeButton("No", null)
+                        .show();
             }
         });
 

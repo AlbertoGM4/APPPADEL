@@ -38,17 +38,17 @@ public class ActividadInicioSesion extends AppCompatActivity {
                 if (correo.getText().toString().equals("admin") && contra.getText().toString().equals("1234")){
                     Intent i = new Intent(ActividadInicioSesion.this, MenuPricipalProp.class);
                     startActivity(i);
-                    correo.setText("");
+                    contra.setText("");
 
                 } else if (correo.getText().toString().equals("socio") && contra.getText().toString().equals("1234")) {
                     Intent intent = new Intent(ActividadInicioSesion.this, MenuPrincipalSocio.class);
                     startActivity(intent);
-                    correo.setText("");
+                    contra.setText("");
 
                 } else if (correo.getText().toString().equals("user") && contra.getText().toString().equals("1234")) {
                     Intent intent = new Intent(ActividadInicioSesion.this, MenuPrincipalUser.class);
                     startActivity(intent);
-                    correo.setText("");
+                    contra.setText("");
 
                 } else {
                     Toast.makeText(ActividadInicioSesion.this, "No hay ningún inicio de sesión con esas credenciales", Toast.LENGTH_SHORT).show();
