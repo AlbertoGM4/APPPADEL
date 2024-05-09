@@ -40,6 +40,35 @@
         android:text="@string/texto_lista_prodcutos_tienda"
         android:textSize="18dp" />
 
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal"
+        android:weightSum="2"
+        android:layout_marginTop="10dp">
+
+        <TextView
+            android:id="@+id/tvLabelProductos"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:text="@string/productos"
+            android:gravity="start|center_vertical"
+            android:textSize="16dp"
+            android:textAlignment="center"/>
+
+        <TextView
+            android:id="@+id/tvLabelCantidad"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:text="@string/cantidad"
+            android:gravity="end|center_vertical"
+            android:textSize="16dp"
+            android:textAlignment="center"/>
+
+    </LinearLayout>
+
     <ListView
         android:id="@+id/listaProductos"
         android:layout_width="match_parent"
