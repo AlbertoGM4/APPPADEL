@@ -73,23 +73,28 @@ public class SeleccionGanadores extends AppCompatActivity {
         btnConfirmarGanadores.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                AlertDialog.Builder alerta = new AlertDialog.Builder(SeleccionGanadores.this);
-                alerta.setTitle("ALERTA");
-                alerta.setMessage("¿Confirmar Ganadores?, Se les asignaran +250 puntos por esta victoria");
-                alerta.setPositiveButton("Confirmar", new DialogInterface.OnClickListener() {
-                    @Override
-                    public void onClick(DialogInterface dialog, int which) {
-                        Toast.makeText(SeleccionGanadores.this, "Confirmando y añadiendo los puntos a los Usuarios", Toast.LENGTH_SHORT).show();
+                if (nombreIntegranteUno.getText().toString().isEmpty() || nombreIntegranteDos.getText().toString().isEmpty()){
+                    Toast.makeText(SeleccionGanadores.this, "Debes rellenar ambos campos de integrantes", Toast.LENGTH_SHORT).show();
 
-                        Intent i = new Intent();
-                        i.putExtra("RESULTADO", textoNombreTorneo.getText().toString());
-                        i.putExtra("POSICION_TOR", posTorneoABorrar);
-                        setResult(RESULT_OK, i);
-                        finish();
-                    }
-                });
-                alerta.create();
-                alerta.show();
+                } else {
+                    AlertDialog.Builder alerta = new AlertDialog.Builder(SeleccionGanadores.this);
+                    alerta.setTitle("ALERTA");
+                    alerta.setMessage("¿Confirmar Ganadores?, Se les asignaran +250 puntos por esta victoria");
+                    alerta.setPositiveButton("Confirmar", new DialogInterface.OnClickListener() {
+                        @Override
+                        public void onClick(DialogInterface dialog, int which) {
+                            Toast.makeText(SeleccionGanadores.this, "Confirmando y añadiendo los puntos a los Usuarios", Toast.LENGTH_SHORT).show();
+
+                            Intent i = new Intent();
+                            i.putExtra("RESULTADO", textoNombreTorneo.getText().toString());
+                            i.putExtra("POSICION_TOR", posTorneoABorrar);
+                            setResult(RESULT_OK, i);
+                            finish();
+                        }
+                    });
+                    alerta.create();
+                    alerta.show();
+                }
             }
         });
 
