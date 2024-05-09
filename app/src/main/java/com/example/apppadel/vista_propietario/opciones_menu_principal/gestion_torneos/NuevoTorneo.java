@@ -96,7 +96,7 @@ public class NuevoTorneo extends AppCompatActivity {
             @Override
             public void onClick(View v) {
                 //Cracion del nuevo Torneo
-                if (nombreTorneo.getText().toString().isEmpty() || seleccionFechaInicio.getText().toString().isEmpty() || seleccionFechaInicio.getText().toString().isEmpty()){
+                if (nombreTorneo.getText().toString().isEmpty() || seleccionFechaInicio.getText().toString().isEmpty() || seleccionFechaFin.getText().toString().isEmpty()){
                     Toast.makeText(NuevoTorneo.this, "Faltan campos por rellenar para poder crear el Nuevo Torneo", Toast.LENGTH_SHORT).show();
 
                 } else {
