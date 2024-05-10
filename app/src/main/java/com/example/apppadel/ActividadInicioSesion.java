@@ -35,27 +35,40 @@ public class ActividadInicioSesion extends AppCompatActivity {
         botonLogIn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                if (correo.getText().toString().equals("admin") && contra.getText().toString().equals("1234")){
-                    Intent i = new Intent(ActividadInicioSesion.this, MenuPricipalProp.class);
-                    startActivity(i);
-                    contra.setText("");
 
-                } else if (correo.getText().toString().equals("socio") && contra.getText().toString().equals("1234")) {
-                    Intent intent = new Intent(ActividadInicioSesion.this, MenuPrincipalSocio.class);
-                    startActivity(intent);
-                    contra.setText("");
+                if (correo.getText().toString().isEmpty()){
+                    Toast.makeText(ActividadInicioSesion.this, "Es necesario añadir un correo electrónico", Toast.LENGTH_SHORT).show();
+                    if (contra.getText().toString().isEmpty()) {
+                        Toast.makeText(ActividadInicioSesion.this, "Y también una contraseña", Toast.LENGTH_SHORT).show();
 
-                } else if (correo.getText().toString().equals("user") && contra.getText().toString().equals("1234")) {
-                    Intent intent = new Intent(ActividadInicioSesion.this, MenuPrincipalUser.class);
-                    startActivity(intent);
-                    contra.setText("");
+                    }
 
                 } else {
-                    Toast.makeText(ActividadInicioSesion.this, "No hay ningún inicio de sesión con esas credenciales", Toast.LENGTH_SHORT).show();
-                    correo.setText("");
-                    contra.setText("");
-                }
+                    if (contra.getText().toString().isEmpty()) {
+                        Toast.makeText(ActividadInicioSesion.this, "Es necesario añadir una contraseña", Toast.LENGTH_SHORT).show();
 
+                    } else {
+                        if (correo.getText().toString().equals("admin") && contra.getText().toString().equals("1234")){
+                            Intent i = new Intent(ActividadInicioSesion.this, MenuPricipalProp.class);
+                            startActivity(i);
+                            contra.setText("");
+
+                        } else if (correo.getText().toString().equals("socio") && contra.getText().toString().equals("1234")) {
+                            Intent intent = new Intent(ActividadInicioSesion.this, MenuPrincipalSocio.class);
+                            startActivity(intent);
+                            contra.setText("");
+
+                        } else if (correo.getText().toString().equals("user") && contra.getText().toString().equals("1234")) {
+                            Intent intent = new Intent(ActividadInicioSesion.this, MenuPrincipalUser.class);
+                            startActivity(intent);
+                            contra.setText("");
+
+                        } else {
+                            Toast.makeText(ActividadInicioSesion.this, "Error al iniciar sesion. No hay ningún inicio de sesión con esas credenciales", Toast.LENGTH_SHORT).show();
+
+                        }
+                    }
+                }
             }
         });
 
