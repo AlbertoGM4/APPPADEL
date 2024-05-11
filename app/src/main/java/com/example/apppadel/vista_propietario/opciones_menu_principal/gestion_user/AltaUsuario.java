@@ -18,15 +18,24 @@ import androidx.core.view.ViewCompat;
 import androidx.core.view.WindowInsetsCompat;
 
 import com.example.apppadel.R;
+import com.google.firebase.auth.FirebaseAuth;
+import com.google.firebase.auth.FirebaseUser;
+import com.google.firebase.firestore.FirebaseFirestore;
 
 import java.util.Calendar;
+import java.util.HashMap;
+import java.util.Map;
 
 public class AltaUsuario extends AppCompatActivity {
-    EditText nombreUser, ape1User, ape2User, telefonoUser, correoUser, contraUser;
+    EditText nombreUser, ape1User, ape2User, telefonoUser, correoUser;
     TextView seleccionFecha;
     Button botonCreacion;
     ImageView imagenCalendario;
     Switch switchSocio;
+    FirebaseAuth auth;
+    FirebaseFirestore db;
+    String rolDelUsuario = "usuario", contraPorDefecto = "123456";
+    Map<String, Object> nuevoUsuario;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -38,7 +47,6 @@ public class AltaUsuario extends AppCompatActivity {
         ape2User = findViewById(R.id.etSegundoApe);
         telefonoUser = findViewById(R.id.etTelefono);
         correoUser = findViewById(R.id.etCorreo);
-        contraUser = findViewById(R.id.etContra);
 
         seleccionFecha = findViewById(R.id.tvSeleccionFecha);
 
@@ -47,6 +55,10 @@ public class AltaUsuario extends AppCompatActivity {
         imagenCalendario = findViewById(R.id.imagenCalendario);
 
         switchSocio = findViewById(R.id.switchSocio);
+
+        // Inicialización de Firebase y autentificación
+        auth = FirebaseAuth.getInstance();
+        db = FirebaseFirestore.getInstance();
 
         imagenCalendario.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -72,11 +84,14 @@ public class AltaUsuario extends AppCompatActivity {
             }
         });
 
+        nuevoUsuario = new HashMap<>();
+
         botonCreacion.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
 
-                if (!camposCompletos(nombreUser, ape1User, ape2User, telefonoUser, correoUser, contraUser)) {
+                // Validaciones de los campos a añadir
+                if (!camposCompletos(nombreUser, ape1User, ape2User, telefonoUser, correoUser)) {
                     Toast.makeText(AltaUsuario.this, "Alguno de los campos no ha sido rellenado", Toast.LENGTH_SHORT).show();
 
                 } else {
@@ -88,9 +103,24 @@ public class AltaUsuario extends AppCompatActivity {
                         if (validarEmail(correoUser.getText().toString())) {
                             if (comprobarNumero(telefonoUser.getText().toString())){
                                 if (contieneSoloLetras(nombreUser.getText().toString(), ape1User.getText().toString(), ape2User.getText().toString())) {
-                                    Toast.makeText(AltaUsuario.this, "¡Todos los campos están completos y son correctos!", Toast.LENGTH_SHORT).show();
-                                    Toast.makeText(AltaUsuario.this, "Creación del nuevo Usuario con Exito", Toast.LENGTH_SHORT).show();
-                                    finish();
+                                    // COMPRUEBA EL ROL QUE SE LE QUIERE DAR AL USUARIO
+                                    if (switchSocio.isChecked()){
+                                        rolDelUsuario = "socio";
+                                    }
+
+                                    // Se rellena el mapa con los datos del nuevo usuario
+                                    nuevoUsuario.put("nombre", nombreUser.getText().toString());
+                                    nuevoUsuario.put("primer_apellido", ape1User.getText().toString());
+                                    nuevoUsuario.put("segundo_apellido", ape2User.getText().toString());
+                                    nuevoUsuario.put("telefono", telefonoUser.getText().toString());
+                                    nuevoUsuario.put("correo", correoUser.getText().toString());
+                                    nuevoUsuario.put("contra", contraPorDefecto);
+                                    nuevoUsuario.put("fecha_nacimiento", seleccionFecha.getText().toString());
+                                    nuevoUsuario.put("rol", rolDelUsuario);
+
+                                    // Se añade el nuevo usuario a la base de datos
+                                    anadirUsuario(correoUser.getText().toString(), contraPorDefecto);
+
                                 } else {
                                     Toast.makeText(AltaUsuario.this, "Nombre o apellidos con errores", Toast.LENGTH_SHORT).show();
                                 }
@@ -104,6 +134,35 @@ public class AltaUsuario extends AppCompatActivity {
                 }
             }
         });
+    }
+
+    private void anadirUsuario(String mail, String contraPorDefecto) {
+        auth.createUserWithEmailAndPassword(mail, contraPorDefecto)
+                .addOnCompleteListener(this, task -> {
+                    if (task.isSuccessful()){
+                        FirebaseUser user = auth.getCurrentUser();
+                        if (user != null){
+                            db.collection("usuarios").document(user.getUid())
+                                    .set(nuevoUsuario)
+                                    .addOnSuccessListener(command -> {
+                                        Toast.makeText(this, "Usuario añadido con éxito a la base de datos", Toast.LENGTH_SHORT).show();
+                                        finish();
+
+                                    })
+                                    .addOnFailureListener(e -> {
+                                        Toast.makeText(this, "Fallo a la hora de añadir al Usuario a la base de datos", Toast.LENGTH_SHORT).show();
+                                        finish();
+
+                                    });
+                        }
+                    }
+        })
+                .addOnFailureListener(command -> {
+                    // PARA AVISAR AL ADMINISTRADOR QUE NO SE PUEDE CREAR EL USUARIO CON ESE MISMO CORREO ELECTRONICO.
+                    Toast.makeText(this, "No se puede crear ese usuario, correo existente", Toast.LENGTH_SHORT).show();
+                    correoUser.setError("El correo ya existe en la base de datos");
+
+                });
     }
 
     private boolean camposCompletos(EditText... campos) {
