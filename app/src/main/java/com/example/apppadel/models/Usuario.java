@@ -24,9 +24,12 @@ public class Usuario {
 
     }
 
-    public Usuario(String id, String nombre){
+    public Usuario(String id, String nombre, String ape, String mail, String contra){
         this.iDUser = id;
         this.nombreUser = nombre;
+        this.primerApellido = ape;
+        this.correoElectronico = mail;
+        this.contrasenaUser = contra;
     }
 
     public String getiDUser() {
@@ -103,6 +106,6 @@ public class Usuario {
 
     @Override
     public String toString() {
-        return nombreUser;
+        return nombreUser + " " + primerApellido + " - " + correoElectronico;
     }
 }
