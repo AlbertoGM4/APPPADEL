@@ -4,6 +4,7 @@ import android.content.DialogInterface;
 import android.os.Bundle;
 import android.text.Editable;
 import android.text.TextWatcher;
+import android.util.Log;
 import android.view.View;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
@@ -20,14 +21,21 @@ import androidx.core.view.ViewCompat;
 import androidx.core.view.WindowInsetsCompat;
 
 import com.example.apppadel.R;
+import com.example.apppadel.models.Usuario;
+import com.google.firebase.auth.FirebaseAuth;
+import com.google.firebase.firestore.CollectionReference;
+import com.google.firebase.firestore.FirebaseFirestore;
+import com.google.firebase.firestore.QueryDocumentSnapshot;
+import com.google.firebase.firestore.QuerySnapshot;
 
 import java.util.ArrayList;
 
 public class BajaUsuario extends AppCompatActivity {
     ListView listaUsuarios;
-    ArrayList<String> lista;
-    ArrayAdapter<String> adapter;
+    ArrayList<Usuario> lista;
+    ArrayAdapter<Usuario> adapter;
     EditText nombreUser;
+    FirebaseFirestore db;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -38,22 +46,15 @@ public class BajaUsuario extends AppCompatActivity {
         listaUsuarios = findViewById(R.id.listaUsuariosBaja);
 
         lista = new ArrayList<>();
-        // Agregar usuarios a la lista
-        lista.add("Alberto Guillen");
-        lista.add("Ivan Fernandez");
-        lista.add("Victor Barrio");
-        lista.add("Usuario 4");
-        lista.add("Usuario 5");
-        lista.add("Usuario 6");
-        lista.add("Usuario 7");
-        lista.add("Usuario 8");
-        lista.add("Usuario 9");
-        lista.add("Usuario 10");
-        lista.add("Usuario 11");
-        lista.add("Usuario 12");
 
         adapter = new ArrayAdapter<>(this, android.R.layout.simple_list_item_1, lista);
         listaUsuarios.setAdapter(adapter);
+
+        //Inicializo Firestore, y rellenar lista de usuarios.
+        db = FirebaseFirestore.getInstance();
+
+        // Metodo para listar usuarios.
+        listarUsuarios();
 
         nombreUser.addTextChangedListener(new TextWatcher() {
             @Override
@@ -73,27 +74,59 @@ public class BajaUsuario extends AppCompatActivity {
         listaUsuarios.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
             public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
-                final String selectedUser = adapter.getItem(position); // Consigue el usuario seleccionado del adaptador
+                // Recupera al Usuario seleccionado
+                Usuario selectedUser = adapter.getItem(position);
 
                 new AlertDialog.Builder(BajaUsuario.this)
                         .setTitle("Confirmación")
-                        .setMessage("¿Está seguro de que desea eliminar al Usuario: " + selectedUser + "?")
-                        .setPositiveButton("Sí", new DialogInterface.OnClickListener() {
+                        .setMessage("¿Está seguro de que desea eliminar al Usuario seleccionado?,\n- Usuario seleccionado: " + selectedUser)
+                        .setPositiveButton("Eliminar", new DialogInterface.OnClickListener() {
                             @Override
                             public void onClick(DialogInterface dialog, int which) {
-                                // Elimina de la lista original
-                                lista.remove(selectedUser);
-                                // Notificar al adaptador para que refresque la lista filtrada
-                                adapter.remove(selectedUser);
-                                adapter.notifyDataSetChanged(); // Notifica al adaptador del cambio
+                                // Lo elimino de la Base de Datos
+                                db.collection("usuarios").document(selectedUser.getiDUser()).delete()
+                                        .addOnCompleteListener(task -> {
+                                            if (task.isSuccessful()){
+                                                // Elimina de la lista original
+                                                lista.remove(selectedUser);
+                                                adapter.notifyDataSetChanged();
 
-                                Toast.makeText(BajaUsuario.this, "Usuario " + selectedUser + " eliminado", Toast.LENGTH_SHORT).show();
+                                                Toast.makeText(BajaUsuario.this, "Usuario: " + selectedUser + ", dado de Baja de la Base de Datos", Toast.LENGTH_SHORT).show();
+                                                finish();
+
+                                            } else {
+                                                Toast.makeText(BajaUsuario.this, "Error a la hora de dar de baja al usuario seleccionado", Toast.LENGTH_SHORT).show();
+
+                                            }
+                                        });
                                 nombreUser.setText("");
                             }
                         })
-                        .setNegativeButton("No", null)
+                        .setNegativeButton("Cancelar", null)
                         .show();
             }
         });
+    }
+
+    private void listarUsuarios() {
+        db.collection("usuarios")
+                .get()
+                .addOnCompleteListener(task -> {
+                    if (task.isSuccessful()){
+                        lista.clear();
+                        for (QueryDocumentSnapshot document : task.getResult()) {
+                            String id = document.getId();
+                            String userName = document.getString("nombre");
+
+                            // Si encuentra al admin, este no lo añade a la lista de Usuarios, para no mostrarlo
+                            if (!id.equals("NBWFk4ARbGNelIC2F6wCj18k2Pw1")) {
+                                lista.add(new Usuario(id, userName));
+                            }
+                        }
+                        adapter.notifyDataSetChanged();
+                    } else {
+                        Log.w("TAG", "Error getting documents.", task.getException());
+                    }
+                });
     }
 }

@@ -1,6 +1,7 @@
 package com.example.apppadel.models;
 
 public class Usuario {
+    private String iDUser;
     private String nombreUser;
     private String primerApellido;
     private String segundoApellido;
@@ -21,6 +22,19 @@ public class Usuario {
         this.contrasenaUser = contrasenaUser;
         this.rol = rol;
 
+    }
+
+    public Usuario(String id, String nombre){
+        this.iDUser = id;
+        this.nombreUser = nombre;
+    }
+
+    public String getiDUser() {
+        return iDUser;
+    }
+
+    public void setiDUser(String iDUser) {
+        this.iDUser = iDUser;
     }
 
     public String getNombreUser() {
@@ -85,5 +99,10 @@ public class Usuario {
 
     public void setRol(String rol) {
         this.rol = rol;
+    }
+
+    @Override
+    public String toString() {
+        return nombreUser;
     }
 }
