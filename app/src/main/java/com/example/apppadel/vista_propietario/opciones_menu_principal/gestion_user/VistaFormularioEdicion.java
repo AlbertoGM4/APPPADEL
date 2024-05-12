@@ -127,7 +127,7 @@ public class VistaFormularioEdicion extends AppCompatActivity {
                         if (comprobarNumero(telefonoEdit.getText().toString())){
                             if (contieneSoloLetras(nombreEdit.getText().toString(), ape1Edit.getText().toString(), ape2Edit.getText().toString())) {
 
-                                //Aqui ya estan comprobados todos los campos y todo es correcto.
+                                //Aqui ya estan comprobados todos los campos y tódo es correcto.
                                 AlertDialog.Builder alerta = new AlertDialog.Builder(VistaFormularioEdicion.this);
                                 alerta.setTitle("EDICIÓN DE USUARIO");
                                 alerta.setMessage("¿Confirmar la Edición del Usuario?");
