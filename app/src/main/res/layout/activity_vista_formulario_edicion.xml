@@ -29,7 +29,7 @@
 
     <EditText
         android:id="@+id/etNombreUserEditar"
-        android:inputType="text"
+        android:inputType="textCapWords"
         android:textSize="23dp"
         android:background="@drawable/style_alta_user_fields"
         android:layout_width="match_parent"
@@ -39,11 +39,12 @@
         android:layout_marginBottom="10dp"
         android:paddingLeft="20dp"
         android:paddingRight="10dp"
+        android:layout_marginTop="30dp"
         />
 
     <EditText
         android:id="@+id/etPrimerApeEditar"
-        android:inputType="text"
+        android:inputType="textCapWords"
         android:textSize="23dp"
         android:background="@drawable/style_alta_user_fields"
         android:layout_width="match_parent"
@@ -57,7 +58,7 @@
 
     <EditText
         android:id="@+id/etSegundoApeEditar"
-        android:inputType="text"
+        android:inputType="textCapWords"
         android:textSize="23dp"
         android:background="@drawable/style_alta_user_fields"
         android:layout_width="match_parent"
@@ -80,6 +81,23 @@
         android:textColorHint="@color/black"
         android:paddingLeft="20dp"
         android:paddingRight="10dp"
+        />
+
+
+
+    <EditText
+        android:id="@+id/etContraEditar"
+        android:inputType="text"
+        android:textSize="23dp"
+        android:background="@drawable/style_alta_user_fields"
+        android:layout_width="match_parent"
+        android:layout_height="50dp"
+        android:hint="Contraseña"
+        android:textColorHint="@color/black"
+        android:layout_marginBottom="10dp"
+        android:paddingLeft="20dp"
+        android:paddingRight="10dp"
+        android:layout_marginTop="10dp"
         />
 
     <LinearLayout
@@ -123,34 +141,6 @@
             />
 
     </LinearLayout>
-
-    <EditText
-        android:id="@+id/etCorreoEditar"
-        android:inputType="textEmailAddress"
-        android:textSize="23dp"
-        android:background="@drawable/style_alta_user_fields"
-        android:layout_width="match_parent"
-        android:layout_height="50dp"
-        android:hint="Correo Electrónico"
-        android:textColorHint="@color/black"
-        android:layout_marginBottom="10dp"
-        android:paddingLeft="20dp"
-        android:paddingRight="10dp"
-        />
-
-    <EditText
-        android:id="@+id/etContraEditar"
-        android:inputType="textPassword"
-        android:textSize="23dp"
-        android:background="@drawable/style_alta_user_fields"
-        android:layout_width="match_parent"
-        android:layout_height="50dp"
-        android:hint="Contraseña"
-        android:textColorHint="@color/black"
-        android:layout_marginBottom="10dp"
-        android:paddingLeft="20dp"
-        android:paddingRight="10dp"
-        />
 
 
     <LinearLayout

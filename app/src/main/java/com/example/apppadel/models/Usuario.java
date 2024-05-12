@@ -1,18 +1,24 @@
 package com.example.apppadel.models;
 
-public class Usuario {
+import android.os.Parcel;
+import android.os.Parcelable;
+
+import androidx.annotation.NonNull;
+
+public class Usuario implements Parcelable {
     private String iDUser;
     private String nombreUser;
     private String primerApellido;
     private String segundoApellido;
-    private int telefonoUser;
+    private String telefonoUser;
     private String fechaNacUser;
     private String correoElectronico;
     private String contrasenaUser;
     private String rol;
 
-    public Usuario(String nombreUser, String primerApellido, String segundoApellido, int telefonoUser, String fechaNacUser, String correoElectronico, String contrasenaUser, String rol) {
+    public Usuario(String id, String nombreUser, String primerApellido, String segundoApellido, String telefonoUser, String fechaNacUser, String correoElectronico, String contrasenaUser, String rol) {
 
+        this.iDUser = id;
         this.nombreUser = nombreUser;
         this.primerApellido = primerApellido;
         this.segundoApellido = segundoApellido;
@@ -31,6 +37,49 @@ public class Usuario {
         this.correoElectronico = mail;
         this.contrasenaUser = contra;
     }
+
+    // Constructor Parcelable
+    protected Usuario(Parcel in) {
+        iDUser = in.readString();
+        nombreUser = in.readString();
+        primerApellido = in.readString();
+        segundoApellido = in.readString();
+        telefonoUser = in.readString();
+        fechaNacUser = in.readString();
+        correoElectronico = in.readString();
+        contrasenaUser = in.readString();
+        rol = in.readString();
+    }
+
+    @Override
+    public int describeContents() {
+        return 0;
+    }
+
+    @Override
+    public void writeToParcel(@NonNull Parcel dest, int flags) {
+        dest.writeString(iDUser);
+        dest.writeString(nombreUser);
+        dest.writeString(primerApellido);
+        dest.writeString(segundoApellido);
+        dest.writeString(telefonoUser);
+        dest.writeString(fechaNacUser);
+        dest.writeString(correoElectronico);
+        dest.writeString(contrasenaUser);
+        dest.writeString(rol);
+    }
+
+    public static final Creator<Usuario> CREATOR = new Creator<Usuario>() {
+        @Override
+        public Usuario createFromParcel(Parcel in) {
+            return new Usuario(in);
+        }
+
+        @Override
+        public Usuario[] newArray(int size) {
+            return new Usuario[size];
+        }
+    };
 
     public String getiDUser() {
         return iDUser;
@@ -64,11 +113,11 @@ public class Usuario {
         this.segundoApellido = segundoApellido;
     }
 
-    public int getTelefonoUser() {
+    public String getTelefonoUser() {
         return telefonoUser;
     }
 
-    public void setTelefonoUser(int telefonoUser) {
+    public void setTelefonoUser(String telefonoUser) {
         this.telefonoUser = telefonoUser;
     }
 
@@ -108,4 +157,5 @@ public class Usuario {
     public String toString() {
         return nombreUser + " " + primerApellido + " - " + correoElectronico;
     }
+
 }

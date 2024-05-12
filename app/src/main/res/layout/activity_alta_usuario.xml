@@ -29,7 +29,7 @@
 
     <EditText
         android:id="@+id/etNombreUser"
-        android:inputType="text"
+        android:inputType="textCapWords"
         android:textSize="23dp"
         android:background="@drawable/style_alta_user_fields"
         android:layout_width="match_parent"
@@ -43,7 +43,7 @@
 
     <EditText
         android:id="@+id/etPrimerApe"
-        android:inputType="text"
+        android:inputType="textCapWords"
         android:textSize="23dp"
         android:background="@drawable/style_alta_user_fields"
         android:layout_width="match_parent"
@@ -57,7 +57,7 @@
 
     <EditText
         android:id="@+id/etSegundoApe"
-        android:inputType="text"
+        android:inputType="textCapWords"
         android:textSize="23dp"
         android:background="@drawable/style_alta_user_fields"
         android:layout_width="match_parent"
