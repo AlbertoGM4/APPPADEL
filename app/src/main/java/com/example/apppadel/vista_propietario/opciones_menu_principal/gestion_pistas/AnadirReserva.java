@@ -85,31 +85,24 @@ public class AnadirReserva extends AppCompatActivity {
                 } else {
                     if (position == 0){
                         Toast.makeText(getApplicationContext(), "Seleccione una Pista", Toast.LENGTH_SHORT).show();
-
                     }else {
                         if (selectedSpinner.equals("Pista 1")){ //ID PISTA 1: oU77zxeWDqsWnfHv83c8
                             idPistaSeleccionada = "oU77zxeWDqsWnfHv83c8";
-                            Toast.makeText(AnadirReserva.this, "Pista 1. " + idPistaSeleccionada + " - " + textoFechaSeleccionada.getText().toString(), Toast.LENGTH_SHORT).show();
                             listarHorasDePista(idPistaSeleccionada, textoFechaSeleccionada.getText().toString());
 
                         } else if (selectedSpinner.equals("Pista 2")) { //ID PISTA 2: MuounKd3Wt6kqpIDwbpe
                             idPistaSeleccionada = "MuounKd3Wt6kqpIDwbpe";
-                            Toast.makeText(AnadirReserva.this, "Pista 2. " + idPistaSeleccionada + " - " + textoFechaSeleccionada.getText().toString(), Toast.LENGTH_SHORT).show();
-
                             listarHorasDePista(idPistaSeleccionada, textoFechaSeleccionada.getText().toString());
 
                         }else { //ID PISTA 3: vwAEeoRlJLkEdQFWQxjC
                             idPistaSeleccionada = "vwAEeoRlJLkEdQFWQxjC";
-                            Toast.makeText(AnadirReserva.this, "Pista 3. " + idPistaSeleccionada + " - " + textoFechaSeleccionada.getText().toString(), Toast.LENGTH_SHORT).show();
                             listarHorasDePista(idPistaSeleccionada, textoFechaSeleccionada.getText().toString());
                         }
                     }
                 }
             }
             @Override
-            public void onNothingSelected(AdapterView<?> parent) {
-
-            }
+            public void onNothingSelected(AdapterView<?> parent) {}
         });
 
         imagenCalendario.setOnClickListener(new View.OnClickListener() {
@@ -138,7 +131,6 @@ public class AnadirReserva extends AppCompatActivity {
                             // A modo de actualizacion de la lista.
                             listarHorasDePista(idPistaSeleccionada, textoFechaSeleccionada.getText().toString());
                         }
-
                     }
                 }, year, month, day);
 
@@ -212,7 +204,6 @@ public class AnadirReserva extends AppCompatActivity {
                 .get()
                 .addOnCompleteListener(task -> {
                     if (task.isSuccessful()){
-                        // No esta entrando en el Bucle cuando la lista esta vacia.
                         for (QueryDocumentSnapshot document : task.getResult()) {
                             String horasReservadas = document.getString("hora_inicio");
                             horasOcupadas.add(horasReservadas);

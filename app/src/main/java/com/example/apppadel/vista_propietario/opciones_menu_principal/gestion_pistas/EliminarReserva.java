@@ -23,6 +23,9 @@ import androidx.core.view.ViewCompat;
 import androidx.core.view.WindowInsetsCompat;
 
 import com.example.apppadel.R;
+import com.example.apppadel.models.Reserva;
+import com.google.firebase.firestore.FirebaseFirestore;
+import com.google.firebase.firestore.QueryDocumentSnapshot;
 
 import java.util.ArrayList;
 import java.util.Calendar;
@@ -32,15 +35,18 @@ public class EliminarReserva extends AppCompatActivity {
     ImageView imagenCalendario;
     ListView listaHorasReservadas;
     TextView textoFechaSeleccionada;
-    ArrayAdapter<String> adapter;
-    ArrayList<String> listaHorasP1, listaHorasP2, listaHorasP3;
+    ArrayAdapter<Reserva> adapter;
+    List<Reserva> horasOcupadas;
     Spinner spinnerPistas;
-    Context context = this;
+    String selectedSpinner, idPistaSeleccionada;
+    FirebaseFirestore db;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_eliminar_reserva);
+
+        db = FirebaseFirestore.getInstance();
 
         imagenCalendario = findViewById(R.id.imagenCalendarioPistasReservadas);
         listaHorasReservadas = findViewById(R.id.listaHorasReservadasBaja);
@@ -56,63 +62,35 @@ public class EliminarReserva extends AppCompatActivity {
         ArrayAdapter<String> adapterPistas = new ArrayAdapter<>(this, R.layout.spinner_item, pistas);
         spinnerPistas.setAdapter(adapterPistas);
 
-
-        listaHorasP1 = new ArrayList<>();
-        listaHorasP1.add("08:00");
-        listaHorasP1.add("09:30");
-        listaHorasP1.add("11:00");
-        listaHorasP1.add("12:30");
-        listaHorasP1.add("14:00");
-        listaHorasP1.add("17:00");
-        listaHorasP1.add("18:30");
-
-        listaHorasP2 = new ArrayList<>();
-        listaHorasP2.add("11:00");
-        listaHorasP2.add("12:30");
-        listaHorasP2.add("14:00");
-        listaHorasP2.add("18:30");
-        listaHorasP2.add("20:30");
-
-
-        listaHorasP3 = new ArrayList<>();
-        listaHorasP3.add("08:00");
-        listaHorasP3.add("09:30");
-        listaHorasP3.add("17:00");
-        listaHorasP3.add("18:30");
-
         spinnerPistas.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
             @Override
             public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
-                String selectedSpinner = parent.getItemAtPosition(position).toString();
+                selectedSpinner = parent.getItemAtPosition(position).toString();
 
                 if (!spinnerPistas.isEnabled()){
-                    Toast.makeText(context, "Primero debes seleccionar una Fecha", Toast.LENGTH_SHORT).show();
+                    Toast.makeText(getApplicationContext(), "Primero debes seleccionar una Fecha", Toast.LENGTH_SHORT).show();
 
                 } else {
                     if (position == 0){
-                        Toast.makeText(context, "Seleccione una Pista", Toast.LENGTH_SHORT).show();
-
+                        Toast.makeText(getApplicationContext(), "Seleccione una Pista", Toast.LENGTH_SHORT).show();
                     }else {
-                        if (selectedSpinner.equals("Pista 1")){
-                            adapter = new ArrayAdapter<>(context, android.R.layout.simple_list_item_1, listaHorasP1);
+                        if (selectedSpinner.equals("Pista 1")){ //ID PISTA 1: oU77zxeWDqsWnfHv83c8
+                            idPistaSeleccionada = "oU77zxeWDqsWnfHv83c8";
+                            listarHorasReservadas(idPistaSeleccionada, textoFechaSeleccionada.getText().toString());
 
-                        } else if (selectedSpinner.equals("Pista 2")) {
-                            adapter = new ArrayAdapter<>(context, android.R.layout.simple_list_item_1, listaHorasP2);
+                        } else if (selectedSpinner.equals("Pista 2")) { //ID PISTA 2: MuounKd3Wt6kqpIDwbpe
+                            idPistaSeleccionada = "MuounKd3Wt6kqpIDwbpe";
+                            listarHorasReservadas(idPistaSeleccionada, textoFechaSeleccionada.getText().toString());
 
-                        }else {
-                            adapter = new ArrayAdapter<>(context, android.R.layout.simple_list_item_1, listaHorasP3);
+                        }else { //ID PISTA 3: vwAEeoRlJLkEdQFWQxjC
+                            idPistaSeleccionada = "vwAEeoRlJLkEdQFWQxjC";
+                            listarHorasReservadas(idPistaSeleccionada, textoFechaSeleccionada.getText().toString());
                         }
-
-                        listaHorasReservadas.setAdapter(adapter);
-                        adapter.notifyDataSetChanged();
                     }
                 }
             }
-
             @Override
-            public void onNothingSelected(AdapterView<?> parent) {
-
-            }
+            public void onNothingSelected(AdapterView<?> parent) {}
         });
 
         imagenCalendario.setOnClickListener(new View.OnClickListener() {
@@ -132,10 +110,16 @@ public class EliminarReserva extends AppCompatActivity {
                         String selectedDate = selectedDayOfMonth + "/" + (selectedMonth + 1) + "/" + selectedYear;
                         textoFechaSeleccionada.setText(selectedDate);
 
-                        //Pongo el Spinner seleccionable, una vez se selecciona la fecha.
-                        spinnerPistas.setEnabled(true);
+                        if (!spinnerPistas.isEnabled()) {
+                            //Pongo el Spinner seleccionable, una vez se selecciona la fecha.
+                            spinnerPistas.setEnabled(true);
+                            listaHorasReservadas.setAdapter(adapter);
 
-                        listaHorasReservadas.setAdapter(adapter);
+                        } else {
+                            // A modo de actualizacion de la lista.
+                            listarHorasReservadas(idPistaSeleccionada, textoFechaSeleccionada.getText().toString());
+                        }
+
                     }
                 }, year, month, day);
 
@@ -147,27 +131,64 @@ public class EliminarReserva extends AppCompatActivity {
         listaHorasReservadas.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
             public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
-                final String posSelect = adapter.getItem(position);
+                Reserva reservaSeleccionada = (Reserva) parent.getItemAtPosition(position);
 
                 AlertDialog.Builder alerta = new AlertDialog.Builder(EliminarReserva.this);
                 alerta.setTitle("ALERTA");
-                alerta.setMessage("¿Desea Eliminar la reserva de la Hora Seleccionada?\n" +
-                        "- Hora Seleccionada: " + posSelect);
+                alerta.setMessage("¿Desea confirmar la reserva de la Hora Seleccionada?\n" +
+                        "- Hora Seleccionada: " + reservaSeleccionada.getHoraInicioReserva() + "\n" +
+                        "- Pista: " + selectedSpinner);
                 alerta.setPositiveButton("Confirmar", new DialogInterface.OnClickListener() {
                     @Override
                     public void onClick(DialogInterface dialog, int which) {
-                        //Dar de baja al Usuario
-                        Toast.makeText(EliminarReserva.this, "Hora ELIMINADA de Reservas", Toast.LENGTH_SHORT).show();
-                        adapter.remove(posSelect);
-                        adapter.notifyDataSetChanged();
+                        // Eliminar hora reservada de Firestore
+                        eliminarReservaSeleccionada(reservaSeleccionada);
                     }
                 });
                 alerta.create();
                 alerta.show();
-
             }
         });
+    }
 
+    private void eliminarReservaSeleccionada(Reserva reserva) {
+        db.collection("reservas").document(reserva.getIdReserva())
+                .delete()
+                .addOnCompleteListener(task -> {
+                    if (task.isSuccessful()){
+                        Toast.makeText(this, "Reserva eliminada de la base de datos con éxito", Toast.LENGTH_SHORT).show();
+                        adapter.remove(reserva);
+                        adapter.notifyDataSetChanged();
 
+                    } else {
+                        Toast.makeText(this, "Fallo a la hora de eliminar la reserva seleccionada", Toast.LENGTH_SHORT).show();
+                    }
+                });
+
+    }
+
+    private void listarHorasReservadas(String idPistaSeleccionada, String fechaSeleccionada) {
+        horasOcupadas = new ArrayList<>();
+
+        db.collection("reservas")
+                .whereEqualTo("id_pista", idPistaSeleccionada)
+                .whereEqualTo("fecha", fechaSeleccionada)
+                .get()
+                .addOnCompleteListener(task -> {
+                    if (task.isSuccessful()){
+                        for (QueryDocumentSnapshot document : task.getResult()) {
+                            String horasReservadas = document.getString("hora_inicio");
+                            String identificadorReserva = document.getId();
+                            horasOcupadas.add(new Reserva(identificadorReserva, horasReservadas));
+                        }
+
+                        //Rellenar el ListView de horas reservadas.
+                        adapter = new ArrayAdapter<>(getApplicationContext(), R.layout.spinner_item, horasOcupadas);
+                        listaHorasReservadas.setAdapter(adapter);
+
+                    } else {
+                        Toast.makeText(this, "Fallo en la consulta de horas del dia y pista seleccionado", Toast.LENGTH_SHORT).show();
+                    }
+                });
     }
 }
