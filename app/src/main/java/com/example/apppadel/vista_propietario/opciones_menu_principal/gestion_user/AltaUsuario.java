@@ -125,9 +125,11 @@ public class AltaUsuario extends AppCompatActivity {
                                     Toast.makeText(AltaUsuario.this, "Nombre o apellidos con errores", Toast.LENGTH_SHORT).show();
                                 }
                             } else {
+                                telefonoUser.setError("Formato de teléfono erroneo (9 dígitos obligatorios)");
                                 Toast.makeText(AltaUsuario.this, "El teléfono es incorrecto", Toast.LENGTH_SHORT).show();
                             }
                         } else {
+                            correoUser.setError("Error de formato (Ej: nombre@gmail.com/es)");
                             Toast.makeText(AltaUsuario.this, "El correo no cumple el formato de Correo electrónico", Toast.LENGTH_SHORT).show();
                         }
                     }
@@ -178,7 +180,7 @@ public class AltaUsuario extends AppCompatActivity {
         return email.contains("@") && (email.endsWith(".com") || email.endsWith(".es"));
     }
 
-    public static boolean comprobarNumero (String text) {
+    public boolean comprobarNumero (String text) {
         return text.matches("[0-9]{9}");
     }
 

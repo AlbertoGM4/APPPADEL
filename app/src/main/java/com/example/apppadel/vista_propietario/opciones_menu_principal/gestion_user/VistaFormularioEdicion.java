@@ -46,8 +46,6 @@ public class VistaFormularioEdicion extends AppCompatActivity {
     ImageView imagenCalendarioEdit;
     Switch switchSocioEdit;
     String correoAntiguo, contraAntigua, rol, idDelUsuario;
-    FirebaseUser firebaseUser;
-    AuthCredential credential;
     Map<String, Object> nuevosDatos = null;
 
     @Override
@@ -90,7 +88,6 @@ public class VistaFormularioEdicion extends AppCompatActivity {
 
         switchSocioEdit = findViewById(R.id.switchSocioEditar);
         botonCreacionEdit = findViewById(R.id.botonConfirmarEdicion);
-
 
         // Relleno de campos del Formulario, Datos del usuario seleccionado.
         nombreEdit.setText(usuario.getNombreUser());
@@ -145,6 +142,7 @@ public class VistaFormularioEdicion extends AppCompatActivity {
                                 Toast.makeText(VistaFormularioEdicion.this, "Nombre o apellidos con errores", Toast.LENGTH_SHORT).show();
                             }
                         } else {
+                            telefonoEdit.setError("Mal formato de teléfono (9 dígitos obligatorios)");
                             Toast.makeText(VistaFormularioEdicion.this, "El teléfono es incorrecto", Toast.LENGTH_SHORT).show();
                         }
                     }
@@ -200,6 +198,12 @@ public class VistaFormularioEdicion extends AppCompatActivity {
                 .addOnCompleteListener(task -> {
                     if (task.isSuccessful()){
                         Toast.makeText(this, "Actualización de los datos del usuario llevada a cabo con éxito", Toast.LENGTH_SHORT).show();
+
+                        //Pasar info para la actualización de la lista.
+                        Intent i = new Intent();
+                        i.putExtra("RESPUESTA", "OK");
+                        setResult(RESULT_OK, i);
+
                         finish();
 
                     } else {

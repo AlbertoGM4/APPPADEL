@@ -15,6 +15,7 @@ public class Usuario implements Parcelable {
     private String correoElectronico;
     private String contrasenaUser;
     private String rol;
+    private int puntosSocio;
 
     public Usuario(String id, String nombreUser, String primerApellido, String segundoApellido, String telefonoUser, String fechaNacUser, String correoElectronico, String contrasenaUser, String rol) {
 

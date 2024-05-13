@@ -15,6 +15,10 @@ import android.widget.ListView;
 import android.widget.Toast;
 
 import androidx.activity.EdgeToEdge;
+import androidx.activity.result.ActivityResult;
+import androidx.activity.result.ActivityResultCallback;
+import androidx.activity.result.ActivityResultLauncher;
+import androidx.activity.result.contract.ActivityResultContracts;
 import androidx.appcompat.app.AlertDialog;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.core.graphics.Insets;
@@ -23,6 +27,7 @@ import androidx.core.view.WindowInsetsCompat;
 
 import com.example.apppadel.R;
 import com.example.apppadel.models.Usuario;
+import com.example.apppadel.vista_propietario.opciones_menu_principal.GestionarTorneos;
 import com.google.firebase.firestore.FirebaseFirestore;
 import com.google.firebase.firestore.QueryDocumentSnapshot;
 
@@ -34,6 +39,7 @@ public class EditarUsuario extends AppCompatActivity {
     ArrayList<Usuario> list;
     EditText nomBuscar;
     FirebaseFirestore db;
+    ActivityResultLauncher lanzador;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -66,12 +72,40 @@ public class EditarUsuario extends AppCompatActivity {
                                 Intent intent = new Intent(EditarUsuario.this, VistaFormularioEdicion.class);
                                 //Aqui se le pasara toda la informacion del usuario seleccionado de la lista.
                                 intent.putExtra("COMPLETE_USER", selectedUser);
-                                startActivity(intent);
+                                lanzador.launch(intent);
                                 nomBuscar.setText("");
+
                             }
                         })
                         .setNegativeButton("No", null)
                         .show();
+            }
+
+        });
+
+        lanzador = registerForActivityResult(new ActivityResultContracts.StartActivityForResult(), new ActivityResultCallback<ActivityResult>() {
+            @Override
+            public void onActivityResult(ActivityResult o) {
+
+                if (o.getResultCode() == RESULT_OK && o.getData() != null) {
+                    Intent data = o.getData();
+                    String respuesta = data.getStringExtra("RESPUESTA");
+
+                    if (respuesta.equals("OK")){
+                        //Vuelvo a cargar los datos de la lista con los datos actualizadops de Firestore.
+                        list = new ArrayList<>();
+                        adapter = new ArrayAdapter<>(getApplication(), android.R.layout.simple_list_item_1, list);
+                        listaUsuarios.setAdapter(adapter);
+
+                        listarUsuariosEditar();
+
+                    } else {
+                        Toast.makeText(EditarUsuario.this, "Fallo al devolver los datos actualizados", Toast.LENGTH_SHORT).show();
+                    }
+
+                } else {
+                    Toast.makeText(EditarUsuario.this, "Operación cancelada o no completada", Toast.LENGTH_SHORT).show();
+                }
             }
         });
 

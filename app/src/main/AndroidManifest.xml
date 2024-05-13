@@ -14,83 +14,108 @@
         tools:targetApi="31">
         <activity
             android:name=".vista_propietario.opciones_menu_principal.gestion_torneos.ListaUsuariosTorneo"
-            android:exported="false" />
+            android:exported="false"
+            android:screenOrientation="portrait"/>
         <activity
             android:name=".vista_propietario.opciones_menu_principal.gestion_torneos.SeleccionGanadores"
-            android:exported="false" />
+            android:exported="false"
+            android:screenOrientation="portrait"/>
         <activity
             android:name=".vista_usuario.opciones_menu_socio.ConsultarRanking"
-            android:exported="false" />
+            android:exported="false"
+            android:screenOrientation="portrait"/>
         <activity
             android:name=".vista_usuario.MenuPrincipalSocio"
-            android:exported="false" />
+            android:exported="false"
+            android:screenOrientation="portrait"/>
         <activity
             android:name=".vista_usuario.opciones_menu_user.ConsultarTienda"
-            android:exported="false" />
+            android:exported="false"
+            android:screenOrientation="portrait"/>
         <activity
             android:name=".vista_usuario.opciones_menu_user.ConsultarEventos"
-            android:exported="false" />
+            android:exported="false"
+            android:screenOrientation="portrait"/>
         <activity
             android:name=".vista_usuario.opciones_menu_user.ConsultarUsuarios"
-            android:exported="false" />
+            android:exported="false"
+            android:screenOrientation="portrait"/>
         <activity
             android:name=".vista_usuario.opciones_menu_user.ReservarPistas"
-            android:exported="false" />
+            android:exported="false"
+            android:screenOrientation="portrait"/>
         <activity
             android:name=".vista_usuario.MenuPrincipalUser"
-            android:exported="false" />
+            android:exported="false"
+            android:screenOrientation="portrait"/>
         <activity
             android:name=".vista_propietario.opciones_menu_principal.gestion_tienda.ActualizarStock"
-            android:exported="false" />
+            android:exported="false"
+            android:screenOrientation="portrait"/>
         <activity
             android:name=".vista_propietario.opciones_menu_principal.gestion_torneos.NuevoTorneo"
-            android:exported="false" />
+            android:exported="false"
+            android:screenOrientation="portrait"/>
         <activity
             android:name=".vista_propietario.opciones_menu_principal.gestion_pistas.ModificarReservaNuevaFecha"
-            android:exported="false" />
+            android:exported="false"
+            android:screenOrientation="portrait"/>
         <activity
             android:name=".vista_propietario.opciones_menu_principal.gestion_pistas.ModificarReserva"
-            android:exported="false" />
+            android:exported="false"
+            android:screenOrientation="portrait"/>
         <activity
             android:name=".vista_propietario.opciones_menu_principal.gestion_pistas.EliminarReserva"
-            android:exported="false" />
+            android:exported="false"
+            android:screenOrientation="portrait"/>
         <activity
             android:name=".vista_propietario.opciones_menu_principal.gestion_pistas.AnadirReserva"
-            android:exported="false" />
+            android:exported="false"
+            android:screenOrientation="portrait"/>
         <activity
             android:name=".vista_propietario.opciones_menu_principal.gestion_user.VistaFormularioEdicion"
-            android:exported="false" />
+            android:exported="false"
+            android:screenOrientation="portrait"/>
         <activity
             android:name=".vista_propietario.opciones_menu_principal.gestion_user.EditarUsuario"
-            android:exported="false" />
+            android:exported="false"
+            android:screenOrientation="portrait"/>
         <activity
             android:name=".vista_propietario.opciones_menu_principal.gestion_user.BajaUsuario"
-            android:exported="false" />
+            android:exported="false"
+            android:screenOrientation="portrait"/>
         <activity
             android:name=".vista_propietario.opciones_menu_principal.gestion_user.AltaUsuario"
-            android:exported="false" />
+            android:exported="false"
+            android:screenOrientation="portrait"/>
         <activity
             android:name=".vista_propietario.opciones_menu_principal.GestionarTienda"
-            android:exported="false" />
+            android:exported="false"
+            android:screenOrientation="portrait"/>
         <activity
             android:name=".vista_propietario.opciones_menu_principal.GestionarTorneos"
-            android:exported="false" />
+            android:exported="false"
+            android:screenOrientation="portrait"/>
         <activity
             android:name=".vista_propietario.opciones_menu_principal.GestionarPistas"
-            android:exported="false" />
+            android:exported="false"
+            android:screenOrientation="portrait"/>
         <activity
             android:name=".vista_propietario.opciones_menu_principal.GestionarUsuarios"
-            android:exported="false" />
+            android:exported="false"
+            android:screenOrientation="portrait"/>
         <activity
             android:name=".ActividadInicioSesion"
-            android:exported="true">
+            android:exported="true"
+            android:screenOrientation="portrait">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
 
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
-        <activity android:name=".vista_propietario.MenuPricipalProp" />
+        <activity android:name=".vista_propietario.MenuPricipalProp"
+            android:screenOrientation="portrait"/>
     </application>
 
 </manifest>

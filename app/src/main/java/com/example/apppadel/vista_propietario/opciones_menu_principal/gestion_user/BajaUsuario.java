@@ -83,7 +83,6 @@ public class BajaUsuario extends AppCompatActivity {
                 correo = selectedUser.getCorreoElectronico();
                 contra = selectedUser.getContrasenaUser();
 
-
                 new AlertDialog.Builder(BajaUsuario.this)
                         .setTitle("Confirmación")
                         .setMessage("¿Está seguro de que desea eliminar al Usuario seleccionado?,\n- Usuario seleccionado: " + selectedUser)
@@ -96,15 +95,11 @@ public class BajaUsuario extends AppCompatActivity {
                                             if (task.isSuccessful()){
                                                 // Elimina de la lista original
                                                 lista.remove(selectedUser);
-                                                adapter.notifyDataSetChanged();
-
-                                                Log.i("INFO ELIMINAR AUTH", "Antes del metodo");
 
                                                 //Elimina de la autentificacion.
                                                 eliminarLogInAuth(correo, contra);
 
                                                 Toast.makeText(BajaUsuario.this, "Usuario: " + selectedUser + ", dado de Baja de la Base de Datos, volviendo...", Toast.LENGTH_SHORT).show();
-                                                //finish();
 
                                             } else {
                                                 Toast.makeText(BajaUsuario.this, "Error a la hora de dar de baja al usuario seleccionado", Toast.LENGTH_SHORT).show();
@@ -118,6 +113,8 @@ public class BajaUsuario extends AppCompatActivity {
                         .show();
             }
         });
+
+        adapter.notifyDataSetChanged();
     }
 
     private void listarUsuarios() {
@@ -157,7 +154,11 @@ public class BajaUsuario extends AppCompatActivity {
                                     .addOnCompleteListener(deleteTask -> {
                                         if (deleteTask.isSuccessful()) {
                                             Toast.makeText(this, "Usuario dado de Baja del LogIn", Toast.LENGTH_SHORT).show();
-                                            finish();
+                                            // Recargo un nuevo ArrayList para mi lista
+                                            lista = new ArrayList<>();
+                                            adapter = new ArrayAdapter<>(this, android.R.layout.simple_list_item_1, lista);
+                                            listaUsuarios.setAdapter(adapter);
+                                            listarUsuarios();
                                         } else {
                                             Log.w("INFO ELIMINAR AUTH", "Error eliminando usuario de Authentication", deleteTask.getException());
                                         }
