@@ -24,35 +24,44 @@ import androidx.core.view.ViewCompat;
 import androidx.core.view.WindowInsetsCompat;
 
 import com.example.apppadel.R;
+import com.google.firebase.firestore.FirebaseFirestore;
+import com.google.firebase.firestore.QueryDocumentSnapshot;
 
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Calendar;
+import java.util.Date;
 import java.util.List;
+import java.util.Locale;
 
 public class ModificarReservaNuevaFecha extends AppCompatActivity {
     ImageView imagenCalendarioNuevaReserva;
     ListView listaHorasLibresNuevaReserva;
     TextView textoFechaSeleccionadaNuevaReserva;
     ArrayAdapter<String> adapter, adapterPistas;
-    ArrayList<String> listaHorasP1, listaHorasP2, listaHorasP3;
     Spinner spinnerPistas;
-    Context context = this;
+    FirebaseFirestore db;
+    String selectedSpinner, idPistaSeleccionada, itemNuevaHora;
+    List<String> horasOcupadas;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_modificar_reserva_nueva_fecha);
 
+        db = FirebaseFirestore.getInstance();
+
         Intent i = getIntent();
-        String fecha = i.getStringExtra("DIA");
-        String hora = i.getStringExtra("HORA");
+        String fechaAntigua = i.getStringExtra("FECHA");
+        String horaInicioAntiguo = i.getStringExtra("INICIO");
+        String numeroPistaAntiguo = i.getStringExtra("NUM_PISTA");
 
         imagenCalendarioNuevaReserva = findViewById(R.id.imagenCalendarioNuevaReserva);
         listaHorasLibresNuevaReserva = findViewById(R.id.listaHorasNuevasReservas);
         textoFechaSeleccionadaNuevaReserva = findViewById(R.id.tvSeleccionFechaNuevaReserva);
 
         //Poner en el TextView la fecha con la que se ha seleccionado la reserva anterior
-        textoFechaSeleccionadaNuevaReserva.setText(fecha);
+        textoFechaSeleccionadaNuevaReserva.setText(fechaAntigua);
 
         spinnerPistas =  findViewById(R.id.spinnerPistasEditNuevaRes);
         List<String> pistas = new ArrayList<>();
@@ -63,58 +72,36 @@ public class ModificarReservaNuevaFecha extends AppCompatActivity {
         adapterPistas = new ArrayAdapter<>(this, R.layout.spinner_item, pistas);
         spinnerPistas.setAdapter(adapterPistas);
 
-
-        listaHorasP1 = new ArrayList<>();
-        listaHorasP1.add("08:00");
-        listaHorasP1.add("09:30");
-        listaHorasP1.add("11:00");
-        listaHorasP1.add("12:30");
-        listaHorasP1.add("14:00");
-        listaHorasP1.add("17:00");
-        listaHorasP1.add("18:30");
-
-        listaHorasP2 = new ArrayList<>();
-        listaHorasP2.add("11:00");
-        listaHorasP2.add("12:30");
-        listaHorasP2.add("14:00");
-        listaHorasP2.add("18:30");
-        listaHorasP2.add("20:30");
-
-
-        listaHorasP3 = new ArrayList<>();
-        listaHorasP3.add("08:00");
-        listaHorasP3.add("09:30");
-        listaHorasP3.add("17:00");
-        listaHorasP3.add("18:30");
-
         spinnerPistas.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
             @Override
             public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
-                String selectedSpinner = parent.getItemAtPosition(position).toString();
+                selectedSpinner = parent.getItemAtPosition(position).toString();
 
-                if (position == 0){
-                    Toast.makeText(context, "Seleccione una Pista", Toast.LENGTH_SHORT).show();
+                if (!spinnerPistas.isEnabled()){
+                    Toast.makeText(getApplicationContext(), "Primero debes seleccionar una Fecha", Toast.LENGTH_SHORT).show();
 
-                }else {
-                    if (selectedSpinner.equals("Pista 1")){
-                        adapter = new ArrayAdapter<>(context, android.R.layout.simple_list_item_1, listaHorasP1);
-
-                    } else if (selectedSpinner.equals("Pista 2")) {
-                        adapter = new ArrayAdapter<>(context, android.R.layout.simple_list_item_1, listaHorasP2);
-
+                } else {
+                    if (position == 0){
+                        Toast.makeText(getApplicationContext(), "Seleccione una Pista", Toast.LENGTH_SHORT).show();
                     }else {
-                        adapter = new ArrayAdapter<>(context, android.R.layout.simple_list_item_1, listaHorasP3);
-                    }
+                        if (selectedSpinner.equals("Pista 1")){ //ID PISTA 1: oU77zxeWDqsWnfHv83c8
+                            idPistaSeleccionada = "oU77zxeWDqsWnfHv83c8";
+                            listarHorasDePista(idPistaSeleccionada, textoFechaSeleccionadaNuevaReserva.getText().toString());
 
-                    listaHorasLibresNuevaReserva.setAdapter(adapter);
-                    adapter.notifyDataSetChanged();
+                        } else if (selectedSpinner.equals("Pista 2")) { //ID PISTA 2: MuounKd3Wt6kqpIDwbpe
+                            idPistaSeleccionada = "MuounKd3Wt6kqpIDwbpe";
+                            listarHorasDePista(idPistaSeleccionada, textoFechaSeleccionadaNuevaReserva.getText().toString());
+
+                        }else { //ID PISTA 3: vwAEeoRlJLkEdQFWQxjC
+                            idPistaSeleccionada = "vwAEeoRlJLkEdQFWQxjC";
+                            listarHorasDePista(idPistaSeleccionada, textoFechaSeleccionadaNuevaReserva.getText().toString());
+                        }
+                    }
                 }
             }
 
             @Override
-            public void onNothingSelected(AdapterView<?> parent) {
-
-            }
+            public void onNothingSelected(AdapterView<?> parent) {}
         });
 
         imagenCalendarioNuevaReserva.setOnClickListener(new View.OnClickListener() {
@@ -134,10 +121,20 @@ public class ModificarReservaNuevaFecha extends AppCompatActivity {
                         String selectedDate = selectedDayOfMonth + "/" + (selectedMonth + 1) + "/" + selectedYear;
                         textoFechaSeleccionadaNuevaReserva.setText(selectedDate);
 
+                        if (!spinnerPistas.isEnabled()) {
+                            //Pongo el Spinner seleccionable, una vez se selecciona la fecha.
+                            spinnerPistas.setEnabled(true);
+                            //listaHorasLibresNuevaReserva.setAdapter(adapter);
+
+                        } else {
+                            // A modo de actualizacion de la lista.
+                            listarHorasDePista(idPistaSeleccionada, textoFechaSeleccionadaNuevaReserva.getText().toString());
+                        }
                     }
                 }, year, month, day);
 
-                // Mostrar el DatePickerDialog
+                // Establece la fecha mínima al día actual
+                datePickerDialog.getDatePicker().setMinDate(System.currentTimeMillis() - 1000);
                 datePickerDialog.show();
             }
         });
@@ -146,34 +143,81 @@ public class ModificarReservaNuevaFecha extends AppCompatActivity {
         listaHorasLibresNuevaReserva.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
             public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
-                final String posSelect = adapter.getItem(position);
+                itemNuevaHora = adapter.getItem(position);
 
                 AlertDialog.Builder alerta = new AlertDialog.Builder(ModificarReservaNuevaFecha.this);
-                alerta.setTitle("ALERTA");
+                alerta.setTitle("MODIFICACION DE RESERVA");
                 alerta.setMessage("¿Desea Cambiar la Hora de reserva por la Hora Seleccionada?\n" +
-                        "- ANTIGUA Hora de Reserva: " + hora + " del dia " + fecha +
-                        "\n- NUEVA Hora de Reserva: " + posSelect + " del día " + textoFechaSeleccionadaNuevaReserva.getText().toString());
+                        "- ANTIGUA Hora de Reserva: " + horaInicioAntiguo + " del dia " + fechaAntigua + ", en la " + numeroPistaAntiguo + "\n" +
+                        "- NUEVA Hora de Reserva: " + itemNuevaHora + " del día " + textoFechaSeleccionadaNuevaReserva.getText().toString() + ", en la " + selectedSpinner);
                 alerta.setPositiveButton("Confirmar", new DialogInterface.OnClickListener() {
                     @Override
                     public void onClick(DialogInterface dialog, int which) {
-                        //Dar de baja al Usuario
-                        Toast.makeText(ModificarReservaNuevaFecha.this, "Hora de Reservas MODIFICADA con Éxito", Toast.LENGTH_SHORT).show();
+
                         Intent intent = new Intent();
-                        intent.putExtra("HORA", "OK");
+                        intent.putExtra("NUEVO_IDPISTA", idPistaSeleccionada);
+                        intent.putExtra("NUEVA_HORA_INICIO", itemNuevaHora);
+                        intent.putExtra("NUEVA_FECHA", textoFechaSeleccionadaNuevaReserva.getText().toString());
                         setResult(RESULT_OK, intent);
                         finish();
                     }
                 });
                 alerta.setNegativeButton("Cancelar", new DialogInterface.OnClickListener() {
                     @Override
-                    public void onClick(DialogInterface dialog, int which) {
-
-                    }
+                    public void onClick(DialogInterface dialog, int which) {}
                 });
                 alerta.create();
                 alerta.show();
             }
         });
+
+    }
+
+    public void listarHorasDePista(String idPista, String fechaSeleccionada){
+        horasOcupadas = new ArrayList<>();
+
+        db.collection("reservas")
+                .whereEqualTo("id_pista", idPista)
+                .whereEqualTo("fecha", fechaSeleccionada)
+                .get()
+                .addOnCompleteListener(task -> {
+                    if (task.isSuccessful()){
+                        for (QueryDocumentSnapshot document : task.getResult()) {
+                            String horasReservadas = document.getString("hora_inicio");
+                            horasOcupadas.add(horasReservadas);
+                        }
+                        horasDisponibles(horasOcupadas, fechaSeleccionada);
+
+                    } else {
+                        Toast.makeText(this, "Fallo en la consulta de horas del dia y pista seleccionado", Toast.LENGTH_SHORT).show();
+                    }
+                });
+    }
+
+    private void horasDisponibles(List<String> hOcupadas, String fechaSelec) {
+        //Lista de todas las horas.
+        List<String> listaHorasDisponibles = new ArrayList<>();
+        listaHorasDisponibles.add("09:00");
+        listaHorasDisponibles.add("10:30");
+        listaHorasDisponibles.add("12:00");
+        listaHorasDisponibles.add("13:30");
+        listaHorasDisponibles.add("15:00");
+        listaHorasDisponibles.add("16:30");
+        listaHorasDisponibles.add("18:00");
+        listaHorasDisponibles.add("19:30");
+        listaHorasDisponibles.add("21:00");
+        listaHorasDisponibles.add("22:30");
+
+        // Verificar se la fecha es de hoy.
+        String fechaHoy = new SimpleDateFormat("d/M/yyyy", Locale.getDefault()).format(new Date());
+        if (fechaHoy.equals(fechaSelec)) {
+            final String horaActual = new SimpleDateFormat("HH:mm", Locale.getDefault()).format(new Date());
+            listaHorasDisponibles.removeIf(hora -> hora.compareTo(horaActual) <= 0); // Si las horas coinciden, o son menores que la actual, las saca de la lista
+        }
+
+        listaHorasDisponibles.removeAll(hOcupadas);
+        adapter = new ArrayAdapter<>(getApplicationContext(), R.layout.spinner_item, listaHorasDisponibles);
+        listaHorasLibresNuevaReserva.setAdapter(adapter);
 
     }
 }

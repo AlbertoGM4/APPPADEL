@@ -1,5 +1,7 @@
 package com.example.apppadel.models;
 
+import android.os.Parcelable;
+
 public class Reserva {
     private String idReserva;
     private String idUser;
@@ -11,6 +13,14 @@ public class Reserva {
     public Reserva(String idReserva, String horaInicioReserva) {
         this.idReserva = idReserva;
         this.horaInicioReserva = horaInicioReserva;
+    }
+
+    public Reserva(String idReserva, String horaInicioReserva, String horaFinReserva, String fechaReserva, String idPista) {
+        this.idReserva = idReserva;
+        this.horaInicioReserva = horaInicioReserva;
+        this.horaFinReserva = horaFinReserva;
+        this.fechaReserva = fechaReserva;
+        this.idPista = idPista;
     }
 
     public String getIdReserva() {
