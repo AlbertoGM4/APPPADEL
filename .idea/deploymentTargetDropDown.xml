@@ -16,12 +16,12 @@
               <deviceKey>
                 <Key>
                   <type value="SERIAL_NUMBER" />
-                  <value value="L7WKDIKNMV7PAYSG" />
+                  <value value="adb-L7WKDIKNMV7PAYSG-o7OFAc._adb-tls-connect._tcp" />
                 </Key>
               </deviceKey>
             </Target>
           </runningDeviceTargetSelectedWithDropDown>
-          <timeTargetWasSelectedWithDropDown value="2024-05-13T19:58:06.557773100Z" />
+          <timeTargetWasSelectedWithDropDown value="2024-05-14T13:23:55.500227500Z" />
         </State>
       </entry>
     </value>

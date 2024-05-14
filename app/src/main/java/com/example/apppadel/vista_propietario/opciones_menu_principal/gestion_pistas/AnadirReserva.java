@@ -33,12 +33,15 @@ import com.google.firebase.auth.FirebaseUser;
 import com.google.firebase.firestore.FirebaseFirestore;
 import com.google.firebase.firestore.QueryDocumentSnapshot;
 
+import java.text.SimpleDateFormat;
 import java.time.LocalTime;
 import java.time.format.DateTimeFormatter;
 import java.util.ArrayList;
 import java.util.Calendar;
+import java.util.Date;
 import java.util.HashMap;
 import java.util.List;
+import java.util.Locale;
 import java.util.Map;
 
 public class AnadirReserva extends AppCompatActivity {
@@ -134,7 +137,8 @@ public class AnadirReserva extends AppCompatActivity {
                     }
                 }, year, month, day);
 
-                // Mostrar el DatePickerDialog
+                // Establece la fecha mínima al día actual
+                datePickerDialog.getDatePicker().setMinDate(System.currentTimeMillis() - 1000);
                 datePickerDialog.show();
             }
         });
@@ -208,19 +212,18 @@ public class AnadirReserva extends AppCompatActivity {
                             String horasReservadas = document.getString("hora_inicio");
                             horasOcupadas.add(horasReservadas);
                         }
-                        horasDisponibles(horasOcupadas);
+                        horasDisponibles(horasOcupadas, fechaSeleccionada);
 
                     } else {
                         Toast.makeText(this, "Fallo en la consulta de horas del dia y pista seleccionado", Toast.LENGTH_SHORT).show();
-
                     }
                 });
     }
 
-    private void horasDisponibles(List<String> hOcupadas) {
+    private void horasDisponibles(List<String> hOcupadas, String fechaSelec) {
         //Lista de todas las horas.
         List<String> listaHorasDisponibles = new ArrayList<>();
-        listaHorasDisponibles.add("9:00");
+        listaHorasDisponibles.add("09:00");
         listaHorasDisponibles.add("10:30");
         listaHorasDisponibles.add("12:00");
         listaHorasDisponibles.add("13:30");
@@ -231,13 +234,16 @@ public class AnadirReserva extends AppCompatActivity {
         listaHorasDisponibles.add("21:00");
         listaHorasDisponibles.add("22:30");
 
-        Toast.makeText(this, "Horas ocupadas: " + hOcupadas.size(), Toast.LENGTH_SHORT).show();
+        // Verificar se la fecha es de hoy.
+        String fechaHoy = new SimpleDateFormat("d/M/yyyy", Locale.getDefault()).format(new Date());
+        if (fechaHoy.equals(fechaSelec)) {
+            final String horaActual = new SimpleDateFormat("HH:mm", Locale.getDefault()).format(new Date());
+            listaHorasDisponibles.removeIf(hora -> hora.compareTo(horaActual) <= 0); // Si las horas coinciden, o son menores que la actual, las saca de la lista
+        }
 
-        //Asi se quedan las horas de pista que no estan reservadas.
         listaHorasDisponibles.removeAll(hOcupadas);
-
         adaptador = new ArrayAdapter<>(getApplicationContext(), R.layout.spinner_item, listaHorasDisponibles);
-        listaHorasLibres.setAdapter(adaptador); //Aqui ya deberia mostrar la lista de horas disponibles para la reserva.
+        listaHorasLibres.setAdapter(adaptador);
 
     }
 }
