@@ -4,12 +4,10 @@ public class Pista {
 
     private String idPista;
     private String nombrePista;
-    private String[] horasPista;
 
-    public Pista(String idPista, String nombrePista, String[] horasPista) {
+    public Pista(String idPista, String nombrePista) {
         this.idPista = idPista;
         this.nombrePista = nombrePista;
-        this.horasPista = horasPista;
     }
 
     public String getIdPista() {
@@ -26,14 +24,6 @@ public class Pista {
 
     public void setNombrePista(String nombrePista) {
         this.nombrePista = nombrePista;
-    }
-
-    public String[] getHorasPista() {
-        return horasPista;
-    }
-
-    public void setHorasPista(String[] horasPista) {
-        this.horasPista = horasPista;
     }
 
     @Override

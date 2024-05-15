@@ -3,6 +3,7 @@ package com.example.apppadel.vista_propietario.opciones_menu_principal.gestion_p
 import android.app.DatePickerDialog;
 import android.content.Context;
 import android.content.DialogInterface;
+import android.os.Build;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.AdapterView;
@@ -16,6 +17,7 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import androidx.activity.EdgeToEdge;
+import androidx.annotation.RequiresApi;
 import androidx.appcompat.app.AlertDialog;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.core.graphics.Insets;
@@ -27,9 +29,15 @@ import com.example.apppadel.models.Reserva;
 import com.google.firebase.firestore.FirebaseFirestore;
 import com.google.firebase.firestore.QueryDocumentSnapshot;
 
+import java.text.SimpleDateFormat;
+import java.time.LocalDate;
+import java.time.LocalTime;
+import java.time.format.DateTimeFormatter;
 import java.util.ArrayList;
 import java.util.Calendar;
+import java.util.Date;
 import java.util.List;
+import java.util.Locale;
 
 public class EliminarReserva extends AppCompatActivity {
     ImageView imagenCalendario;
@@ -63,6 +71,7 @@ public class EliminarReserva extends AppCompatActivity {
         spinnerPistas.setAdapter(adapterPistas);
 
         spinnerPistas.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
+            @RequiresApi(api = Build.VERSION_CODES.O)
             @Override
             public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
                 selectedSpinner = parent.getItemAtPosition(position).toString();
@@ -104,6 +113,7 @@ public class EliminarReserva extends AppCompatActivity {
 
                 // Crear un DatePickerDialog
                 DatePickerDialog datePickerDialog = new DatePickerDialog(EliminarReserva.this, new DatePickerDialog.OnDateSetListener() {
+                    @RequiresApi(api = Build.VERSION_CODES.O)
                     @Override
                     public void onDateSet(DatePicker view, int selectedYear, int selectedMonth, int selectedDayOfMonth) {
                         // Aquí puedes hacer lo que quieras con la fecha seleccionada
@@ -123,7 +133,8 @@ public class EliminarReserva extends AppCompatActivity {
                     }
                 }, year, month, day);
 
-                // Mostrar el DatePickerDialog
+                // Establece la fecha mínima al día actual
+                datePickerDialog.getDatePicker().setMinDate(System.currentTimeMillis() - 1000);
                 datePickerDialog.show();
             }
         });
@@ -167,7 +178,13 @@ public class EliminarReserva extends AppCompatActivity {
 
     }
 
+    @RequiresApi(api = Build.VERSION_CODES.O)
     private void listarHorasReservadas(String idPistaSeleccionada, String fechaSeleccionada) {
+        // Obtener la fecha actual
+        String fechaHoy = LocalDate.now().format(DateTimeFormatter.ofPattern("d/M/yyyy"));
+        // Obtener la hora actual para compararla con las horas de reserva, cuando la fecah sea la de hoy
+        String horaActual = LocalTime.now().format(DateTimeFormatter.ofPattern("HH:mm"));
+
         horasOcupadas = new ArrayList<>();
 
         db.collection("reservas")
@@ -179,7 +196,11 @@ public class EliminarReserva extends AppCompatActivity {
                         for (QueryDocumentSnapshot document : task.getResult()) {
                             String horasReservadas = document.getString("hora_inicio");
                             String identificadorReserva = document.getId();
-                            horasOcupadas.add(new Reserva(identificadorReserva, horasReservadas));
+
+                            // Solo añadir horas si no son del día actual o si son del día actual pero no han pasado
+                            if (!fechaSeleccionada.equals(fechaHoy) || horasReservadas.compareTo(horaActual) > 0) {
+                                horasOcupadas.add(new Reserva(identificadorReserva, horasReservadas));
+                            }
                         }
 
                         //Rellenar el ListView de horas reservadas.

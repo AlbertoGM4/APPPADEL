@@ -231,7 +231,7 @@ public class ModificarReserva extends AppCompatActivity {
         horasOcupadas = new ArrayList<>();
 
         // Calculo de la hora actual, para no poner las horas que ya han pasado en la lista de horas reservadas.
-        String hoy = LocalDate.now().format(DateTimeFormatter.ofPattern("dd/MM/yyyy"));
+        String hoy = LocalDate.now().format(DateTimeFormatter.ofPattern("d/M/yyyy"));
         String horaActual = LocalTime.now().format(DateTimeFormatter.ofPattern("HH:mm"));
 
         db.collection("reservas")
