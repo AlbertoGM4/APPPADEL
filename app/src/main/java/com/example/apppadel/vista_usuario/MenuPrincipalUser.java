@@ -9,19 +9,13 @@ import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.Toast;
 
-import androidx.activity.EdgeToEdge;
 import androidx.appcompat.app.AppCompatActivity;
-import androidx.core.graphics.Insets;
-import androidx.core.view.ViewCompat;
-import androidx.core.view.WindowInsetsCompat;
 
 import com.example.apppadel.R;
-import com.example.apppadel.vista_propietario.MenuPricipalProp;
 import com.example.apppadel.vista_propietario.opciones_menu_principal.gestion_pistas.AnadirReserva;
 import com.example.apppadel.vista_usuario.opciones_menu_user.ConsultarEventos;
 import com.example.apppadel.vista_usuario.opciones_menu_user.ConsultarTienda;
 import com.example.apppadel.vista_usuario.opciones_menu_user.ConsultarUsuarios;
-import com.example.apppadel.vista_usuario.opciones_menu_user.ReservarPistas;
 
 public class MenuPrincipalUser extends AppCompatActivity {
     Button reservarPista, consultarEventos, consultarUsuarios, consultarTienda;

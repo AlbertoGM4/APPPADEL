@@ -179,7 +179,7 @@ public class AnadirReserva extends AppCompatActivity {
 
         //Se rellena un mapa con la informacion que se va a añadir a la coleccion de reservas, como una nueva reserva
         Map<String, Object> nuevaReserva = new HashMap<>();
-        nuevaReserva.put("id_user", FirebaseAuth.getInstance().getCurrentUser().getUid()); // Debería ser el de admin
+        nuevaReserva.put("id_user", FirebaseAuth.getInstance().getCurrentUser().getUid()); // Debería ser el de admin, a no ser que se llame desde la cuenta de un usuario
         nuevaReserva.put("id_pista", idPistaSeleccionada);
         nuevaReserva.put("fecha", textoFechaSeleccionada.getText().toString());
         nuevaReserva.put("hora_inicio", horaSelecionada);
