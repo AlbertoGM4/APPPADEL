@@ -34,7 +34,7 @@ public class ListaUsuariosTorneo extends AppCompatActivity {
     ArrayList<Usuario> lista;
     ArrayAdapter<Usuario> adapter;
     EditText nombreGanador;
-    String idGanadorUno;
+    String idGanadorUno, idGanadorDos;
     FirebaseFirestore db;
     Usuario usuario;
 
@@ -48,6 +48,7 @@ public class ListaUsuariosTorneo extends AppCompatActivity {
         Intent i = getIntent();
         String numIntegrante = i.getStringExtra("BOTON_PULSADO"); // Si es el primer o segundo ganador.
         idGanadorUno = i.getStringExtra("GANADOR_UNO");
+        idGanadorDos = i.getStringExtra("GANADOR_DOS");
 
         nombreGanador = findViewById(R.id.etNombreUserSeleccionGanadores);
         listaUsuarios = findViewById(R.id.listaUsuariosSeleccionGanadores);
@@ -134,7 +135,7 @@ public class ListaUsuariosTorneo extends AppCompatActivity {
                             String correo = document.getString("correo");
 
                             // Si encuentra al admin, este no lo añade a la lista de Usuarios, para no mostrarlo
-                            if (!id.equals("NBWFk4ARbGNelIC2F6wCj18k2Pw1") && !id.equals(idGanadorUno)) {
+                            if (!id.equals("NBWFk4ARbGNelIC2F6wCj18k2Pw1") && !id.equals(idGanadorUno) && !id.equals(idGanadorDos)) {
                                 lista.add(new Usuario(id, userName, surName, correo));
                             }
                         }

@@ -39,7 +39,7 @@ public class SeleccionGanadores extends AppCompatActivity {
     Intent i;
     TextView textoNombreTorneo;
     ActivityResultLauncher lanzador;
-    String idPrimerGanador, idSegundoGanador; // Para asignar los puntos a los ganadores
+    String idPrimerGanador = "", idSegundoGanador = ""; // Para asignar los puntos a los ganadores
     FirebaseFirestore db;
 
     @Override
@@ -69,7 +69,8 @@ public class SeleccionGanadores extends AppCompatActivity {
                 //Abre una lista con los Usuarios y seleccionas uno.
                 i = new Intent(SeleccionGanadores.this, ListaUsuariosTorneo.class);
                 i.putExtra("BOTON_PULSADO", "INTEGRANTE_UNO");
-                i.putExtra("GANADOR_UNO", ""); // Se pasa vacio para saber que viene del primero
+                i.putExtra("GANADOR_UNO", idPrimerGanador); // Se pasa vacio para saber que viene del primero
+                i.putExtra("GANADOR_DOS", idSegundoGanador);
                 lanzador.launch(i);
             }
         });
@@ -85,6 +86,7 @@ public class SeleccionGanadores extends AppCompatActivity {
                     i = new Intent(SeleccionGanadores.this, ListaUsuariosTorneo.class);
                     i.putExtra("BOTON_PULSADO", "INTEGRANTE_DOS");
                     i.putExtra("GANADOR_UNO", idPrimerGanador); // Para que en la lista del segundo ganador no lo vuelva a listar
+                    i.putExtra("GANADOR_DOS", idSegundoGanador);
                     lanzador.launch(i);
                 }
             }
