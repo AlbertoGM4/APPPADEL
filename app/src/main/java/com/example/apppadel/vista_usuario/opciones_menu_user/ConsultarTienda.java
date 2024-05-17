@@ -35,7 +35,6 @@ public class ConsultarTienda extends AppCompatActivity {
         setContentView(R.layout.activity_consultar_tienda);
 
         listaProductos = findViewById(R.id.listaProductosTienda);
-        listaProductos.setAdapter(new AdaptadorItemTienda(this, listaNombres, cantidades));
 
         listaProductos.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override

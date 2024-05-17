@@ -20,6 +20,7 @@ public class ActualizarStock extends AppCompatActivity {
     TextView nombreProd, textoNumero;
     ImageView suma, resta;
     Button btnAnadir, btnRestar;
+    Intent intent;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -66,8 +67,10 @@ public class ActualizarStock extends AppCompatActivity {
         btnAnadir.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                //Confrima el Stock y añade el nummero que hay en en el campo del nuemro
-                Toast.makeText(ActualizarStock.this, "Stock actualizado(Sumado)", Toast.LENGTH_SHORT).show();
+                intent = new Intent();
+                intent.putExtra("NUMERO", textoNumero.getText().toString());
+                setResult(1, intent);
+
                 finish();
             }
         });
@@ -75,13 +78,13 @@ public class ActualizarStock extends AppCompatActivity {
         btnRestar.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                //Confrima el Stock y resta el nummero que hay en en el campo del nuemro
-                Toast.makeText(ActualizarStock.this, "Stock actualizado(Restado)", Toast.LENGTH_SHORT).show();
+                intent = new Intent();
+                intent.putExtra("NUMERO", textoNumero.getText().toString());
+                setResult(2, intent);
+
                 finish();
 
             }
         });
-
-
     }
 }
