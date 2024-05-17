@@ -30,18 +30,17 @@
 
     <EditText
         android:id="@+id/etNombreTorneo"
-        android:inputType="text"
-        android:textSize="23dp"
-        android:background="@drawable/style_alta_user_fields"
         android:layout_width="match_parent"
         android:layout_height="50dp"
-        android:hint="Nombre del nuevo Torneo"
-        android:textColorHint="@color/black"
+        android:layout_marginTop="40dp"
         android:layout_marginBottom="80dp"
+        android:background="@drawable/style_alta_user_fields"
+        android:hint="Nombre del nuevo Torneo"
+        android:inputType="text"
         android:paddingLeft="20dp"
         android:paddingRight="10dp"
-        android:layout_marginTop="40dp"
-        />
+        android:textColorHint="@color/black"
+        android:textSize="23dp" />
 
     <LinearLayout
         android:layout_marginTop="20dp"

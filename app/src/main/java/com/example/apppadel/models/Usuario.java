@@ -15,7 +15,7 @@ public class Usuario implements Parcelable {
     private String correoElectronico;
     private String contrasenaUser;
     private String rol;
-    private int puntosSocio;
+    private long puntosSocio;
 
     public Usuario(String id, String nombreUser, String primerApellido, String segundoApellido, String telefonoUser, String fechaNacUser, String correoElectronico, String contrasenaUser, String rol) {
 
@@ -37,6 +37,13 @@ public class Usuario implements Parcelable {
         this.primerApellido = ape;
         this.correoElectronico = mail;
         this.contrasenaUser = contra;
+    }
+
+    public Usuario(String id, String nombre, String ape, String correo){
+        this.iDUser = id;
+        this.nombreUser = nombre;
+        this.primerApellido = ape;
+        this.correoElectronico = correo;
     }
 
     // Constructor Parcelable
@@ -152,6 +159,14 @@ public class Usuario implements Parcelable {
 
     public void setRol(String rol) {
         this.rol = rol;
+    }
+
+    public long getPuntosSocio() {
+        return puntosSocio;
+    }
+
+    public void setPuntosSocio(long puntosSocio) {
+        this.puntosSocio = puntosSocio;
     }
 
     @Override

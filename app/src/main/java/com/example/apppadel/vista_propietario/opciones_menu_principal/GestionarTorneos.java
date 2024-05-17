@@ -27,9 +27,15 @@ import androidx.appcompat.app.AlertDialog;
 import androidx.appcompat.app.AppCompatActivity;
 
 import com.example.apppadel.R;
+import com.example.apppadel.models.Torneo;
+import com.example.apppadel.models.Usuario;
 import com.example.apppadel.vista_propietario.opciones_menu_principal.gestion_pistas.ModificarReservaNuevaFecha;
 import com.example.apppadel.vista_propietario.opciones_menu_principal.gestion_torneos.NuevoTorneo;
 import com.example.apppadel.vista_propietario.opciones_menu_principal.gestion_torneos.SeleccionGanadores;
+import com.google.firebase.firestore.DocumentReference;
+import com.google.firebase.firestore.DocumentSnapshot;
+import com.google.firebase.firestore.FirebaseFirestore;
+import com.google.firebase.firestore.QueryDocumentSnapshot;
 
 import java.util.ArrayList;
 import java.util.Calendar;
@@ -38,9 +44,11 @@ import java.util.Objects;
 public class GestionarTorneos extends AppCompatActivity {
     Button btnCrearNuevoTorneo;
     ListView listaGanadoresTorneo;
-    ArrayList<String> lista;
-    ArrayAdapter<String> adapter;
+    ArrayList<Torneo> lista;
+    ArrayAdapter<Torneo> adapter;
     ActivityResultLauncher lanzador;
+    Torneo torneoSeleccionado;
+    FirebaseFirestore db;
     int posicionTorneo;
 
     @Override
@@ -48,17 +56,13 @@ public class GestionarTorneos extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_gestionar_torneos);
 
+        db = FirebaseFirestore.getInstance();
+
         btnCrearNuevoTorneo = findViewById(R.id.botonCrearNuevoTorneo);
         listaGanadoresTorneo = findViewById(R.id.listaGanadoresTorneo);
 
-        lista = new ArrayList<>();
-        lista.add("Torneo 1");
-        lista.add("Torneo 2");
-        lista.add("Torneo 3");
-        lista.add("Torneo 4");
-        lista.add("Torneo 5");
-        lista.add("Torneo 6");
-        lista.add("Torneo 7");
+        //Listar los torneos que no tienen ganadores.
+        listarTorneosSinGanador();
 
         adapter = new ArrayAdapter<>(this, android.R.layout.simple_list_item_1, lista);
         listaGanadoresTorneo.setAdapter(adapter);
@@ -71,21 +75,24 @@ public class GestionarTorneos extends AppCompatActivity {
                 //Añadir confirmacion de la reserva
                 //Antes de confirmar la reserva, mostrar la info del item que se ha seleccionado, y luego ya se puede confirmar
                 Intent i = new Intent(GestionarTorneos.this, NuevoTorneo.class);
-                startActivity(i);
+                lanzador.launch(i);
             }
         });
 
         listaGanadoresTorneo.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
             public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
+                torneoSeleccionado = adapter.getItem(position);
                 posicionTorneo = position;
 
                 AlertDialog.Builder alerta = new AlertDialog.Builder(GestionarTorneos.this);
-                alerta.setTitle("INFORMACIÓN DEL TORNEO");
+                alerta.setTitle("INFORMACIÓN DEL TORNEO SELECCIONADO");
                 alerta.setMessage("*Datos del Torneo*\n" +
-                        "- Nombre: " + lista.get(position) + "\n" +
-                        "- Fecha Inicio: por definir\n" +
-                        "- Fecha Fin: por definir");
+                        "- Nombre: " + torneoSeleccionado.getNombreTorneo() + "\n" +
+                        "- Fecha Inicio: " + torneoSeleccionado.getFechaInicioTorneo() + "\n" +
+                        "- Fecha Fin: " + torneoSeleccionado.getFechaFinTorneo() + "\n" +
+                        "- Torneo SIN Ganadores. " );
+
                 alerta.setPositiveButton("Volver", null);
                 alerta.create();
                 alerta.show();
@@ -95,29 +102,88 @@ public class GestionarTorneos extends AppCompatActivity {
         lanzador = registerForActivityResult(new ActivityResultContracts.StartActivityForResult(), new ActivityResultCallback<ActivityResult>() {
             @Override
             public void onActivityResult(ActivityResult o) {
+                // Viene de la actividad de Nuevo torneo.
+                if (o.getResultCode() == 10){
+                    String respuesta = o.getData().getStringExtra("REFRESCAR");
+                    if (respuesta.equals("OK")){
+                        Toast.makeText(GestionarTorneos.this, "Refrescando lista de Torneos...", Toast.LENGTH_SHORT).show();
+                        listarTorneosSinGanador();
 
-                if (o.getResultCode() == RESULT_OK && o.getData() != null) {
-                    Intent data = o.getData();
-                    String resultado = data.getStringExtra("RESULTADO");
-                    int pTorneo = data.getIntExtra("POSICION_TOR", 0);
+                        // Cargar de nuevo la lista de torneos
+                        adapter = new ArrayAdapter<>(getApplication(), android.R.layout.simple_list_item_1, lista);
+                        listaGanadoresTorneo.setAdapter(adapter);
 
-                    if (resultado.equals(lista.get(pTorneo))) {
-                        //Elimina el item
-                        adapter.remove(resultado);
-                        //lista.remove(resultado);
-                        adapter.notifyDataSetChanged();
-
-                        Toast.makeText(GestionarTorneos.this, "Torneo eliminado correctamente", Toast.LENGTH_SHORT).show();
                     } else {
-                        Toast.makeText(GestionarTorneos.this, "Fallos con la concordancia entre el item seleccionado y el enviado desde la Actividad.", Toast.LENGTH_SHORT).show();
+                        Toast.makeText(GestionarTorneos.this, "Algo pasa con los nuevos Torneos", Toast.LENGTH_SHORT).show();
                     }
 
-                } else {
-                    Toast.makeText(GestionarTorneos.this, "Operación cancelada o no completada", Toast.LENGTH_SHORT).show();
+                } else if (o.getResultCode() == 50) {
+                    String actualizacion = o.getData().getStringExtra("ACTUALIZAR_LISTA");
+                    String idTorneo = o.getData().getStringExtra("IDTORNEO");
+                    String idGanadorUno = o.getData().getStringExtra("PRIMER_GANADOR_ID");
+                    String idGanadorDos = o.getData().getStringExtra("SEGUNDO_GANADOR_ID");
+
+                    if (actualizacion.equals("SI")){
+                        actualizarGanadoresTorneo(idTorneo, idGanadorUno, idGanadorDos);
+
+                    } else {
+                        Toast.makeText(GestionarTorneos.this, "Fallo en la devolución del intent de actualizar desde SeleccionGanadores", Toast.LENGTH_SHORT).show();
+                    }
                 }
             }
         });
+    }
 
+    private void actualizarGanadoresTorneo(String idTorneo, String idGanadorUno, String idGanadorDos) {
+        DocumentReference doc = db.collection("torneos").document(idTorneo);
+
+        db.runTransaction(transaction -> {
+            DocumentSnapshot snapshot = transaction.get(doc);
+            if (snapshot.exists()){
+                transaction.update(doc, "ganador_uno", idGanadorUno);
+                transaction.update(doc, "ganador_dos", idGanadorDos);
+            }
+
+            return null;
+        }).addOnSuccessListener(aVoid -> {
+            Toast.makeText(this, "Ganadores actualizados en el Torneo seleccionado", Toast.LENGTH_SHORT).show();
+            listarTorneosSinGanador();
+
+        }).addOnFailureListener(e -> {
+            Toast.makeText(this, "Fallo en la actualización de los ganadores del Torneo", Toast.LENGTH_SHORT).show();
+        });
+
+    }
+
+    private void listarTorneosSinGanador() {
+        lista = new ArrayList<>();
+
+        db.collection("torneos")
+                .get()
+                .addOnCompleteListener(task -> {
+                    if (task.isSuccessful()){
+                        lista.clear();
+                        for (QueryDocumentSnapshot document : task.getResult()) {
+
+                            String id = document.getId();
+                            String nombreTor = document.getString("nombre");
+                            String inicio = document.getString("fecha_inicio");
+                            String fin = document.getString("fecha_fin");
+                            String ganadorUno = document.getString("ganador_uno");
+                            String ganadorDos = document.getString("ganador_dos");
+
+                            if (ganadorUno.isEmpty() && ganadorDos.isEmpty()){
+                                lista.add(new Torneo(id, nombreTor, inicio, fin));
+                            }
+                        }
+
+                        // Cargar de nuevo la lista de torneos
+                        adapter = new ArrayAdapter<>(getApplication(), android.R.layout.simple_list_item_1, lista);
+                        listaGanadoresTorneo.setAdapter(adapter);
+                    } else {
+                        Toast.makeText(this, "Error para listar los torneos que no poseen ganadores", Toast.LENGTH_SHORT).show();
+                    }
+                });
     }
 
     @Override
@@ -134,8 +200,8 @@ public class GestionarTorneos extends AppCompatActivity {
         if (item.getItemId() == R.id.selectWinners){
             //Aqui se hará la accion de Seleccionar gnadores
             Intent intent = new Intent(GestionarTorneos.this, SeleccionGanadores.class);
-            intent.putExtra("NOMBRETORNEO", lista.get(position));
-            intent.putExtra("POSICION", position);
+            intent.putExtra("ID_TORNEO", adapter.getItem(position).getIdTorneo());
+            intent.putExtra("NOMBRE_TORNEO", adapter.getItem(position).getNombreTorneo());
             lanzador.launch(intent);
         }
 

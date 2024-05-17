@@ -5,6 +5,7 @@ import android.content.Intent;
 import android.os.Bundle;
 import android.text.Editable;
 import android.text.TextWatcher;
+import android.util.Log;
 import android.view.View;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
@@ -20,42 +21,38 @@ import androidx.core.view.ViewCompat;
 import androidx.core.view.WindowInsetsCompat;
 
 import com.example.apppadel.R;
+import com.example.apppadel.models.Torneo;
+import com.example.apppadel.models.Usuario;
 import com.example.apppadel.vista_propietario.opciones_menu_principal.gestion_user.BajaUsuario;
+import com.google.firebase.firestore.FirebaseFirestore;
+import com.google.firebase.firestore.QueryDocumentSnapshot;
 
 import java.util.ArrayList;
 
 public class ListaUsuariosTorneo extends AppCompatActivity {
     ListView listaUsuarios;
-    ArrayList<String> lista;
-    ArrayAdapter<String> adapter;
+    ArrayList<Usuario> lista;
+    ArrayAdapter<Usuario> adapter;
     EditText nombreGanador;
-    String nombreSeleccionWinner;
+    String idGanadorUno;
+    FirebaseFirestore db;
+    Usuario usuario;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_lista_usuarios_torneo);
 
+        db = FirebaseFirestore.getInstance();
+
         Intent i = getIntent();
-        String numIntegrante = i.getStringExtra("BOTON_PULSADO");
+        String numIntegrante = i.getStringExtra("BOTON_PULSADO"); // Si es el primer o segundo ganador.
+        idGanadorUno = i.getStringExtra("GANADOR_UNO");
 
         nombreGanador = findViewById(R.id.etNombreUserSeleccionGanadores);
         listaUsuarios = findViewById(R.id.listaUsuariosSeleccionGanadores);
 
-        lista = new ArrayList<>();
-
-        lista.add("Alberto Guillen");
-        lista.add("Ivan Fernandez");
-        lista.add("Victor Barrio");
-        lista.add("Usuario 4");
-        lista.add("Usuario 5");
-        lista.add("Usuario 6");
-        lista.add("Usuario 7");
-        lista.add("Usuario 8");
-        lista.add("Usuario 9");
-        lista.add("Usuario 10");
-        lista.add("Usuario 11");
-        lista.add("Usuario 12");
+        listarListaUsuarios();
 
         adapter = new ArrayAdapter<>(this, android.R.layout.simple_list_item_1, lista);
         listaUsuarios.setAdapter(adapter);
@@ -80,21 +77,37 @@ public class ListaUsuariosTorneo extends AppCompatActivity {
         listaUsuarios.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
             public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
-                nombreSeleccionWinner = adapter.getItem(position);
+                usuario = adapter.getItem(position);
 
                 AlertDialog.Builder alerta = new AlertDialog.Builder(ListaUsuariosTorneo.this);
                 alerta.setTitle("CONFIRMACIÓN");
                 alerta.setMessage("¿Seguro que desea seleccionar a este Usuario?\n" +
-                        "- Nombre: " + nombreSeleccionWinner);
-
+                        "- ID Usuario: " + usuario.getiDUser() +"\n" +
+                        "- Nombre: " + usuario.getNombreUser() + " " + usuario.getPrimerApellido());
                 alerta.setPositiveButton("Confirmar", new DialogInterface.OnClickListener() {
                     @Override
                     public void onClick(DialogInterface dialog, int which) {
-                        //Si se confirma se pasa el nombre a la actividad anterior.
-                        Intent intent = new Intent();
-                        intent.putExtra("USUARIO", nombreSeleccionWinner);
-                        intent.putExtra("integrante", numIntegrante);
-                        setResult(RESULT_OK, intent);
+                        Intent i;
+                        if (numIntegrante.equals("INTEGRANTE_UNO")){
+                            i = new Intent();
+                            i.putExtra("ID", usuario.getiDUser());
+                            i.putExtra("NOMBRE", usuario.toString());
+
+                            Log.i("xxx", "id: " + usuario.getiDUser() +
+                                    ", nombre: " + usuario.getNombreUser() +
+                                    ", apellido: " + usuario.getPrimerApellido());
+                            setResult(1, i);
+
+                        } else if (numIntegrante.equals("INTEGRANTE_DOS")) {
+                            i = new Intent();
+                            i.putExtra("ID", usuario.getiDUser());
+                            i.putExtra("NOMBRE", usuario.toString());
+
+                            Log.i("xxx", "id2: " + usuario.getiDUser() +
+                                    ", nombre2: " + usuario.getNombreUser() +
+                                    ", apellido2: " + usuario.getPrimerApellido());
+                            setResult(2, i);
+                        }
                         finish();
                     }
                 });
@@ -103,5 +116,32 @@ public class ListaUsuariosTorneo extends AppCompatActivity {
             }
         });
 
+    }
+
+    private void listarListaUsuarios() {
+        lista = new ArrayList<>();
+
+        db.collection("usuarios")
+                .get()
+                .addOnCompleteListener(task -> {
+                    if (task.isSuccessful()){
+                        lista.clear();
+                        for (QueryDocumentSnapshot document : task.getResult()) {
+
+                            String id = document.getId();
+                            String userName = document.getString("nombre");
+                            String surName = document.getString("primer_apellido");
+                            String correo = document.getString("correo");
+
+                            // Si encuentra al admin, este no lo añade a la lista de Usuarios, para no mostrarlo
+                            if (!id.equals("NBWFk4ARbGNelIC2F6wCj18k2Pw1") && !id.equals(idGanadorUno)) {
+                                lista.add(new Usuario(id, userName, surName, correo));
+                            }
+                        }
+                        adapter.notifyDataSetChanged();
+                    } else {
+                        Log.w("TAG", "Error getting documents.", task.getException());
+                    }
+                });
     }
 }
