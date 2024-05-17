@@ -124,7 +124,6 @@ public class GestionarTienda extends AppCompatActivity {
                 long cantidadActual = snapshot.getLong("cantidad");
                 transaction.update(doc, "cantidad", cantidadActual + cantidad);
             }
-
             return null;
         }).addOnSuccessListener(aVoid -> {
             Toast.makeText(this, "Stock actualizado con éxito (Suma)", Toast.LENGTH_SHORT).show();
@@ -133,7 +132,6 @@ public class GestionarTienda extends AppCompatActivity {
         }).addOnFailureListener(e -> {
             Toast.makeText(this, "Fallo en la actualización del Stock (Suma)", Toast.LENGTH_SHORT).show();
         });
-
     }
 
     private void listarProductos() {
