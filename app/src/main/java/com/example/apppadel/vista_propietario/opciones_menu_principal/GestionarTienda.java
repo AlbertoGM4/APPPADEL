@@ -68,7 +68,7 @@ public class GestionarTienda extends AppCompatActivity {
                     @Override
                     public void onClick(DialogInterface dialog, int which) {
                         Intent i = new Intent(GestionarTienda.this, ActualizarStock.class);
-                        i.putExtra("NOMBRE", producto.getIdProducto());
+                        i.putExtra("NOMBRE", producto.getNombreProducto());
                         lanzador.launch(i);
                     }
                 });
@@ -82,14 +82,18 @@ public class GestionarTienda extends AppCompatActivity {
             @Override
             public void onActivityResult(ActivityResult o) {
                 int cantidad = Integer.parseInt(o.getData().getStringExtra("NUMERO"));
-                Toast.makeText(GestionarTienda.this, "Cantidad: " + cantidad, Toast.LENGTH_SHORT).show();
+                int cantidadStock = producto.getCantidadProducto();
 
                 // Viene para ser Sumarselo al stock
                 if (o.getResultCode() == 1){
                     sumarCantidad(cantidad);
                     // Para restar al stock
                 } else if (o.getResultCode() == 2) {
-                    restarCantidad(cantidad);
+                    if (cantidad > cantidadStock){
+                        Toast.makeText(GestionarTienda.this, "No se puede restar la cantidad introducida, es mayor que la de stock.", Toast.LENGTH_SHORT).show();
+                    } else {
+                        restarCantidad(cantidad);
+                    }
                 }
             }
         });

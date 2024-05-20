@@ -63,28 +63,36 @@ public class ActualizarStock extends AppCompatActivity {
                 textoNumero.setText("" + numResta);
             }
         });
+            btnAnadir.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    if (!textoNumero.getText().toString().equals("0")){
+                        intent = new Intent();
+                        intent.putExtra("NUMERO", textoNumero.getText().toString());
+                        setResult(1, intent);
 
-        btnAnadir.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                intent = new Intent();
-                intent.putExtra("NUMERO", textoNumero.getText().toString());
-                setResult(1, intent);
+                        finish();
 
-                finish();
-            }
-        });
+                    } else {
+                        Toast.makeText(ActualizarStock.this, "El valor introducido es 0, introduce un valor valido para añadir la cantidad de Stock al producto", Toast.LENGTH_SHORT).show();
+                    }
+                }
+            });
 
-        btnRestar.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                intent = new Intent();
-                intent.putExtra("NUMERO", textoNumero.getText().toString());
-                setResult(2, intent);
+            btnRestar.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    if (!textoNumero.getText().toString().equals("0")){
+                        intent = new Intent();
+                        intent.putExtra("NUMERO", textoNumero.getText().toString());
+                        setResult(2, intent);
 
-                finish();
+                        finish();
 
-            }
-        });
+                    } else {
+                        Toast.makeText(ActualizarStock.this, "El valor introducido es 0, introduce un valor valido para restar la cantidad al Stock del producto", Toast.LENGTH_SHORT).show();
+                    }
+                }
+            });
     }
 }
