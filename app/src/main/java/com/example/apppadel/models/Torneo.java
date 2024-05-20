@@ -15,6 +15,15 @@ public class Torneo {
         this.fechaFinTorneo = fechaFinTorneo;
     }
 
+    public Torneo(String idTorneo, String nombreTorneo, String fechaInicioTorneo, String fechaFinTorneo, String ganadorUno, String ganadorDos) {
+        this.idTorneo = idTorneo;
+        this.nombreTorneo = nombreTorneo;
+        this.fechaInicioTorneo = fechaInicioTorneo;
+        this.fechaFinTorneo = fechaFinTorneo;
+        this.ganadorUno = ganadorUno;
+        this.ganadorDos = ganadorDos;
+    }
+
     public String getIdTorneo() {
         return idTorneo;
     }
@@ -45,6 +54,22 @@ public class Torneo {
 
     public void setFechaFinTorneo(String fechaFinTorneo) {
         this.fechaFinTorneo = fechaFinTorneo;
+    }
+
+    public String getGanadorUno() {
+        return ganadorUno;
+    }
+
+    public void setGanadorUno(String ganadorUno) {
+        this.ganadorUno = ganadorUno;
+    }
+
+    public String getGanadorDos() {
+        return ganadorDos;
+    }
+
+    public void setGanadorDos(String ganadorDos) {
+        this.ganadorDos = ganadorDos;
     }
 
     @Override

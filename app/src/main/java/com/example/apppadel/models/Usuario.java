@@ -28,7 +28,18 @@ public class Usuario implements Parcelable {
         this.correoElectronico = correoElectronico;
         this.contrasenaUser = contrasenaUser;
         this.rol = rol;
+    }
 
+    public Usuario(String id, String nombreUser, String primerApellido, String segundoApellido, String telefonoUser, String fechaNacUser, String correoElectronico, String rol) {
+
+        this.iDUser = id;
+        this.nombreUser = nombreUser;
+        this.primerApellido = primerApellido;
+        this.segundoApellido = segundoApellido;
+        this.telefonoUser = telefonoUser;
+        this.fechaNacUser = fechaNacUser;
+        this.correoElectronico = correoElectronico;
+        this.rol = rol;
     }
 
     public Usuario(String id, String nombre, String ape, String mail, String contra){
@@ -44,6 +55,12 @@ public class Usuario implements Parcelable {
         this.nombreUser = nombre;
         this.primerApellido = ape;
         this.correoElectronico = correo;
+    }
+
+    public Usuario(String id, String nombre, String ape){
+        this.iDUser = id;
+        this.nombreUser = nombre;
+        this.primerApellido = ape;
     }
 
     // Constructor Parcelable
@@ -167,6 +184,10 @@ public class Usuario implements Parcelable {
 
     public void setPuntosSocio(long puntosSocio) {
         this.puntosSocio = puntosSocio;
+    }
+
+    public String getNombreCompleto() { // Metodo que se usa para mostrar los nombres de los ganadores.
+        return "\t\t+ " + nombreUser + " " + primerApellido;
     }
 
     @Override
