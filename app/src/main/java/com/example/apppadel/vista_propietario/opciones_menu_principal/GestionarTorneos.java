@@ -3,6 +3,7 @@ package com.example.apppadel.vista_propietario.opciones_menu_principal;
 import android.app.DatePickerDialog;
 import android.content.DialogInterface;
 import android.content.Intent;
+import android.os.Build;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.ContextMenu;
@@ -23,6 +24,7 @@ import androidx.activity.result.ActivityResultCallback;
 import androidx.activity.result.ActivityResultLauncher;
 import androidx.activity.result.contract.ActivityResultContracts;
 import androidx.annotation.NonNull;
+import androidx.annotation.RequiresApi;
 import androidx.appcompat.app.AlertDialog;
 import androidx.appcompat.app.AppCompatActivity;
 
@@ -37,6 +39,10 @@ import com.google.firebase.firestore.DocumentSnapshot;
 import com.google.firebase.firestore.FirebaseFirestore;
 import com.google.firebase.firestore.QueryDocumentSnapshot;
 
+import java.text.SimpleDateFormat;
+import java.time.LocalDate;
+import java.time.format.DateTimeFormatter;
+import java.time.format.DateTimeParseException;
 import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.Objects;
@@ -192,19 +198,58 @@ public class GestionarTorneos extends AppCompatActivity {
         getMenuInflater().inflate(R.menu.context_menu_torneos, menu);
     }
 
+    @RequiresApi(api = Build.VERSION_CODES.O)
     @Override
     public boolean onContextItemSelected(@NonNull MenuItem item) {
         AdapterView.AdapterContextMenuInfo info = (AdapterView.AdapterContextMenuInfo) item.getMenuInfo();
         int position = info.position;
 
         if (item.getItemId() == R.id.selectWinners){
-            //Aqui se hará la accion de Seleccionar gnadores
-            Intent intent = new Intent(GestionarTorneos.this, SeleccionGanadores.class);
-            intent.putExtra("ID_TORNEO", adapter.getItem(position).getIdTorneo());
-            intent.putExtra("NOMBRE_TORNEO", adapter.getItem(position).getNombreTorneo());
-            lanzador.launch(intent);
-        }
+            // Avisar al Administrador de que el torneo esta activo o no ha empezado.
+            if (!comprobarFechaTorneo(adapter.getItem(position).getFechaFinTorneo())){
 
+                AlertDialog.Builder alerta = new AlertDialog.Builder(GestionarTorneos.this);
+                alerta.setTitle("INFORMACIÓN DEL TORNEO SELECCIONADO");
+                alerta.setMessage("El torneo que ha seleccionado está en juego o no ha comenzado todavía. \n¿Está seguro de que desea seleccionar a los ganadores de este?" );
+
+                alerta.setPositiveButton("Confirmar", new DialogInterface.OnClickListener() {
+                    @Override
+                    public void onClick(DialogInterface dialog, int which) {
+                        Intent intent = new Intent(GestionarTorneos.this, SeleccionGanadores.class);
+                        intent.putExtra("ID_TORNEO", adapter.getItem(position).getIdTorneo());
+                        intent.putExtra("NOMBRE_TORNEO", adapter.getItem(position).getNombreTorneo());
+                        lanzador.launch(intent);
+                    }
+                });
+                alerta.setNegativeButton("Cancelar", null);
+                alerta.create();
+                alerta.show();
+
+            } else {
+                //Aqui se hará la accion de Seleccionar gnadores
+                Toast.makeText(this, "Abriendo la selección de Ganadores...", Toast.LENGTH_SHORT).show();
+
+                Intent intent = new Intent(GestionarTorneos.this, SeleccionGanadores.class);
+                intent.putExtra("ID_TORNEO", adapter.getItem(position).getIdTorneo());
+                intent.putExtra("NOMBRE_TORNEO", adapter.getItem(position).getNombreTorneo());
+                lanzador.launch(intent);
+            }
+        }
         return super.onContextItemSelected(item);
     }
+
+    @RequiresApi(api = Build.VERSION_CODES.O)
+    public boolean comprobarFechaTorneo(String fechaFinTorneo){
+        DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy/MM/dd");
+        try {
+            LocalDate date = LocalDate.parse(fechaFinTorneo, formatter);
+            LocalDate today = LocalDate.now();
+            return date.isBefore(today);
+
+        } catch (DateTimeParseException e) {
+            System.err.println("Formato de fecha inválido: " + e.getMessage());
+            return false;
+        }
+    }
+
 }
