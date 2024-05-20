@@ -117,6 +117,7 @@ public class AltaUsuario extends AppCompatActivity {
                                     nuevoUsuario.put("contra", contraPorDefecto);
                                     nuevoUsuario.put("fecha_nacimiento", seleccionFecha.getText().toString());
                                     nuevoUsuario.put("rol", rolDelUsuario);
+                                    nuevoUsuario.put("puntos", 0);
 
                                     // Se añade el nuevo usuario a la base de datos
                                     anadirUsuario(correoUser.getText().toString(), contraPorDefecto);

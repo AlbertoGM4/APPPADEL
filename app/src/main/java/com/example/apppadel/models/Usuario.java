@@ -63,6 +63,17 @@ public class Usuario implements Parcelable {
         this.primerApellido = ape;
     }
 
+    public Usuario(String id, String nombre, String ape, String correo, long puntos, String telefono, String fechaNacimiento){
+        this.iDUser = id;
+        this.nombreUser = nombre;
+        this.primerApellido = ape;
+        this.correoElectronico = correo;
+        this.puntosSocio = puntos;
+        this.telefonoUser = telefono;
+        this.fechaNacUser = fechaNacimiento;
+
+    }
+
     // Constructor Parcelable
     protected Usuario(Parcel in) {
         iDUser = in.readString();
