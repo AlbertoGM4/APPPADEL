@@ -20,6 +20,7 @@ import com.example.apppadel.models.Usuario;
 import com.example.apppadel.vista_usuario.opciones_menu_user.ConsultarTienda;
 import com.google.firebase.firestore.DocumentSnapshot;
 import com.google.firebase.firestore.FirebaseFirestore;
+import com.google.firebase.firestore.Query;
 
 import java.util.ArrayList;
 
@@ -45,8 +46,14 @@ public class ConsultarRanking extends AppCompatActivity {
 
                 AlertDialog.Builder alerta = new AlertDialog.Builder(ConsultarRanking.this);
                 alerta.setTitle("INFORMACIÓN DEL SOCIO");
-                alerta.setMessage("- Nombre Socio: " + socio.getNombreUser() + "\n" +
-                        "*Demas info...*");
+                alerta.setMessage(
+                        "- Puntos de Socio: " + socio.getPuntosSocio() + "\n" +
+                        "- Nombre: " + socio.getNombreUser() + "\n" +
+                        "- Apellidos: " + socio.getPrimerApellido() + " " + socio.getSegundoApellido() + "\n" +
+                        "- Correo: " + socio.getCorreoElectronico() + "\n" +
+                        "- Fecha de nacimiento: " + socio.getFechaNacUser() + "\n" +
+                        "- Teléfono: " + socio.getTelefonoUser() + "\n");
+
                 alerta.setPositiveButton("Volver", null);
                 alerta.create();
                 alerta.show();
@@ -60,6 +67,7 @@ public class ConsultarRanking extends AppCompatActivity {
 
         db.collection("usuarios")
                 .whereEqualTo("rol", "socio")
+                .orderBy("puntos", Query.Direction.DESCENDING)
                 .get()
                 .addOnCompleteListener(task -> {
                     listaSocios.clear();
@@ -68,12 +76,13 @@ public class ConsultarRanking extends AppCompatActivity {
                             String id = document.getId();
                             String userName = document.getString("nombre");
                             String surName = document.getString("primer_apellido");
+                            String secondSurName = document.getString("segundo_apellido");
                             String mail = document.getString("correo");
                             long puntos = document.getLong("puntos");
                             String phone = document.getString("telefono");
                             String fechaNac = document.getString("fecha_nacimiento");
 
-                            listaSocios.add(new Usuario(id, userName, surName, mail, puntos, phone, fechaNac));
+                            listaSocios.add(new Usuario(id, userName, surName, secondSurName, mail, puntos, phone, fechaNac));
                         }
                         adapter = new ArrayAdapter<>(this, android.R.layout.simple_list_item_1, listaSocios);
                         listaRanking.setAdapter(adapter);

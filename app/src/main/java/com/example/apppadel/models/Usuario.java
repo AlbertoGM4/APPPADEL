@@ -63,10 +63,11 @@ public class Usuario implements Parcelable {
         this.primerApellido = ape;
     }
 
-    public Usuario(String id, String nombre, String ape, String correo, long puntos, String telefono, String fechaNacimiento){
+    public Usuario(String id, String nombre, String apeUno, String apeDos, String correo, long puntos, String telefono, String fechaNacimiento){
         this.iDUser = id;
         this.nombreUser = nombre;
-        this.primerApellido = ape;
+        this.primerApellido = apeUno;
+        this.segundoApellido = apeDos;
         this.correoElectronico = correo;
         this.puntosSocio = puntos;
         this.telefonoUser = telefono;
@@ -199,6 +200,10 @@ public class Usuario implements Parcelable {
 
     public String getNombreCompleto() { // Metodo que se usa para mostrar los nombres de los ganadores.
         return "\t\t+ " + nombreUser + " " + primerApellido;
+    }
+
+    public String getNombreCompletoMas() { // Metodo que se usa para mostrar los nombres de los ganadores.
+        return nombreUser + " " + primerApellido + " " + segundoApellido;
     }
 
     @Override

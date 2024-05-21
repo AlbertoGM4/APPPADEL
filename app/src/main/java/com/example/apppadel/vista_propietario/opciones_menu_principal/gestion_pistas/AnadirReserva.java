@@ -232,7 +232,6 @@ public class AnadirReserva extends AppCompatActivity {
         listaHorasDisponibles.add("18:00");
         listaHorasDisponibles.add("19:30");
         listaHorasDisponibles.add("21:00");
-        listaHorasDisponibles.add("22:30");
 
         // Verificar se la fecha es de hoy.
         String fechaHoy = new SimpleDateFormat("d/M/yyyy", Locale.getDefault()).format(new Date());
