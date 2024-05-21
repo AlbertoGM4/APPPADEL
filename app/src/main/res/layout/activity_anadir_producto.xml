@@ -1,0 +1,112 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/main"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    tools:context=".vista_propietario.opciones_menu_principal.gestion_tienda.AnadirProducto"
+    android:orientation="vertical"
+    android:padding="20dp">
+
+    <TextView
+        android:id="@+id/tvTitulo"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_gravity="center"
+        android:layout_marginTop="10dp"
+        android:layout_marginBottom="30dp"
+        android:background="@drawable/style_title_menu"
+        android:paddingLeft="20dp"
+        android:paddingRight="20dp"
+        android:paddingTop="5dp"
+        android:paddingBottom="5dp"
+        android:text="@string/nuevo_producto"
+        android:textAlignment="center"
+        android:textSize="32dp"
+        android:textColor="@color/white"/>
+
+    <EditText
+        android:id="@+id/etNombreProductoNuevo"
+        android:inputType="textCapWords"
+        android:textSize="23dp"
+        android:background="@drawable/style_alta_user_fields"
+        android:layout_width="match_parent"
+        android:layout_height="50dp"
+        android:hint="Nombre"
+        android:textColorHint="@color/black"
+        android:layout_marginBottom="10dp"
+        android:paddingLeft="20dp"
+        android:paddingRight="10dp"
+        />
+
+    <EditText
+        android:id="@+id/etDescripcion"
+        android:inputType="textCapSentences"
+        android:textSize="23dp"
+        android:background="@drawable/style_alta_user_fields"
+        android:layout_width="match_parent"
+        android:layout_height="50dp"
+        android:hint="Descripción"
+        android:textColorHint="@color/black"
+        android:layout_marginBottom="40dp"
+        android:paddingLeft="20dp"
+        android:paddingRight="10dp"
+        />
+
+    <EditText
+        android:id="@+id/etCantidad"
+        android:inputType="number"
+        android:textSize="23dp"
+        android:background="@drawable/style_alta_user_fields"
+        android:layout_width="match_parent"
+        android:layout_height="50dp"
+        android:hint="Cantidad"
+        android:textColorHint="@color/black"
+        android:layout_marginBottom="10dp"
+        android:paddingLeft="20dp"
+        android:paddingRight="10dp"
+        />
+
+    <EditText
+        android:id="@+id/etPrecio"
+        android:layout_width="match_parent"
+        android:layout_height="50dp"
+        android:layout_marginBottom="10dp"
+        android:background="@drawable/style_alta_user_fields"
+        android:hint="Precio"
+        android:inputType="numberDecimal"
+        android:paddingLeft="20dp"
+        android:paddingRight="10dp"
+        android:textColorHint="@color/black"
+        android:textSize="23dp" />
+
+    <EditText
+        android:id="@+id/etTipo"
+        android:layout_width="match_parent"
+        android:layout_height="50dp"
+        android:background="@drawable/style_alta_user_fields"
+        android:hint="Tipo"
+        android:inputType="textCapSentences"
+        android:paddingLeft="20dp"
+        android:paddingRight="10dp"
+        android:textColorHint="@color/black"
+        android:textSize="23dp" />
+
+    <Button
+        android:id="@+id/botonCrearProducto"
+        android:text="Añadir Nuevo Producto"
+        android:layout_marginTop="50dp"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_gravity="center"
+        android:backgroundTint="@color/blue_app"
+        android:textSize="28dp"
+        app:cornerRadius="15dp"
+        android:paddingBottom="10dp"
+        android:paddingRight="20dp"
+        android:paddingLeft="20dp"
+        android:textColor="@color/white"
+        />
+
+</LinearLayout>

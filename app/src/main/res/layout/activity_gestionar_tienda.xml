@@ -74,4 +74,13 @@
         android:layout_width="match_parent"
         android:layout_height="459dp" />
 
+    <ImageView
+        android:id="@+id/imagenBtnAnadirProd"
+        android:layout_width="80dp"
+        android:layout_height="80dp"
+        android:src="@drawable/anadir"
+        android:layout_gravity="center"
+        android:layout_marginTop="10dp"
+        />
+
 </LinearLayout>

@@ -7,6 +7,7 @@ import android.view.View;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.Button;
+import android.widget.ImageView;
 import android.widget.ListView;
 import android.widget.Toast;
 
@@ -25,6 +26,7 @@ import com.example.apppadel.R;
 import com.example.apppadel.models.Producto;
 import com.example.apppadel.vista_propietario.opciones_menu_principal.gestion_tienda.ActualizarStock;
 import com.example.apppadel.vista_propietario.opciones_menu_principal.gestion_tienda.AdaptadorItemTienda;
+import com.example.apppadel.vista_propietario.opciones_menu_principal.gestion_tienda.AnadirProducto;
 import com.example.apppadel.vista_propietario.opciones_menu_principal.gestion_user.BajaUsuario;
 import com.google.firebase.firestore.DocumentReference;
 import com.google.firebase.firestore.DocumentSnapshot;
@@ -40,6 +42,7 @@ public class GestionarTienda extends AppCompatActivity {
     List<Producto> productos;
     FirebaseFirestore db;
     Producto producto;
+    ImageView botonAnadirNuevoProducto;
     ActivityResultLauncher lanzador;
 
     @Override
@@ -49,7 +52,18 @@ public class GestionarTienda extends AppCompatActivity {
 
         db = FirebaseFirestore.getInstance();
         listView = findViewById(R.id.listaProductos);
+        botonAnadirNuevoProducto = findViewById(R.id.imagenBtnAnadirProd);
+
         listarProductos();
+
+        botonAnadirNuevoProducto.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent i = new Intent(GestionarTienda.this, AnadirProducto.class);
+                i.putExtra("RESP", "OK");
+                lanzador.launch(i);
+            }
+        });
 
         listView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
@@ -81,18 +95,23 @@ public class GestionarTienda extends AppCompatActivity {
         lanzador = registerForActivityResult(new ActivityResultContracts.StartActivityForResult(), new ActivityResultCallback<ActivityResult>() {
             @Override
             public void onActivityResult(ActivityResult o) {
-                int cantidad = Integer.parseInt(o.getData().getStringExtra("NUMERO"));
-                int cantidadStock = producto.getCantidadProducto();
+                if (o.getResultCode() == 1 || o.getResultCode() == 2){
+                    int cantidad = Integer.parseInt(o.getData().getStringExtra("NUMERO"));
+                    int cantidadStock = producto.getCantidadProducto();
 
-                // Viene para ser Sumarselo al stock
-                if (o.getResultCode() == 1){
-                    sumarCantidad(cantidad);
-                    // Para restar al stock
-                } else if (o.getResultCode() == 2) {
-                    if (cantidad > cantidadStock){
-                        Toast.makeText(GestionarTienda.this, "No se puede restar la cantidad introducida, es mayor que la de stock.", Toast.LENGTH_SHORT).show();
-                    } else {
-                        restarCantidad(cantidad);
+                    if (o.getResultCode() == 1){
+                        sumarCantidad(cantidad);
+
+                    } else if (o.getResultCode() == 2) {
+                        if (cantidad > cantidadStock){
+                            Toast.makeText(GestionarTienda.this, "No se puede restar la cantidad introducida, es mayor que la de stock.", Toast.LENGTH_SHORT).show();
+                        } else {
+                            restarCantidad(cantidad);
+                        }
+                    }
+                } else {
+                    if (o.getResultCode() == 3){
+                        listarProductos();
                     }
                 }
             }

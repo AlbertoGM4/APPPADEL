@@ -175,7 +175,7 @@ public class AltaUsuario extends AppCompatActivity {
             }
         }
         return true;
-    };
+    }
 
     public boolean validarEmail (String email) {
         return email.contains("@") && (email.endsWith(".com") || email.endsWith(".es"));
