@@ -16,9 +16,10 @@ import com.example.apppadel.vista_propietario.opciones_menu_principal.gestion_pi
 import com.example.apppadel.vista_usuario.opciones_menu_user.ConsultarEventos;
 import com.example.apppadel.vista_usuario.opciones_menu_user.ConsultarTienda;
 import com.example.apppadel.vista_usuario.opciones_menu_user.ConsultarUsuarios;
+import com.example.apppadel.vista_usuario.opciones_menu_user.reservas.VerReservas;
 
 public class MenuPrincipalUser extends AppCompatActivity {
-    Button reservarPista, consultarEventos, consultarUsuarios, consultarTienda;
+    Button verReservas, consultarEventos, consultarUsuarios, consultarTienda;
     Intent i;
     ImageView cerrarSesion;
 
@@ -27,7 +28,7 @@ public class MenuPrincipalUser extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_menu_principal_user);
 
-        reservarPista = findViewById(R.id.botonReservarPista);
+        verReservas = findViewById(R.id.botonReservarPista);
         consultarEventos = findViewById(R.id.botonConsultarEventos);
         consultarUsuarios = findViewById(R.id.botonConsultarUsuarios);
         consultarTienda = findViewById(R.id.botonConsultarTienda);
@@ -49,11 +50,11 @@ public class MenuPrincipalUser extends AppCompatActivity {
             }
         });
 
-        reservarPista.setOnClickListener(new View.OnClickListener() {
+        verReservas.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 //Abre la ventana para reservar pistas desde la vista del Usuario
-                i = new Intent(MenuPrincipalUser.this, AnadirReserva.class);
+                i = new Intent(MenuPrincipalUser.this, VerReservas.class);
                 startActivity(i);
             }
         });

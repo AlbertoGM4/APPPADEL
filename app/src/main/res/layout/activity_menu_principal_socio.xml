@@ -32,7 +32,7 @@
         android:id="@+id/botonReservarPistaSocio"
         android:layout_width="wrap_content"
         android:layout_height="80dp"
-        android:text="Reservar Pista"
+        android:text="Reservas"
         android:layout_gravity="center"
         android:layout_marginTop="20dp"
         android:textSize="24dp"

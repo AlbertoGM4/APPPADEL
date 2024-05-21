@@ -6,6 +6,7 @@ import android.view.View;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.ListView;
+import android.widget.TextView;
 import android.widget.Toast;
 
 import androidx.activity.EdgeToEdge;
@@ -25,6 +26,7 @@ import com.google.firebase.firestore.Query;
 import java.util.ArrayList;
 
 public class ConsultarRanking extends AppCompatActivity {
+    TextView numeroSocios;
     ListView listaRanking;
     ArrayList<Usuario> listaSocios;
     ArrayAdapter<Usuario> adapter;
@@ -37,6 +39,7 @@ public class ConsultarRanking extends AppCompatActivity {
 
         db = FirebaseFirestore.getInstance();
         listaRanking = findViewById(R.id.listaRanking);
+        numeroSocios = findViewById(R.id.tvTotalSocios);
         listarSocios();
 
         listaRanking.setOnItemClickListener(new AdapterView.OnItemClickListener() {
@@ -86,6 +89,7 @@ public class ConsultarRanking extends AppCompatActivity {
                         }
                         adapter = new ArrayAdapter<>(this, android.R.layout.simple_list_item_1, listaSocios);
                         listaRanking.setAdapter(adapter);
+                        numeroSocios.append(listaSocios.size() + 1 + ""); // Número de Socios del Club
 
                     } else {
                         Toast.makeText(this, "Fallo a la hora de hacer la consulta en la Base de Datos", Toast.LENGTH_SHORT).show();

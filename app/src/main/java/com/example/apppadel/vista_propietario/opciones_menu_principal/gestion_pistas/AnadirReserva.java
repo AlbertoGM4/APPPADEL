@@ -33,6 +33,7 @@ import com.google.firebase.auth.FirebaseUser;
 import com.google.firebase.firestore.FirebaseFirestore;
 import com.google.firebase.firestore.QueryDocumentSnapshot;
 
+import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.time.LocalTime;
 import java.time.format.DateTimeFormatter;
@@ -111,8 +112,18 @@ public class AnadirReserva extends AppCompatActivity {
         imagenCalendario.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                // Calendario con la fecha actual
                 final Calendar calendar = Calendar.getInstance();
+                SimpleDateFormat sdf = new SimpleDateFormat("d/M/yyyy", Locale.getDefault());
+
+                try {
+                    // Intenta parsear la fecha desde el TextView, si existe
+                    String fechaExistente = textoFechaSeleccionada.getText().toString();
+                    Date date = sdf.parse(fechaExistente);
+                    calendar.setTime(date);
+
+                } catch (ParseException e) {
+                    e.printStackTrace();
+                }
                 int year = calendar.get(Calendar.YEAR);
                 int month = calendar.get(Calendar.MONTH);
                 int day = calendar.get(Calendar.DAY_OF_MONTH);

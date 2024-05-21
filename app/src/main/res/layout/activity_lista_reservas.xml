@@ -5,13 +5,12 @@
     android:id="@+id/main"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:paddingRight="20dp"
-    android:paddingLeft="20dp"
+    tools:context=".vista_usuario.opciones_menu_user.reservas.ListaReservas"
     android:orientation="vertical"
-    tools:context=".vista_usuario.opciones_menu_user.ConsultarUsuarios">
+    android:padding="20dp">
 
     <TextView
-        android:id="@+id/tvTituloEditar"
+        android:id="@+id/tvTituloSeleccionGanadores"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_gravity="center"
@@ -22,9 +21,9 @@
         android:paddingRight="20dp"
         android:paddingTop="5dp"
         android:paddingBottom="5dp"
-        android:text="@string/lista_usuarios"
+        android:text="@string/lista_reservas_por_usuario"
         android:textAlignment="center"
-        android:textSize="30dp"
+        android:textSize="25dp"
         android:textColor="@color/white"/>
 
     <LinearLayout
@@ -34,8 +33,8 @@
         android:layout_height="wrap_content">
 
         <TextView
-            android:id="@+id/tvNomUser"
-            android:text="Nombre: "
+            android:id="@+id/tvFechaNac"
+            android:text="Selección Fecha"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:paddingLeft="10dp"
@@ -45,39 +44,49 @@
             android:textSize="18dp"
             android:layout_gravity="center"
             android:background="@drawable/style_background_fields"
-            android:layout_marginRight="10dp"
             />
 
-        <EditText
-            android:id="@+id/etNombreUsuarioConsultaUsers"
-            android:textSize="18dp"
-            android:background="@drawable/style_alta_user_fields"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
+        <TextView
+            android:id="@+id/tvSeleccionFechaPistasReservadasUsuario"
+            android:hint="  /  /    "
             android:textColorHint="@color/black"
-            android:paddingLeft="10dp"
-            android:paddingRight="10dp"
-            android:paddingBottom="5dp"
-            android:paddingTop="5dp"
+            android:textSize="17dp"
+            android:background="@drawable/style_background_fields"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center"
+            android:layout_marginRight="5dp"
+            android:layout_marginLeft="10dp"
+            android:maxLength="10"
+            android:padding="5dp"
             />
+
+        <ImageView
+            android:id="@+id/imagenCalendarioHorasReservadasUsuario"
+            android:layout_width="50dp"
+            android:layout_height="50dp"
+            android:src="@drawable/icon_calendar" />
 
     </LinearLayout>
 
-    <ListView
-        android:id="@+id/listaConsulUsuario"
-        android:layout_width="match_parent"
-        android:layout_height="503dp"
-        android:layout_marginTop="20dp" />
-
     <TextView
-        android:id="@+id/tvTotalListaUsuarios"
-        android:layout_width="match_parent"
+        android:id="@+id/tvEncabezadoLista"
+        android:layout_width="wrap_content"
         android:layout_height="wrap_content"
+        android:text="@string/texto_lista_reservas_usuario"
+        android:layout_gravity="center"
+        android:layout_marginTop="20dp"
         android:paddingLeft="20dp"
         android:paddingRight="20dp"
-        android:layout_marginTop="20dp"
-        android:textAlignment="viewEnd"
-        android:text="Número Total de Usuarios: "/>
+        android:paddingTop="5dp"
+        android:paddingBottom="5dp"
+        android:textSize="18dp"
+        />
 
+    <ListView
+        android:id="@+id/listaReservasPorUsuario"
+        android:layout_width="match_parent"
+        android:layout_height="446dp"
+        android:layout_marginTop="20dp" />
 
 </LinearLayout>

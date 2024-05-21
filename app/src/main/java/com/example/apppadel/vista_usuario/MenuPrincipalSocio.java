@@ -21,10 +21,11 @@ import com.example.apppadel.vista_usuario.opciones_menu_socio.ConsultarRanking;
 import com.example.apppadel.vista_usuario.opciones_menu_user.ConsultarEventos;
 import com.example.apppadel.vista_usuario.opciones_menu_user.ConsultarTienda;
 import com.example.apppadel.vista_usuario.opciones_menu_user.ConsultarUsuarios;
+import com.example.apppadel.vista_usuario.opciones_menu_user.reservas.VerReservas;
 
 public class MenuPrincipalSocio extends AppCompatActivity {
 
-    Button reservarPistaSocio, consultarEventosSocio, consultarUsuariosSocio, consultarTiendaSocio, consultarRankingSocio;
+    Button verReservasSocio, consultarEventosSocio, consultarUsuariosSocio, consultarTiendaSocio, consultarRankingSocio;
     Intent i;
     ImageView cerrarSesionSocio;
 
@@ -33,7 +34,7 @@ public class MenuPrincipalSocio extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_menu_principal_socio);
 
-        reservarPistaSocio = findViewById(R.id.botonReservarPistaSocio);
+        verReservasSocio = findViewById(R.id.botonReservarPistaSocio);
         consultarEventosSocio = findViewById(R.id.botonConsultarEventosSocio);
         consultarUsuariosSocio = findViewById(R.id.botonConsultarUsuariosSocio);
         consultarTiendaSocio = findViewById(R.id.botonConsultarTiendaSocio);
@@ -56,11 +57,11 @@ public class MenuPrincipalSocio extends AppCompatActivity {
             }
         });
 
-        reservarPistaSocio.setOnClickListener(new View.OnClickListener() {
+        verReservasSocio.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 //Abre la ventana para reservar pistas desde la vista del Usuario
-                i = new Intent(MenuPrincipalSocio.this, AnadirReserva.class);
+                i = new Intent(MenuPrincipalSocio.this, VerReservas.class);
                 startActivity(i);
             }
         });

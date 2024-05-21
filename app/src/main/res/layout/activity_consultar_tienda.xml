@@ -73,7 +73,7 @@
     <ListView
         android:id="@+id/listaProductosTienda"
         android:layout_width="match_parent"
-        android:layout_height="442dp" />
+        android:layout_height="497dp" />
 
 
 </LinearLayout>

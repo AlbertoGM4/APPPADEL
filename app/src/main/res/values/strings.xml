@@ -32,5 +32,8 @@
 
     <string name="ranking_socios"><u>Ranking de los Socios del Club</u></string>
 
+    <string name="texto_lista_reservas_usuario"><u>Horas reservadas por mí</u></string>
+    <string name="lista_reservas_por_usuario"><u>LISTA DE MIS RESERVAS</u></string>
+
 
 </resources>
