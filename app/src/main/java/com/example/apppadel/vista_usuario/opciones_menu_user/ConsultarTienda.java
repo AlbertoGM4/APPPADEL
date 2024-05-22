@@ -5,6 +5,7 @@ import android.content.Intent;
 import android.os.Bundle;
 import android.text.Editable;
 import android.text.TextWatcher;
+import android.util.Log;
 import android.view.View;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
@@ -19,11 +20,19 @@ import androidx.appcompat.app.AppCompatActivity;
 
 import com.example.apppadel.R;
 import com.example.apppadel.models.Producto;
+import com.example.apppadel.models.Reserva;
+import com.example.apppadel.models.Usuario;
 import com.example.apppadel.vista_propietario.opciones_menu_principal.GestionarTienda;
 import com.example.apppadel.vista_propietario.opciones_menu_principal.gestion_tienda.ActualizarStock;
 import com.example.apppadel.vista_propietario.opciones_menu_principal.gestion_tienda.AdaptadorItemTienda;
+import com.google.firebase.auth.FirebaseAuth;
+import com.google.firebase.auth.FirebaseUser;
+import com.google.firebase.firestore.DocumentSnapshot;
 import com.google.firebase.firestore.FirebaseFirestore;
 import com.google.firebase.firestore.QueryDocumentSnapshot;
+import com.google.firebase.firestore.QuerySnapshot;
+
+import org.w3c.dom.Document;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -34,6 +43,7 @@ public class ConsultarTienda extends AppCompatActivity {
     List<Producto> productos;
     FirebaseFirestore db;
     Producto producto;
+    boolean esSocio = false;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -44,17 +54,29 @@ public class ConsultarTienda extends AppCompatActivity {
         listaProductos = findViewById(R.id.listaProductosTienda);
         listarProductos();
 
+        comprobarUsuarioIniciado();
+
         listaProductos.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
             public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
                 producto = (Producto) adaptadorItem.getItem(position);
+
+                float precioAMostrar;
+                String textoImporte = "";
+                if (esSocio){
+                    precioAMostrar = (float) (producto.getPrecioProducto() - (producto.getPrecioProducto() * .2));
+                    textoImporte = " € (20% descontado)";
+                } else {
+                    precioAMostrar = producto.getPrecioProducto();
+                    textoImporte = " €";
+                }
 
                 AlertDialog.Builder alerta = new AlertDialog.Builder(ConsultarTienda.this);
                 alerta.setTitle("INFORMACIÓN DEL PRODUCTO SELECCIONADO");
                 alerta.setMessage("- Nombre artículo: " + producto.getNombreProducto() + "\n" +
                         "- Cantidad: " + producto.getCantidadProducto() + "\n" +
                         "- Descripción: " + producto.getDescripcionProducto() + "\n" +
-                        "- Precio unitario: " + producto.getPrecioProducto() + " €\n" +
+                        "- Precio unitario: " + precioAMostrar + textoImporte + "\n" +
                         "- Categoría: " + producto.getTipoProducto());
                 alerta.setNegativeButton("Volver", null);
                 alerta.create();
@@ -62,6 +84,34 @@ public class ConsultarTienda extends AppCompatActivity {
             }
         });
 
+    }
+
+    private void comprobarUsuarioIniciado() { // Metodo para aplicar el descuento al precio del producto.
+        FirebaseUser usuario = FirebaseAuth.getInstance().getCurrentUser();
+        String idUsuario = usuario.getUid();
+
+        Log.d("FirestoreDocument", "ID: " + idUsuario);
+
+        db.collection("usuarios").document(idUsuario)
+                .get()
+                .addOnCompleteListener(task -> {
+                   if (task.isSuccessful()){
+                       DocumentSnapshot doc = task.getResult();
+                       String rol = doc.getString("rol");
+
+                       Log.d("FirestoreDocument", "ROL: " + rol);
+
+                       if (rol.equals("socio")){
+                           Log.d("FirestoreDocument", "ES SOCIO");
+                           esSocio = true;
+                       } else {
+                           Log.d("FirestoreDocument", "NO ES SOCIO");
+                           esSocio = false;
+                       }
+                   } else {
+                       Toast.makeText(this, "Fallo en la consulta para conocer si el usuario es socio o no.", Toast.LENGTH_SHORT).show();
+                   }
+                });
     }
 
     private void listarProductos() {

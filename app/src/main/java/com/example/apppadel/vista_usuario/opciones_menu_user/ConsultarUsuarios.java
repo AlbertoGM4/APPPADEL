@@ -67,7 +67,6 @@ public class ConsultarUsuarios extends AppCompatActivity {
                 alerta.setMessage("- Nombre: " + usuario.getNombreUser() + "\n" +
                         "- Apellidos: " + usuario.getPrimerApellido() + " " + usuario.getSegundoApellido() + "\n" +
                         "- Correo: " + usuario.getCorreoElectronico() + "\n" +
-                        "- Fecha de nacimiento: " + usuario.getFechaNacUser() + "\n" +
                         "- Teléfono: " + usuario.getTelefonoUser() + "\n" +
                         "- Rol en el Club: " + usuario.getRol());
                 alerta.setPositiveButton("Volver", new DialogInterface.OnClickListener() {
