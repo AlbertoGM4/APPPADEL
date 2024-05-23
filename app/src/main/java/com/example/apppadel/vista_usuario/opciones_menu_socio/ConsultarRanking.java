@@ -89,7 +89,7 @@ public class ConsultarRanking extends AppCompatActivity {
                         }
                         adapter = new ArrayAdapter<>(this, android.R.layout.simple_list_item_1, listaSocios);
                         listaRanking.setAdapter(adapter);
-                        numeroSocios.append(listaSocios.size() + 1 + ""); // Número de Socios del Club
+                        numeroSocios.append(listaSocios.size() + ""); // Número de Socios del Club
 
                     } else {
                         Toast.makeText(this, "Fallo a la hora de hacer la consulta en la Base de Datos", Toast.LENGTH_SHORT).show();
