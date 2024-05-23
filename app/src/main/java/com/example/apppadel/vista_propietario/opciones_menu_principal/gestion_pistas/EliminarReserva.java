@@ -146,7 +146,7 @@ public class EliminarReserva extends AppCompatActivity {
 
                 AlertDialog.Builder alerta = new AlertDialog.Builder(EliminarReserva.this);
                 alerta.setTitle("ALERTA");
-                alerta.setMessage("¿Desea confirmar la reserva de la Hora Seleccionada?\n" +
+                alerta.setMessage("¿Desea confirmar la Eliminación de la Hora Seleccionada?\n" +
                         "- Hora Seleccionada: " + reservaSeleccionada.getHoraInicioReserva() + "\n" +
                         "- Pista: " + selectedSpinner);
                 alerta.setPositiveButton("Confirmar", new DialogInterface.OnClickListener() {
